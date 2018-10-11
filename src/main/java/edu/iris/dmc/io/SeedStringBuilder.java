@@ -1,0 +1,281 @@
+package edu.iris.dmc.io;
+
+import java.text.DecimalFormat;
+
+import edu.iris.dmc.seed.BTime;
+import edu.iris.dmc.seed.control.station.Pole;
+import edu.iris.dmc.seed.control.station.Zero;
+
+public class SeedStringBuilder {
+
+	private StringBuilder builder = new StringBuilder();
+
+	public SeedStringBuilder() {
+
+	}
+
+	public SeedStringBuilder(String s) {
+		builder.append(s);
+	}
+
+	public SeedStringBuilder(int num, int length) {
+		append(num, length);
+	}
+
+	public SeedStringBuilder append(String s) {
+		if (s != null) {
+			builder.append(s);
+		}
+		return this;
+	}
+
+	public SeedStringBuilder append(char c) {
+		builder.append(c);
+		return this;
+	}
+
+	public SeedStringBuilder append(String s, int length) {
+		if (s != null) {
+			builder.append(String.format("%" + length + "s", s));
+		}
+		return this;
+	}
+
+	public SeedStringBuilder append(Integer num, int length) {
+		if (num == null) {
+			num = 0;
+		}
+		builder.append(String.format("%0" + length + "d", num));
+		return this;
+	}
+
+	public SeedStringBuilder append(BTime time) {
+		if (time == null) {
+			append("");
+			return this;
+		}
+
+		builder.append(time.getYear());
+
+
+		append(",").leftPad(time.getDayOfYear(), 3, '0');
+
+		append(",").leftPad(time.getHour(), 2, '0');
+
+		append(":").leftPad(time.getMinute(), 2, '0');
+
+		append(":").leftPad(time.getSecond(), 2, '0');
+
+		append(".").leftPad(time.getTenthMilliSecond(), 4, '0');
+		return this;
+	}
+
+	public SeedStringBuilder append(Float value, String format, int width) {
+		boolean addSign = false;
+		if (format.startsWith("#")) {
+			format = format.substring(1);
+			addSign = true;
+		}
+		DecimalFormat df = new DecimalFormat(format);
+		// String s = df.format(value);
+		String s = df.format(value);
+
+		if (addSign && !s.startsWith("-")) {
+			s = "+" + s;
+		}
+
+		if (!s.contains("E-")) {
+			s = s.replace("E", "E+");
+		}
+
+		if (s.length() != width) {
+			throw new NumberFormatException("Couldn't format number!" + value + "   " + s);
+		}
+		builder.append(s);
+		return this;
+	}
+
+	public SeedStringBuilder append(Zero zero, String format, int width) {
+		if (zero == null) {
+			this.append(0, format, width);
+			this.append(0, format, width);
+			this.append(0, format, width);
+			this.append(0, format, width);
+			return this;
+		}
+		if (zero.getReal() == null) {
+			this.append(0, format, width);
+		} else {
+			this.append(zero.getReal().getValue(), format, width);
+		}
+		if (zero.getImaginary() == null) {
+			this.append(0, format, width);
+		} else {
+			this.append(zero.getImaginary().getValue(), format, width);
+		}
+
+		if (zero.getReal() == null) {
+			this.append(0, format, width);
+		} else {
+			this.append(zero.getReal().getError(), format, width);
+		}
+		if (zero.getImaginary() == null) {
+			this.append(0, format, width);
+		} else {
+			this.append(zero.getImaginary().getError(), format, width);
+		}
+		return this;
+	}
+
+	public SeedStringBuilder append(Pole pole, String format, int width) {
+		if (pole == null) {
+			this.append(0, format, width);
+			this.append(0, format, width);
+			this.append(0, format, width);
+			this.append(0, format, width);
+			return this;
+		}
+		if (pole.getReal() == null) {
+			this.append(0, format, width);
+		} else {
+			this.append(pole.getReal().getValue(), format, width);
+		}
+		if (pole.getImaginary() == null) {
+			this.append(0, format, width);
+		} else {
+			this.append(pole.getImaginary().getValue(), format, width);
+		}
+
+		if (pole.getReal() == null) {
+			this.append(0, format, width);
+		} else {
+			this.append(pole.getReal().getError(), format, width);
+		}
+		if (pole.getImaginary() == null) {
+			this.append(0, format, width);
+		} else {
+			this.append(pole.getImaginary().getError(), format, width);
+		}
+		return this;
+	}
+
+	public SeedStringBuilder append(double value, String format, int width) {
+		boolean addSign = false;
+		if (format.startsWith("#")) {
+			format = format.substring(1);
+			addSign = true;
+		}
+		DecimalFormat df = new DecimalFormat(format);
+		String s = df.format(value);
+
+		if (addSign && !s.startsWith("-")) {
+			s = "+" + s;
+		}
+
+		if (!s.contains("E-")) {
+			s = s.replace("E", "E+");
+		}
+
+		if (s.length() != width) {
+			throw new NumberFormatException(
+					"Couldn't format number!" + value + "   " + s + " [" + width + "  " + s.length() + " ]");
+		}
+		builder.append(s);
+		return this;
+	}
+
+	private String modified(boolean large, String s) {
+		return large ? s.replace("E", "E+") : s;
+	}
+
+	public SeedStringBuilder replace(int start, int end, int num, String mask) {
+		builder.replace(start, end, String.format("%0" + mask.length() + "d", num));
+		return this;
+	}
+
+	public int length() {
+		return builder.length();
+	}
+
+	public String toString() {
+		return builder.toString();
+	}
+
+	public SeedStringBuilder leftPad(String string, int length, char kar) {
+
+		int width = string.length();
+		if (width >= length) {
+			this.builder.append(string);
+			return this;
+		}
+		int remainder = length - width;
+
+		for (int i = 0; i < remainder; i++) {
+			append(kar);
+		}
+		this.builder.append(string);
+		return this;
+	}
+
+	public SeedStringBuilder leftPad(int value, int length, char kar) {
+		int width = length(value);
+		if (width >= length) {
+			this.builder.append(value);
+			return this;
+		}
+		int remainder = length - width;
+
+		for (int i = 0; i < remainder; i++) {
+			append(kar);
+		}
+		this.builder.append(value);
+		return this;
+	}
+
+	private int length(int num) {
+		if (num < 1) {
+			return 1;
+		}
+		int i = 0;
+		for (;; i++) {
+			if (num < 1) {
+				break;
+			}
+			num = num / 10;
+		}
+		return i;
+	}
+
+	public SeedStringBuilder rightPad(String string, int length, char kar) {
+
+		int width = string.length();
+		if (width >= length) {
+			this.builder.append(string);
+			return this;
+		}
+		this.builder.append(string);
+		int remainder = length - width;
+
+		for (int i = 0; i < remainder; i++) {
+			append(kar);
+		}
+
+		return this;
+	}
+
+	public SeedStringBuilder rightPad(int num, int length, char kar) {
+		int width = length(num);
+		if (width >= length) {
+			this.builder.append(num);
+			return this;
+		}
+		this.builder.append(num);
+		int remainder = length - width;
+
+		for (int i = 0; i < remainder; i++) {
+			append(kar);
+		}
+
+		return this;
+	}
+}
