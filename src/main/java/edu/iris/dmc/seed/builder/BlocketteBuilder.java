@@ -314,7 +314,7 @@ public class BlocketteBuilder implements Builder<Blockette> {
 			for (int i = 0; i < numberOfStations; i++) {
 				String code = new String(bytes, offset, 5);
 				offset += 5;
-				String sequence = new String(bytes, offset, 6);
+				String sequence = new String(bytes, offset, 6).trim();
 				offset += 6;
 				sequence = sequence.replaceFirst("^0+(?!$)", "");
 				b.add(code, Integer.valueOf(sequence));
@@ -608,11 +608,23 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		int offset = 7;
 		B043 b = new B043();
 
+		b.setLookupKey(BlocketteBuilder.parseInt(bytes, offset, 4));
+		offset = offset + 4;
+
+		int i = offset;
+		for (; offset < bytes.length; offset++) {
+			if (bytes[offset] == (byte) '~') {
+				break;
+			}
+		}
+		String responseName = new String(bytes, i, offset);
+		b.setResponseName(responseName);
+		// skip ~
+		offset++;
+
 		b.setTransferFunctionType((char) bytes[offset]);
 		offset++;
 
-		b.setLookupKey(BlocketteBuilder.parseInt(bytes, offset, 4));
-		offset = offset + 4;
 		b.setSignalInputUnit(BlocketteBuilder.parseInt(bytes, offset, 3));
 		offset = offset + 3;
 		b.setSignalOutputUnit(BlocketteBuilder.parseInt(bytes, offset, 3));
@@ -627,7 +639,7 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		int numberOfZeros = BlocketteBuilder.parseInt(bytes, offset, 3);
 		offset = offset + 3;
 
-		for (int i = 0; i < numberOfZeros; i++) {
+		for (i = 0; i < numberOfZeros; i++) {
 			float real = BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
 			float imaginary = BlocketteBuilder.parseFloat(bytes, offset, 12);
@@ -641,7 +653,7 @@ public class BlocketteBuilder implements Builder<Blockette> {
 
 		int numberOfPoles = BlocketteBuilder.parseInt(bytes, offset, 3);
 		offset = offset + 3;
-		for (int i = 0; i < numberOfPoles; i++) {
+		for (i = 0; i < numberOfPoles; i++) {
 			float real = BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
 			float imaginary = BlocketteBuilder.parseFloat(bytes, offset, 12);
@@ -660,11 +672,23 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		int offset = 7;
 		B044 b = new B044();
 
+		b.setLookupKey(BlocketteBuilder.parseInt(bytes, offset, 4));
+		offset = offset + 4;
+
+		int i = offset;
+		for (; offset < bytes.length; offset++) {
+			if (bytes[offset] == (byte) '~') {
+				break;
+			}
+		}
+		String responseName = new String(bytes, i, offset);
+		b.setResponseName(responseName);
+		// skip ~
+		offset++;
+
 		b.setResponseType((char) bytes[offset]);
 		offset++;
 
-		b.setLookupKey(BlocketteBuilder.parseInt(bytes, offset, 4));
-		offset = offset + 4;
 		b.setSignalInputUnit(BlocketteBuilder.parseInt(bytes, offset, 3));
 		offset = offset + 3;
 		b.setSignalOutputUnit(BlocketteBuilder.parseInt(bytes, offset, 3));
@@ -673,7 +697,7 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		int numberOfNumerators = BlocketteBuilder.parseInt(bytes, offset, 4);
 		offset = offset + 4;
 
-		for (int i = 0; i < numberOfNumerators; i++) {
+		for (i = 0; i < numberOfNumerators; i++) {
 			float numerator = BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
 			float error = BlocketteBuilder.parseFloat(bytes, offset, 12);
@@ -683,7 +707,7 @@ public class BlocketteBuilder implements Builder<Blockette> {
 
 		int numberOfDenominators = BlocketteBuilder.parseInt(bytes, offset, 4);
 		offset = offset + 4;
-		for (int i = 0; i < numberOfDenominators; i++) {
+		for (i = 0; i < numberOfDenominators; i++) {
 			float denominator = BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
 			float error = BlocketteBuilder.parseFloat(bytes, offset, 12);
@@ -736,8 +760,19 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		int offset = 7;
 		B047 b = new B047();
 
-		b.setLookupKey(BlocketteBuilder.parseInt(bytes, offset, 2));
-		offset = offset + 2;
+		b.setLookupKey(BlocketteBuilder.parseInt(bytes, offset, 4));
+		offset = offset + 4;
+
+		int i = offset;
+		for (; offset < bytes.length; offset++) {
+			if (bytes[offset] == (byte) '~') {
+				break;
+			}
+		}
+		String responseName = new String(bytes, i, offset);
+		b.setResponseName(responseName);
+		// skip ~
+		offset++;
 
 		double sampleRate = BlocketteBuilder.parseDouble(bytes, offset, 10);
 		b.setSampleRate(sampleRate);
@@ -758,8 +793,19 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		int offset = 7;
 		B048 b = new B048();
 
-		b.setLookupKey(BlocketteBuilder.parseInt(bytes, offset, 2));
-		offset = offset + 2;
+		b.setLookupKey(BlocketteBuilder.parseInt(bytes, offset, 4));
+		offset = offset + 4;
+
+		int i = offset;
+		for (; offset < bytes.length; offset++) {
+			if (bytes[offset] == (byte) '~') {
+				break;
+			}
+		}
+		String responseName = new String(bytes, i, offset);
+		b.setResponseName(responseName);
+		// skip ~
+		offset++;
 
 		double sensitivity = BlocketteBuilder.parseDouble(bytes, offset, 12);
 		b.setSensitivity(sensitivity);
@@ -771,7 +817,7 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		int numberOfHistoryValues = BlocketteBuilder.parseInt(bytes, offset, 2);
 		offset = offset + 2;
 
-		for (int i = 0; i < numberOfHistoryValues; i++) {
+		for (i = 0; i < numberOfHistoryValues; i++) {
 			double s = BlocketteBuilder.parseDouble(bytes, offset, 12);
 			offset = offset + 12;
 			double f = BlocketteBuilder.parseDouble(bytes, offset, 12);
@@ -1365,7 +1411,6 @@ public class BlocketteBuilder implements Builder<Blockette> {
 
 		int numberOfCoefficients = BlocketteBuilder.parseInt(bytes, offset, 3);
 		offset = offset + 3;
-
 		for (int i = 0; i < numberOfCoefficients; i++) {
 			Float value = BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;

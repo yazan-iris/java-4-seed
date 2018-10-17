@@ -70,12 +70,12 @@ public class B047 extends AbstractDictionaryBlockette implements ResponseBlocket
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
 		builder.append(this.getLookupKey(), 4);
 		builder.append(this.responseName);
-		builder.append(this.getSampleRate(), "#0.000E00", 10);
+		builder.append(this.getSampleRate(), "0.0000E-00", 10);
 		builder.append(this.getDecimationFactor(), 5);
 		builder.append(this.getDecimationOffset(), 5);
 
-		builder.append(this.getEstimatedDelay(), "#0.0000E00", 11);
-		builder.append(this.getCorrection(), "#0.0000E00", 11);
+		builder.append(this.getEstimatedDelay(), "-0.0000E-00", 11);
+		builder.append(this.getCorrection(), "-0.0000E-00", 11);
 
 		builder.replace(3, 7, builder.length(), "####");
 		return builder.toString();

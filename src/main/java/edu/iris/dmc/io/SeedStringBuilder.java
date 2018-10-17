@@ -57,7 +57,6 @@ public class SeedStringBuilder {
 
 		builder.append(time.getYear());
 
-
 		append(",").leftPad(time.getDayOfYear(), 3, '0');
 
 		append(",").leftPad(time.getHour(), 2, '0');
@@ -159,28 +158,90 @@ public class SeedStringBuilder {
 		return this;
 	}
 
+	public SeedStringBuilder appendLatitude(double value) {
+		DecimalFormat df = new DecimalFormat("+#,#00.000000;-#");
+		String text=df.format(value);
+		if(text.startsWith("+")) {
+			//text=text.replaceFirst("\\+", " ");
+		}
+		builder.append(text);
+		return this;
+	}
+
+	public SeedStringBuilder appendLongitude(double value) {
+		DecimalFormat df = new DecimalFormat("+#,#000.000000;-#");
+		String text=df.format(value);
+		if(text.startsWith("+")) {
+			//text=text.replaceFirst("\\+", " ");
+		}
+		builder.append(text);
+		return this;
+	}
+
+	public SeedStringBuilder appendElevation(double value) {
+		DecimalFormat df = new DecimalFormat("+#,#0000.0;-#");
+		String text=df.format(value);
+		if(text.startsWith("+")) {
+			//text=text.replaceFirst("\\+", " ");
+		}
+		builder.append(text);
+		return this;
+	}
+
+	public SeedStringBuilder appendLocal(double value) {
+		DecimalFormat df = new DecimalFormat("000.0");
+		builder.append(df.format(value));
+		return this;
+	}
+	
+	public SeedStringBuilder appendAzimuth(double value) {
+		DecimalFormat df = new DecimalFormat("000.0");
+		String text=df.format(value);
+		builder.append(text);
+		return this;
+	}
+	
+	public SeedStringBuilder appendDip(double value) {
+		DecimalFormat df = new DecimalFormat("+#,#00.0;-#");
+		String text=df.format(value);
+		if(text.startsWith("+")) {
+			//text=text.replaceFirst("\\+", " ");
+		}
+		builder.append(text);
+		return this;
+	}
+
 	public SeedStringBuilder append(double value, String format, int width) {
-		boolean addSign = false;
-		if (format.startsWith("#")) {
-			format = format.substring(1);
-			addSign = true;
-		}
-		DecimalFormat df = new DecimalFormat(format);
-		String s = df.format(value);
+		String text = null;
 
-		if (addSign && !s.startsWith("-")) {
-			s = "+" + s;
-		}
-
-		if (!s.contains("E-")) {
-			s = s.replace("E", "E+");
+		String pattern = format;
+		boolean signed = false;
+		if (pattern.startsWith("-")) {
+			pattern = pattern.substring(1);
+			signed = true;
+		} else {
+			if (value < 0) {
+				throw new NumberFormatException("Invalid format " + format + " for negative number " + value);
+			}
 		}
 
-		if (s.length() != width) {
+		if (pattern.contains("E-")) {
+			pattern = pattern.replace("E-", "E");
+			DecimalFormat df = new DecimalFormat(pattern);
+			text = df.format(value);
+			if (!text.contains("E-")) {
+				text = text.replaceAll("E", "E+");
+			}
+		}
+		if (value >= 0 && signed) {
+			text = "+" + text;
+		}
+
+		if (text.length() != width) {
 			throw new NumberFormatException(
-					"Couldn't format number!" + value + "   " + s + " [" + width + "  " + s.length() + " ]");
+					"Couldn't format number!" + value + "   " + text + " [" + width + "  " + text.length() + " ]");
 		}
-		builder.append(s);
+		builder.append(text);
 		return this;
 	}
 

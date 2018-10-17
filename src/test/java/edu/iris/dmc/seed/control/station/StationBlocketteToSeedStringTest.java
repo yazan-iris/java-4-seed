@@ -12,7 +12,7 @@ import edu.iris.dmc.seed.control.index.B011;
 import edu.iris.dmc.seed.control.index.B012;
 
 public class StationBlocketteToSeedStringTest {
-	
+
 	@Test
 	public void b005() throws Exception {
 		String oldString = "0050036 2.1121992,001,00:00:00.0000~";
@@ -20,15 +20,17 @@ public class StationBlocketteToSeedStringTest {
 		String newString = b.toSeedString();
 		assertEquals(oldString, newString);
 	}
-	
+
 	@Test
 	public void b008() throws Exception {
 		String oldString = "008011702.112 ANMO  BHZ1992,001,00:00:00.0000~1992,002,00:00:00.0000~1992,002,00:00:00.0000~1993,029,00:00:00.0000~IU";
-						  //008011702.112 ANMO  BHZ1992,001,00:00:00.0000~1992,002,00:00:00.0000~1992,002,00:00:00.0000~1993,029,00:00:00.0000~IU
+		// 008011702.112 ANMO
+		// BHZ1992,001,00:00:00.0000~1992,002,00:00:00.0000~1992,002,00:00:00.0000~1993,029,00:00:00.0000~IU
 		B008 b = BlocketteBuilder.build008(oldString.getBytes());
 		String newString = b.toSeedString();
 		assertEquals(oldString, newString);
 	}
+
 	@Test
 	public void b010() throws Exception {
 		String oldString = "010012502.1121992,001,00:00:00.0000~1992,002,00:00:00.0000~1993,029,00:00:00.0000~IRIS _ DMC~Data for 1992,001,00:00:00.0000~";
@@ -36,6 +38,7 @@ public class StationBlocketteToSeedStringTest {
 		String newString = b.toSeedString();
 		assertEquals(oldString, newString);
 	}
+
 	@Test
 	public void b011() throws Exception {
 		String oldString = "0110054004AAK  000003ANMO 000007ANTO 000010BJI  000012";
@@ -43,7 +46,7 @@ public class StationBlocketteToSeedStringTest {
 		String newString = b.toSeedString();
 		assertEquals(oldString, newString);
 	}
-	
+
 	@Test
 	public void b012() throws Exception {
 		String oldString = "012006300011992,001,00:00:00.0000~1992,002,00:00:00.0000~000014";

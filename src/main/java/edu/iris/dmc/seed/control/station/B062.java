@@ -108,29 +108,29 @@ public class B062 extends AbstractResponseBlockette {
 	public String toSeedString() {
 
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
-		builder.append(this.transferFunctionType);
+		builder.append("P");
 		builder.append(this.getStageSequence(), 2);
 		builder.append(this.getSignalInputUnit(), 3);
 		builder.append(this.getSignalOutputUnit(), 3);
 		builder.append(this.approximationType);
-		builder.append(this.frequencyUnit);
+		builder.append(""+this.frequencyUnit);
 
-		builder.append(this.lowerValidFrequencyBound, "#0.00000E00", 12);
-		builder.append(this.upperValidFrequencyBound, "#0.00000E00", 12);
-		builder.append(this.lowerBoundOfApproximation, "#0.00000E00", 12);
-		builder.append(this.upperBoundOfApproximation, "#0.00000E00", 12);
-		builder.append(this.maximumAbsoluteError, "#0.00000E00", 12);
+		builder.append(this.lowerValidFrequencyBound, "-0.00000E-00", 12);
+		builder.append(this.upperValidFrequencyBound, "-0.00000E-00", 12);
+		builder.append(this.lowerBoundOfApproximation, "-0.00000E-00", 12);
+		builder.append(this.upperBoundOfApproximation, "-0.00000E-00", 12);
+		builder.append(this.maximumAbsoluteError, "-0.00000E-00", 12);
 
 		int size = 0;
 		if (this.coefficients != null) {
 			size = this.coefficients.size();
 		}
-		builder.append(size, 4);
+		builder.append(size, 3);
 
 		if (this.coefficients != null) {
 			for (Number coefficient : this.coefficients) {
-				builder.append(coefficient.getValue(), "#0.00000E00", 12);
-				builder.append(coefficient.getError(), "#0.00000E00", 12);
+				builder.append(coefficient.getValue(), "-0.00000E-00", 12);
+				builder.append(coefficient.getError(), "-0.00000E-00", 12);
 			}
 		}
 		builder.replace(3, 7, builder.length(), "####");

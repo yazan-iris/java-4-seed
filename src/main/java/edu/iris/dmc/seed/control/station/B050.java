@@ -176,9 +176,9 @@ public class B050 extends AbstractBlockette implements StationBlockette {
 	public String toSeedString() {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
 		builder.append(this.stationCode, 5);
-		builder.append(this.latitude, "+#,#00.000000;-#", 10);
-		builder.append(this.longitude, "+#,#000.000000;-#", 11);
-		builder.append(this.elevation, "+#,#0000.0;-#", 7);
+		builder.appendLatitude(this.latitude);
+		builder.appendLongitude(this.longitude);
+		builder.appendElevation(this.elevation);
 		builder.append(this.numberOfChannels, 4);
 		builder.append(this.numberOfComments, 3);
 		builder.append(this.siteName).append("~");

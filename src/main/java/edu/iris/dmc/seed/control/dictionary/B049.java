@@ -3,18 +3,30 @@ package edu.iris.dmc.seed.control.dictionary;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.control.station.Calibration;
+import edu.iris.dmc.seed.control.station.Number;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
 
 public class B049 extends AbstractDictionaryBlockette implements ResponseBlockette  {
-
 	private String responseName;
-	private Double sensitivity;
-	private Double frequency;
-	private List<Calibration> history = new ArrayList<Calibration>();
+	private char transferFunctionType;
+	private char approximationType;
+	private char frequencyUnit;
+
+	private int signalInputUnit;
+	private int signalOutputUnit;
+
+	private Double lowerValidFrequencyBound;// F 12 �-#.#####E-##�
+	private Double upperValidFrequencyBound;// F 12 �-#.#####E-##�
+	private Double lowerBoundOfApproximation;// F 12 �-#.#####E-##�
+	private Double upperBoundOfApproximation;// F 12 �-#.#####E-##�
+	private Double maximumAbsoluteError;
+
+	private List<edu.iris.dmc.seed.control.station.Number> coefficients = new ArrayList<edu.iris.dmc.seed.control.station.Number>();
 
 	public B049() {
-		super(48, "Channel Sensitivity/Gain Dictionary Blockette");
+		super(49, "Response [Polynomial] Blockette");
 
 	}
 
@@ -26,38 +38,135 @@ public class B049 extends AbstractDictionaryBlockette implements ResponseBlocket
 		this.responseName = responseName;
 	}
 
-	public Double getSensitivity() {
-		return sensitivity;
+	public char getTransferFunctionType() {
+		return transferFunctionType;
 	}
 
-	public void setSensitivity(Double sensitivity) {
-		this.sensitivity = sensitivity;
+	public void setTransferFunctionType(char transferFunctionType) {
+		this.transferFunctionType = transferFunctionType;
 	}
 
-	public Double getFrequency() {
-		return frequency;
+	public char getApproximationType() {
+		return approximationType;
 	}
 
-	public void setFrequency(Double frequency) {
-		this.frequency = frequency;
+	public void setApproximationType(char approximationType) {
+		this.approximationType = approximationType;
 	}
 
-	public List<Calibration> getHistory() {
-		return history;
+	public char getFrequencyUnit() {
+		return frequencyUnit;
 	}
 
-	public void setHistory(List<Calibration> history) {
-		this.history = history;
+	public void setFrequencyUnit(char frequencyUnit) {
+		this.frequencyUnit = frequencyUnit;
 	}
 
-	public void add(Calibration calibration) {
-		this.history.add(calibration);
+	public Double getLowerValidFrequencyBound() {
+		return lowerValidFrequencyBound;
+	}
+
+	public void setLowerValidFrequencyBound(Double lowerValidFrequencyBound) {
+		this.lowerValidFrequencyBound = lowerValidFrequencyBound;
+	}
+
+	public Double getUpperValidFrequencyBound() {
+		return upperValidFrequencyBound;
+	}
+
+	public void setUpperValidFrequencyBound(Double upperValidFrequencyBound) {
+		this.upperValidFrequencyBound = upperValidFrequencyBound;
+	}
+
+	public Double getLowerBoundOfApproximation() {
+		return lowerBoundOfApproximation;
+	}
+
+	public void setLowerBoundOfApproximation(Double lowerBoundOfApproximation) {
+		this.lowerBoundOfApproximation = lowerBoundOfApproximation;
+	}
+
+	public Double getUpperBoundOfApproximation() {
+		return upperBoundOfApproximation;
+	}
+
+	public void setUpperBoundOfApproximation(Double upperBoundOfApproximation) {
+		this.upperBoundOfApproximation = upperBoundOfApproximation;
+	}
+
+	public Double getMaximumAbsoluteError() {
+		return maximumAbsoluteError;
+	}
+
+	public void setMaximumAbsoluteError(Double maximumAbsoluteError) {
+		this.maximumAbsoluteError = maximumAbsoluteError;
+	}
+
+	public int getSignalInputUnit() {
+		return signalInputUnit;
+	}
+
+	public void setSignalInputUnit(int signalInputUnit) {
+		this.signalInputUnit = signalInputUnit;
+	}
+
+	public int getSignalOutputUnit() {
+		return signalOutputUnit;
+	}
+
+	public void setSignalOutputUnit(int signalOutputUnit) {
+		this.signalOutputUnit = signalOutputUnit;
+	}
+
+	public List<edu.iris.dmc.seed.control.station.Number> getCoefficients() {
+		return coefficients;
+	}
+
+	public void setCoefficients(List<edu.iris.dmc.seed.control.station.Number> coefficients) {
+		this.coefficients = coefficients;
+	}
+
+	public void add(edu.iris.dmc.seed.control.station.Number coefficient) {
+		this.coefficients.add(coefficient);
+	}
+
+	public void addAll(List<edu.iris.dmc.seed.control.station.Number> coefficients) {
+		this.coefficients.addAll(coefficients);
 	}
 
 	@Override
 	public String toSeedString() {
-		// TODO Auto-generated method stub
-		return null;
+
+		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
+		builder.append(this.getLookupKey(), 4);
+		builder.append(this.responseName);
+		builder.append(this.transferFunctionType);
+
+		builder.append(this.getSignalInputUnit(), 3);
+		builder.append(this.getSignalOutputUnit(), 3);
+		builder.append(this.approximationType);
+		builder.append(this.frequencyUnit);
+
+		builder.append(this.lowerValidFrequencyBound, "#0.00000E00", 12);
+		builder.append(this.upperValidFrequencyBound, "#0.00000E00", 12);
+		builder.append(this.lowerBoundOfApproximation, "#0.00000E00", 12);
+		builder.append(this.upperBoundOfApproximation, "#0.00000E00", 12);
+		builder.append(this.maximumAbsoluteError, "#0.00000E00", 12);
+
+		int size = 0;
+		if (this.coefficients != null) {
+			size = this.coefficients.size();
+		}
+		builder.append(size, 4);
+
+		if (this.coefficients != null) {
+			for (Number coefficient : this.coefficients) {
+				builder.append(coefficient.getValue(), "#0.00000E00", 12);
+				builder.append(coefficient.getError(), "#0.00000E00", 12);
+			}
+		}
+		builder.replace(3, 7, builder.length(), "####");
+		return builder.toString();
 	}
 
 	@Override

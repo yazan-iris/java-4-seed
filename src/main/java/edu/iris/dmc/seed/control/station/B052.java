@@ -281,13 +281,13 @@ public class B052 extends AbstractBlockette implements StationBlockette {
 		}
 		builder.append(key, 3);
 
-		builder.append(this.latitude, "+#,#00.000000;-#", 10);
-		builder.append(this.longitude, "+#,#000.000000;-#", 11);
-		builder.append(this.elevation, "+#,#0000.0;-#", 7);
+		builder.appendLatitude(this.latitude);
+		builder.appendLongitude(this.longitude);
+		builder.appendElevation(this.elevation);
 
-		builder.append(this.localDepth, "000.0", 5);
-		builder.append(this.azimuth, "000.0", 5);
-		builder.append(this.dip, "+#,#00.0;-#", 5);
+		builder.appendLocal(this.localDepth);
+		builder.appendAzimuth(this.azimuth);
+		builder.appendDip(this.dip);
 
 		key = 0;
 		if (this.dataFormatIdentifier != null) {
@@ -300,8 +300,8 @@ public class B052 extends AbstractBlockette implements StationBlockette {
 		}
 		builder.append(key, 2);
 		key = 0;
-		builder.append(this.sampleRate, "0.0000E00", 10);
-		builder.append(this.maxClockDrift, "0.0000E00", 10);
+		builder.append(this.sampleRate, "0.0000E-00", 10);
+		builder.append(this.maxClockDrift, "0.0000E-00", 10);
 
 		builder.append(this.numberOfComments, 4);
 		builder.append(this.channelFlags).append("~");

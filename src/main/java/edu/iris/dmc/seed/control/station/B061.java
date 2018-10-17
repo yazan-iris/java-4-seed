@@ -64,7 +64,7 @@ public class B061 extends AbstractResponseBlockette {
 
 		if (this.coefficients != null) {
 			for (Double coefficient : this.coefficients) {
-				builder.append(coefficient, "#0.0000000E00", 14);
+				builder.append(coefficient, "-0.0000000E-00", 14);
 			}
 		}
 		builder.replace(3, 7, builder.length(), "####");

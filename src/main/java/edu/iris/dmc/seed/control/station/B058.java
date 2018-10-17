@@ -51,15 +51,15 @@ public class B058 extends AbstractResponseBlockette {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
 		builder.append(this.getStageSequence(), 2);
 
-		builder.append(this.getSensitivity(), "#0.00000E00", 12);
-		builder.append(this.getFrequency(), "#0.00000E00", 12);
+		builder.append(this.getSensitivity(), "-0.00000E-00", 12);
+		builder.append(this.getFrequency(), "-0.00000E-00", 12);
 		int size = 0;
 		if (this.history != null && !this.history.isEmpty()) {
 			size = this.history.size();
 			builder.append(size, 2);
 			for (Calibration cal : this.history) {
-				builder.append(cal.getSensitivity(), "#0.00000E00", 12);
-				builder.append(cal.getFrequency(), "#0.00000E00", 12);
+				builder.append(cal.getSensitivity(), "-0.00000E-00", 12);
+				builder.append(cal.getFrequency(), "-0.00000E-00", 12);
 				builder.append(cal.getTime());
 			}
 		} else {

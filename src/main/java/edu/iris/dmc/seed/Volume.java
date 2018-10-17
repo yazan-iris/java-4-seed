@@ -142,6 +142,7 @@ public class Volume {
 	}
 
 	public Blockette add(Blockette blockette) throws SeedException {
+
 		if (blockette == null) {
 			throw new IllegalArgumentException("Cannot add a null blockette to this volume");
 		}
@@ -162,7 +163,20 @@ public class Volume {
 		}
 
 		index(blockette);
-		if (blockette instanceof StationBlockette) {
+		if (blockette instanceof IndexBlockette) {
+			if (5 == blockette.getType()) {
+				this.b005 = blockette;
+			} else if (8 == blockette.getType()) {
+				this.b008 = blockette;
+			} else if (10 == blockette.getType()) {
+				this.b010 = (B010) blockette;
+			} else if (11 == blockette.getType()) {
+				this.b011 = (B011) blockette;
+			} else if (12 == blockette.getType()) {
+				this.b012 = (B012) blockette;
+			}
+			return blockette;
+		} else if (blockette instanceof StationBlockette) {
 			if (50 == blockette.getType()) {
 				this.b050 = (B050) blockette;
 				this.control.put(b050);
@@ -181,26 +195,13 @@ public class Volume {
 				this.b052.add((B059) blockette);
 			}
 			return blockette;
+		} else if (blockette instanceof DictionaryBlockette) {
+			return this.dictionary.put((AbstractDictionaryBlockette) blockette);
 		} else if (blockette instanceof ResponseBlockette) {
 			if (this.b052 == null) {
 				// do something
 			}
 			this.b052.add((ResponseBlockette) blockette);
-			return blockette;
-		} else if (blockette instanceof DictionaryBlockette) {
-			return this.dictionary.put((AbstractDictionaryBlockette) blockette);
-		} else if (blockette instanceof IndexBlockette) {
-			if (5 == blockette.getType()) {
-				this.b005 = blockette;
-			} else if (8 == blockette.getType()) {
-				this.b008 = blockette;
-			} else if (10 == blockette.getType()) {
-				this.b010 = (B010) blockette;
-			} else if (11 == blockette.getType()) {
-				this.b011 = (B011) blockette;
-			} else if (12 == blockette.getType()) {
-				this.b012 = (B012) blockette;
-			}
 			return blockette;
 		} else {
 			throw new SeedException("Could n't add blockette " + blockette.getType());
@@ -303,7 +304,7 @@ public class Volume {
 	public Blockette getDictionaryBlockette(int type, int lookupCode) {
 		return this.dictionary.get(type, lookupCode);
 	}
-	
+
 	public Blockette getResponseDictionaryBlockette(int lookupCode) {
 		return this.dictionary.getResponse(lookupCode);
 	}

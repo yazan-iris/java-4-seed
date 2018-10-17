@@ -119,16 +119,16 @@ public class B054 extends AbstractResponseBlockette implements OverFlowBlockette
 		builder.append(this.numerators.size(), 4);
 
 		for (Number coefficient : this.numerators) {
-			builder.append(coefficient.getValue(), "#0.00000E00", 12);
-			builder.append(coefficient.getError(), "#0.00000E00", 12);
+			builder.append(coefficient.getValue(), "-0.00000E-00", 12);
+			builder.append(coefficient.getError(), "-0.00000E-00", 12);
 			builder.length();
 		}
 
 		builder.append(this.denominators.size(), 4);
 
 		for (Number coefficient : this.denominators) {
-			builder.append(coefficient.getValue(), "#0.00000E00", 12);
-			builder.append(coefficient.getError(), "#0.00000E00", 12);
+			builder.append(coefficient.getValue(), "-0.00000E-00", 12);
+			builder.append(coefficient.getError(), "-0.00000E-00", 12);
 		}
 
 		builder.replace(3, 7, builder.length(), "####");

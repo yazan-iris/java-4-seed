@@ -76,16 +76,16 @@ public class B053 extends AbstractResponseBlockette{
 		builder.append(this.getSignalInputUnit(), 3);
 		builder.append(this.getSignalOutputUnit(), 3);
 
-		builder.append(this.normalizationFactor, "#0.00000E00", 12);
-		builder.append(this.normalizationFrequency, "#0.00000E00", 12);
+		builder.append(this.normalizationFactor, "-0.00000E-00", 12);
+		builder.append(this.normalizationFrequency, "-0.00000E-00", 12);
 
 		builder.append(this.zeros.size(), 3);
 
 		for (Zero zero : this.zeros) {
-			builder.append(zero.getReal().getValue(), "#0.00000E00", 12);
-			builder.append(zero.getImaginary().getValue(), "#0.00000E00", 12);
-			builder.append(zero.getReal().getError(), "#0.00000E00", 12);
-			builder.append(zero.getImaginary().getError(), "#0.00000E00", 12);
+			builder.append(zero.getReal().getValue(), "-0.00000E-00", 12);
+			builder.append(zero.getImaginary().getValue(), "-0.00000E-00", 12);
+			builder.append(zero.getReal().getError(), "-0.00000E-00", 12);
+			builder.append(zero.getImaginary().getError(), "-0.00000E-00", 12);
 		}
 		
 
@@ -104,10 +104,10 @@ public class B053 extends AbstractResponseBlockette{
 				imaginaryValue=pole.getImaginary().getValue();
 				imaginaryError=pole.getImaginary().getError();
 			}
-			builder.append(realValue, "#0.00000E00", 12);
-			builder.append(imaginaryValue, "#0.00000E00", 12);
-			builder.append(realError, "#0.00000E00", 12);
-			builder.append(imaginaryError, "#0.00000E00", 12);
+			builder.append(realValue, "-0.00000E-00", 12);
+			builder.append(imaginaryValue, "-0.00000E-00", 12);
+			builder.append(realError, "-0.00000E-00", 12);
+			builder.append(imaginaryError, "-0.00000E-00", 12);
 		}
 
 		builder.replace(3, 7, builder.length(), "####");

@@ -109,25 +109,25 @@ public class B043 extends AbstractDictionaryBlockette implements ResponseBlocket
 		builder.append(this.getSignalInputUnit(), 3);
 		builder.append(this.getSignalOutputUnit(), 3);
 
-		builder.append(this.normalizationFactor, "#0.00000E00", 12);
-		builder.append(this.normalizationFrequency, "#0.00000E00", 12);
+		builder.append(this.normalizationFactor, "-0.00000E-00", 12);
+		builder.append(this.normalizationFrequency, "-0.00000E-00", 12);
 
 		builder.append(this.zeros.size(), 3);
 
 		for (Zero zero : this.zeros) {
-			builder.append(zero.getReal().getValue(), "#0.00000E00", 12);
-			builder.append(zero.getImaginary().getValue(), "#0.00000E00", 12);
-			builder.append(zero.getReal().getError(), "#0.00000E00", 12);
-			builder.append(zero.getImaginary().getError(), "#0.00000E00", 12);
+			builder.append(zero.getReal().getValue(), "-0.00000E-00", 12);
+			builder.append(zero.getImaginary().getValue(), "-0.00000E-00", 12);
+			builder.append(zero.getReal().getError(), "-0.00000E-00", 12);
+			builder.append(zero.getImaginary().getError(), "-0.00000E-00", 12);
 		}
 
 		builder.append(this.poles.size(), 3);
 
 		for (Pole pole : this.poles) {
-			builder.append(pole.getReal().getValue(), "#0.00000E00", 12);
-			builder.append(pole.getImaginary().getValue(), "#0.00000E00", 12);
-			builder.append(pole.getReal().getError(), "#0.00000E00", 12);
-			builder.append(pole.getImaginary().getError(), "#0.00000E00", 12);
+			builder.append(pole.getReal().getValue(), "-0.00000E-00", 12);
+			builder.append(pole.getImaginary().getValue(), "-0.00000E-00", 12);
+			builder.append(pole.getReal().getError(), "-0.00000E-00", 12);
+			builder.append(pole.getImaginary().getError(), "-0.00000E-00", 12);
 		}
 
 		builder.replace(3, 7, builder.length(), "####");
