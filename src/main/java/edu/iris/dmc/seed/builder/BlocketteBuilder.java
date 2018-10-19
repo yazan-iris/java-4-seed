@@ -321,9 +321,9 @@ public class BlocketteBuilder implements Builder<Blockette> {
 				offset += 6;
 				sequenceString = sequenceString.replaceFirst("^0+(?!$)", "");
 				try {
-				int sequence =Integer.valueOf(sequenceString);
-				b.add(code, Integer.valueOf(sequence));
-				}catch(NumberFormatException e) {
+					int sequence = Integer.valueOf(sequenceString);
+					b.add(code, Integer.valueOf(sequence));
+				} catch (NumberFormatException e) {
 					throw new SeedException(e);
 				}
 			}
@@ -1062,39 +1062,22 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		b.setUnitsOfCalibrationInput(BlocketteBuilder.parseInt(bytes, offset, 3));
 		offset = offset + 3;
 
-		Double latitude = BlocketteBuilder.parseDouble(bytes, offset, 10);
-		if (latitude != null) {
-			b.setLatitude(latitude);
-		}
-
+		b.setLatitude(BlocketteBuilder.parseDouble(bytes, offset, 10));
 		offset = offset + 10;
-		Double longitude = BlocketteBuilder.parseDouble(bytes, offset, 11);
-		if (longitude != null) {
-			b.setLongitude(longitude);
-		}
+
+		b.setLongitude(BlocketteBuilder.parseDouble(bytes, offset, 11));
 		offset = offset + 11;
-		Double elevation = BlocketteBuilder.parseDouble(bytes, offset, 7);
-		if (elevation != null) {
-			b.setElevation(elevation);
-		}
+
+		b.setElevation(BlocketteBuilder.parseDouble(bytes, offset, 7));
 		offset = offset + 7;
 
-		Double depth = BlocketteBuilder.parseDouble(bytes, offset, 5);
-		if (depth != null) {
-			b.setLocalDepth(depth);
-		}
+		b.setLocalDepth(BlocketteBuilder.parseDouble(bytes, offset, 5));
 		offset = offset + 5;
 
-		Double azimuth = BlocketteBuilder.parseDouble(bytes, offset, 5);
-		if (azimuth != null) {
-			b.setAzimuth(azimuth);
-		}
+		b.setAzimuth(BlocketteBuilder.parseDouble(bytes, offset, 5));
 		offset = offset + 5;
 
-		Double dip = BlocketteBuilder.parseDouble(bytes, offset, 5);
-		if (dip != null) {
-			b.setDip(dip);
-		}
+		b.setDip(BlocketteBuilder.parseDouble(bytes, offset, 5));
 		offset = offset + 5;
 
 		b.setDataFormatIdentifier(BlocketteBuilder.parseInt(bytes, offset, 4));
@@ -1102,12 +1085,10 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		b.setDataRecordLength(BlocketteBuilder.parseInt(bytes, offset, 2));
 		offset = offset + 2;
 
-		Double sampleRate = BlocketteBuilder.parseDouble(bytes, offset, 10);
-		b.setSampleRate(sampleRate);
+		b.setSampleRate(BlocketteBuilder.parseDouble(bytes, offset, 10));
 		offset += 10;
 
-		Double clockDrift = BlocketteBuilder.parseDouble(bytes, offset, 10);
-		b.setMaxClockDrift(clockDrift);
+		b.setMaxClockDrift(BlocketteBuilder.parseDouble(bytes, offset, 10));
 		offset += 10;
 
 		int numberOfComments = BlocketteBuilder.parseInt(bytes, offset, 4);

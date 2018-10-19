@@ -17,26 +17,26 @@ public class B052 extends AbstractBlockette implements StationBlockette {
 
 	private String channelCode;
 
-	private Integer subChannelCode;
+	private int subChannelCode;
 
-	private Integer instrumentIdentifier;
+	private int instrumentIdentifier;
 
 	private String optionalComment;
 
-	private Integer unitsOfSignalResponse;
-	private Integer unitsOfCalibrationInput;
+	private int unitsOfSignalResponse;
+	private int unitsOfCalibrationInput;
 
-	private Double latitude;
-	private Double longitude;
-	private Double elevation;
-	private Double localDepth;// meter
-	private Double azimuth;// degrees
-	private Double dip;// degrees
-	private Integer dataFormatIdentifier;
-	private Integer dataRecordLength;
-	private Double sampleRate;// Hz
-	private Double maxClockDrift;// seconds
-	private Integer numberOfComments = 0;
+	private double latitude;
+	private double longitude;
+	private double elevation;
+	private double localDepth;// meter
+	private double azimuth;// degrees
+	private double dip;// degrees
+	private int dataFormatIdentifier;
+	private int dataRecordLength;
+	private double sampleRate;// Hz
+	private double maxClockDrift;// seconds
+	private int numberOfComments = 0;
 	private String channelFlags;
 	private BTime startTime;
 	private BTime endTime;
@@ -255,52 +255,30 @@ public class B052 extends AbstractBlockette implements StationBlockette {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
 		builder.append(this.locationCode, 2);
 		builder.append(this.channelCode, 3);
-		int key = 0;
-		if (this.subChannelCode != null) {
-			key = this.subChannelCode;
-		}
-		builder.append(key, 4);
-		key = 0;
-		if (this.instrumentIdentifier != null) {
-			key = this.instrumentIdentifier;
-		}
-		builder.append(key, 3);
+
+		builder.append(this.subChannelCode, 4);
+		builder.append(this.instrumentIdentifier, 3);
 		if (this.optionalComment != null) {
 			builder.append(this.optionalComment);
 		}
 		builder.append("~");
 
-		key = 0;
-		if (this.unitsOfSignalResponse != null) {
-			key = this.unitsOfSignalResponse;
-		}
-		builder.append(key, 3);
+		builder.append(this.unitsOfSignalResponse, 3);
 
-		key = 0;
-		if (this.unitsOfCalibrationInput != null) {
-			key = this.unitsOfCalibrationInput;
-		}
-		builder.append(key, 3);
+		builder.append(this.unitsOfCalibrationInput, 3);
 
 		builder.appendLatitude(this.latitude);
 		builder.appendLongitude(this.longitude);
 		builder.appendElevation(this.elevation);
 
-		builder.appendLocal(this.localDepth);
+		builder.appendLocalDepth(this.localDepth);
 		builder.appendAzimuth(this.azimuth);
 		builder.appendDip(this.dip);
 
-		key = 0;
-		if (this.dataFormatIdentifier != null) {
-			key = this.dataFormatIdentifier;
-		}
-		builder.append(key, 4);
-		key = 0;
-		if (this.dataRecordLength != null) {
-			key = this.dataRecordLength;
-		}
-		builder.append(key, 2);
-		key = 0;
+
+		builder.append(this.dataFormatIdentifier, 4);
+		builder.append(this.dataRecordLength, 2);
+
 		builder.append(this.sampleRate, "0.0000E-00", 10);
 		builder.append(this.maxClockDrift, "0.0000E-00", 10);
 

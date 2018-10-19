@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.iris.dmc.io.SeedStringBuilder;
-import edu.iris.dmc.seed.BTime;
-import edu.iris.dmc.seed.Blockette;
 
 public class B058 extends AbstractResponseBlockette {
 
-	private Double sensitivity;
-	private Double frequency;
+	private double sensitivity;
+	private double frequency;
 	private List<Calibration> history = new ArrayList<Calibration>();
 
 	public B058() {
@@ -18,19 +16,19 @@ public class B058 extends AbstractResponseBlockette {
 
 	}
 
-	public Double getSensitivity() {
+	public double getSensitivity() {
 		return sensitivity;
 	}
 
-	public void setSensitivity(Double sensitivity) {
+	public void setSensitivity(double sensitivity) {
 		this.sensitivity = sensitivity;
 	}
 
-	public Double getFrequency() {
+	public double getFrequency() {
 		return frequency;
 	}
 
-	public void setFrequency(Double frequency) {
+	public void setFrequency(double frequency) {
 		this.frequency = frequency;
 	}
 

@@ -182,17 +182,21 @@ public class SeedStringBuilder {
 		return this;
 	}
 
-	public SeedStringBuilder appendElevation(double value) {
+	public SeedStringBuilder appendElevation(double value) throws SeedException {
 		DecimalFormat df = new DecimalFormat("+#,#0000.0;-#");
+		if (value < -9999) {
+			df = new DecimalFormat("+#000000;-#");
+		}
+
 		String text = df.format(value);
-		if (text.startsWith("+")) {
-			// text=text.replaceFirst("\\+", " ");
+		if (text.length() > 7) {
+			throw new SeedException("Value " + text + " too big");
 		}
 		builder.append(text);
 		return this;
 	}
 
-	public SeedStringBuilder appendLocal(double value) {
+	public SeedStringBuilder appendLocalDepth(double value) {
 		DecimalFormat df = new DecimalFormat("000.0");
 		builder.append(df.format(value));
 		return this;
