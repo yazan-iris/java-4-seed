@@ -184,7 +184,7 @@ public class SeedStringBuilder {
 
 	public SeedStringBuilder appendElevation(double value) throws SeedException {
 		DecimalFormat df = new DecimalFormat("+#,#0000.0;-#");
-		if (value < -9999) {
+		if (value < -99999) {
 			df = new DecimalFormat("+#000000;-#");
 		}
 
