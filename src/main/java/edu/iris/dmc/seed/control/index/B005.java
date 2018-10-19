@@ -3,6 +3,7 @@ package edu.iris.dmc.seed.control.index;
 import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.AbstractBlockette;
 import edu.iris.dmc.seed.BTime;
+import edu.iris.dmc.seed.SeedException;
 
 
 public class B005 extends AbstractBlockette implements IndexBlockette {
@@ -39,7 +40,7 @@ public class B005 extends AbstractBlockette implements IndexBlockette {
 		this.startTime = startTime;
 	}
 	@Override
-	public String toSeedString() {
+	public String toSeedString() throws SeedException {
 
 		SeedStringBuilder builder = new SeedStringBuilder(this.getType(), 3)
 				.append("####");

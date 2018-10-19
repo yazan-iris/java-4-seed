@@ -6,6 +6,7 @@ import java.util.List;
 import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.AbstractBlockette;
 import edu.iris.dmc.seed.BTime;
+import edu.iris.dmc.seed.SeedException;
 
 public class B050 extends AbstractBlockette implements StationBlockette {
 
@@ -173,7 +174,7 @@ public class B050 extends AbstractBlockette implements StationBlockette {
 		return b051s;
 	}
 
-	public String toSeedString() {
+	public String toSeedString() throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
 		builder.append(this.stationCode, 5);
 		builder.appendLatitude(this.latitude);

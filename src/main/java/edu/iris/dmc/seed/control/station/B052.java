@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.AbstractBlockette;
 import edu.iris.dmc.seed.BTime;
+import edu.iris.dmc.seed.SeedException;
 
 public class B052 extends AbstractBlockette implements StationBlockette {
 
@@ -250,7 +251,7 @@ public class B052 extends AbstractBlockette implements StationBlockette {
 	}
 
 	@Override
-	public String toSeedString() {
+	public String toSeedString() throws SeedException{
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
 		builder.append(this.locationCode, 2);
 		builder.append(this.channelCode, 3);

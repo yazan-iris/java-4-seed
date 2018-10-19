@@ -70,7 +70,7 @@ public abstract class AbstractBlockette {
 		return originalText;
 	}
 
-	public int getLength() {
+	public int getLength() throws SeedException {
 		String string = this.toSeedString();
 		if (string == null || string.isEmpty()) {
 			return 0;
@@ -82,14 +82,20 @@ public abstract class AbstractBlockette {
 		return maximumLength;
 	}
 
-	public boolean isOverFlown() {
+	public boolean isOverFlown() throws SeedException {
 		return this.toSeedString().getBytes().length > this.maximumLength;
 	}
 
 	@Override
 	public String toString() {
-		return toSeedString();
+		try {
+			return toSeedString();
+		} catch (SeedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
 	}
 
-	public abstract String toSeedString();
+	public abstract String toSeedString() throws SeedException;
 }

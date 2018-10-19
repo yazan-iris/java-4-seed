@@ -6,7 +6,7 @@ public interface Record {
 
 	public char getType();
 
-	public byte[] getBytes();
+	public byte[] getBytes()throws SeedException;
 
 	public byte[] get(int length);
 

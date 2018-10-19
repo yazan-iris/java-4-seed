@@ -3,6 +3,7 @@ package edu.iris.dmc.seed.control.index;
 import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.AbstractBlockette;
 import edu.iris.dmc.seed.BTime;
+import edu.iris.dmc.seed.SeedException;
 
 
 public class B008 extends AbstractBlockette implements IndexBlockette{
@@ -103,7 +104,7 @@ public class B008 extends AbstractBlockette implements IndexBlockette{
 		this.networkCode = networkCode;
 	}
 	@Override
-	public String toSeedString() {
+	public String toSeedString() throws SeedException {
 
 		SeedStringBuilder builder = new SeedStringBuilder("00" + this.getType()
 				+ "####");

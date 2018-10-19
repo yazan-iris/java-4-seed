@@ -3,6 +3,7 @@ package edu.iris.dmc.seed.io;
 import java.util.Arrays;
 
 import edu.iris.dmc.io.SeedFormatter;
+import edu.iris.dmc.seed.SeedException;
 
 public class Buffer {
 
@@ -15,7 +16,7 @@ public class Buffer {
 		bytes = new byte[size];
 	}
 
-	public void add(byte[] buffer) {
+	public void add(byte[] buffer) throws SeedException {
 		for (int i = 0; i < buffer.length; i++) {
 			if (offset == 0 || offset >= this.bytes.length) {
 				flush();
@@ -34,9 +35,4 @@ public class Buffer {
 		offset = 0;
 	}
 
-	public static void main(String[] args) {
-		Buffer b = new Buffer(20);
-		b.add("This is a test".getBytes());
-		b.flush();
-	}
 }

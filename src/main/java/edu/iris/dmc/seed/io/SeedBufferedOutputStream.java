@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import edu.iris.dmc.seed.Record;
+import edu.iris.dmc.seed.SeedException;
 
 public class SeedBufferedOutputStream {
 
@@ -17,12 +18,16 @@ public class SeedBufferedOutputStream {
 	}
 
 	public void write(Record record) throws IOException {
-		for (byte b : record.getBytes()) {
-			if (b == 0) {
-				outputStream.write(' ');
-			} else {
-				outputStream.write(b);
+		try {
+			for (byte b : record.getBytes()) {
+				if (b == 0) {
+					outputStream.write(' ');
+				} else {
+					outputStream.write(b);
+				}
 			}
+		} catch (SeedException e) {
+			throw new IOException(e);
 		}
 		outputStream.flush();
 	}

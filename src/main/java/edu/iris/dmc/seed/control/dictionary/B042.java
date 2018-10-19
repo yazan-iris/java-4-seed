@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.Blockette;
+import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.station.Number;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
 
@@ -136,7 +137,7 @@ public class B042 extends AbstractDictionaryBlockette implements ResponseBlocket
 	}
 
 	@Override
-	public String toSeedString() {
+	public String toSeedString() throws SeedException{
 
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
 		builder.append(this.getLookupKey(), 4);

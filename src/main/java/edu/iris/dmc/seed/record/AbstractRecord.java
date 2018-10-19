@@ -22,11 +22,11 @@ abstract class AbstractRecord implements Record {
 	private int length;
 	private int index;
 
-	public AbstractRecord(int sequence, char type, boolean continuation) {
+	public AbstractRecord(int sequence, char type, boolean continuation) throws SeedException {
 		this(sequence, type, continuation, 4096);
 	}
 
-	public AbstractRecord(int sequence, char type, boolean continuation, int size) {
+	public AbstractRecord(int sequence, char type, boolean continuation, int size) throws SeedException {
 		this.length = size;
 		this.sequence = sequence;
 		this.type = type;
@@ -45,7 +45,7 @@ abstract class AbstractRecord implements Record {
 		System.arraycopy(s, 0, this.bytes, 0, s.length);
 	}
 
-	protected byte[] buildSequence() {
+	protected byte[] buildSequence() throws SeedException {
 		StringBuilder sb = new StringBuilder(SeedFormatter.format(this.sequence, 6));
 		sb.append(type);
 		if (continuation) {
@@ -87,7 +87,7 @@ abstract class AbstractRecord implements Record {
 		this.bytes = bytes;
 	}
 
-	public byte[] getBytes() {
+	public byte[] getBytes() throws SeedException {
 		return bytes;
 	}
 

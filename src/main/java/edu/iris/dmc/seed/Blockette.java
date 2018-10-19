@@ -8,7 +8,7 @@ public interface Blockette {
 
 	public int getType();
 
-	public int getLength();
+	public int getLength() throws SeedException;
 	
 	public int getMaximumLength();
 
@@ -26,5 +26,5 @@ public interface Blockette {
 
 	public String getOriginalText();
 
-	public String toSeedString();
+	public String toSeedString() throws SeedException;
 }

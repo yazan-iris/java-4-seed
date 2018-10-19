@@ -24,6 +24,7 @@ import edu.iris.dmc.seed.control.dictionary.B045;
 import edu.iris.dmc.seed.control.dictionary.B046;
 import edu.iris.dmc.seed.control.dictionary.B047;
 import edu.iris.dmc.seed.control.dictionary.B048;
+import edu.iris.dmc.seed.control.dictionary.B049;
 import edu.iris.dmc.seed.control.dictionary.Component;
 import edu.iris.dmc.seed.control.index.B005;
 import edu.iris.dmc.seed.control.index.B008;
@@ -129,6 +130,8 @@ public class BlocketteBuilder implements Builder<Blockette> {
 			return build047(bytes);
 		case 48:
 			return build048(bytes);
+		case 49:
+			return build049(bytes);
 		case 50:
 			return build050(bytes);
 		case 51:
@@ -314,10 +317,15 @@ public class BlocketteBuilder implements Builder<Blockette> {
 			for (int i = 0; i < numberOfStations; i++) {
 				String code = new String(bytes, offset, 5);
 				offset += 5;
-				String sequence = new String(bytes, offset, 6).trim();
+				String sequenceString = new String(bytes, offset, 6).trim();
 				offset += 6;
-				sequence = sequence.replaceFirst("^0+(?!$)", "");
+				sequenceString = sequenceString.replaceFirst("^0+(?!$)", "");
+				try {
+				int sequence =Integer.valueOf(sequenceString);
 				b.add(code, Integer.valueOf(sequence));
+				}catch(NumberFormatException e) {
+					throw new SeedException(e);
+				}
 			}
 		}
 		return b;
@@ -830,6 +838,57 @@ public class BlocketteBuilder implements Builder<Blockette> {
 			}
 			byte[] copy = Arrays.copyOfRange(bytes, x, offset);
 			b.add(new Calibration(s, f, BTime.valueOf(copy)));
+		}
+		return b;
+	}
+
+	public static B049 build049(byte[] bytes) throws SeedException {
+		LOGGER.info("building 049[" + new String(bytes) + "]");
+		if (bytes == null || bytes.length == 0) {
+			throw new IllegalArgumentException("object null|empty");
+		}
+		int offset = 7;
+		B049 b = new B049();
+
+		b.setTransferFunctionType((char) bytes[offset]);
+		offset++;
+
+		b.setLookupKey(BlocketteBuilder.parseInt(bytes, offset, 4));
+		offset = offset + 4;
+
+		b.setSignalInputUnit(BlocketteBuilder.parseInt(bytes, offset, 3));
+		offset = offset + 3;
+
+		b.setSignalOutputUnit(BlocketteBuilder.parseInt(bytes, offset, 3));
+		offset = offset + 3;
+
+		b.setApproximationType((char) bytes[offset]);
+		offset++;
+
+		b.setFrequencyUnit((char) bytes[offset]);
+		offset++;
+
+		b.setLowerValidFrequencyBound(BlocketteBuilder.parseDouble(bytes, offset, 12));
+		offset = offset + 12;
+		b.setUpperValidFrequencyBound(BlocketteBuilder.parseDouble(bytes, offset, 12));
+		offset = offset + 12;
+
+		b.setLowerBoundOfApproximation(BlocketteBuilder.parseDouble(bytes, offset, 12));
+		offset = offset + 12;
+		b.setUpperBoundOfApproximation(BlocketteBuilder.parseDouble(bytes, offset, 12));
+		offset = offset + 12;
+		b.setMaximumAbsoluteError(BlocketteBuilder.parseDouble(bytes, offset, 12));
+		offset = offset + 12;
+
+		int numberOfCoefficients = BlocketteBuilder.parseInt(bytes, offset, 3);
+		offset = offset + 3;
+
+		for (int i = 0; i < numberOfCoefficients; i++) {
+			Float value = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			offset = offset + 12;
+			Float error = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			offset = offset + 12;
+			b.add(new Number(value, error));
 		}
 		return b;
 	}

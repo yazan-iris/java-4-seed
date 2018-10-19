@@ -54,6 +54,8 @@ public class BlocketteFactory {
 			return BlocketteBuilder.build047(bytes);
 		case 48:
 			return BlocketteBuilder.build048(bytes);
+		case 49:
+			return BlocketteBuilder.build049(bytes);
 		case 50:
 			return BlocketteBuilder.build050(bytes);
 		case 51:

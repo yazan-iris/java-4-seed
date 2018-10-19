@@ -1,16 +1,17 @@
 package edu.iris.dmc.seed.record;
 
 import edu.iris.dmc.seed.Blockette;
+import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.index.B010;
 import edu.iris.dmc.seed.control.index.B011;
 
 public class VolumeRecord extends AbstractRecord {
 
-	public VolumeRecord(int sequence, boolean continuation) {
+	public VolumeRecord(int sequence, boolean continuation) throws SeedException {
 		super(sequence, 'V', continuation);
 	}
 
-	public VolumeRecord(int size, int sequence, boolean continuation) {
+	public VolumeRecord(int size, int sequence, boolean continuation) throws SeedException {
 		super(sequence, 'V', continuation, size);
 	}
 
@@ -36,7 +37,7 @@ public class VolumeRecord extends AbstractRecord {
 	}
 
 	@Override
-	public byte[] getBytes() {
+	public byte[] getBytes() throws SeedException {
 		byte[] bytes = new byte[this.size()];
 		byte[] s = buildSequence();
 		System.arraycopy(s, 0, bytes, 0, s.length);

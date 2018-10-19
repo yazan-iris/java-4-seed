@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.AbstractBlockette;
+import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.station.B050;
 
 public class B011 extends AbstractBlockette implements IndexBlockette {
@@ -42,7 +43,7 @@ public class B011 extends AbstractBlockette implements IndexBlockette {
 	}
 
 	@Override
-	public String toSeedString() {
+	public String toSeedString() throws SeedException {
 
 		SeedStringBuilder builder = new SeedStringBuilder(this.getType(), 3).append("####");
 

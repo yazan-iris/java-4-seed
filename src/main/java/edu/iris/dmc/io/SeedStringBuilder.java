@@ -3,6 +3,7 @@ package edu.iris.dmc.io;
 import java.text.DecimalFormat;
 
 import edu.iris.dmc.seed.BTime;
+import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.station.Pole;
 import edu.iris.dmc.seed.control.station.Zero;
 
@@ -34,7 +35,10 @@ public class SeedStringBuilder {
 		return this;
 	}
 
-	public SeedStringBuilder append(String s, int length) {
+	public SeedStringBuilder append(String s, int length) throws SeedException {
+		if (s == null || s.length() > length) {
+			throw new SeedException("Invalid text " + s + " [" + length + "]");
+		}
 		if (s != null) {
 			builder.append(String.format("%" + length + "s", s));
 		}
@@ -160,9 +164,9 @@ public class SeedStringBuilder {
 
 	public SeedStringBuilder appendLatitude(double value) {
 		DecimalFormat df = new DecimalFormat("+#,#00.000000;-#");
-		String text=df.format(value);
-		if(text.startsWith("+")) {
-			//text=text.replaceFirst("\\+", " ");
+		String text = df.format(value);
+		if (text.startsWith("+")) {
+			// text=text.replaceFirst("\\+", " ");
 		}
 		builder.append(text);
 		return this;
@@ -170,9 +174,9 @@ public class SeedStringBuilder {
 
 	public SeedStringBuilder appendLongitude(double value) {
 		DecimalFormat df = new DecimalFormat("+#,#000.000000;-#");
-		String text=df.format(value);
-		if(text.startsWith("+")) {
-			//text=text.replaceFirst("\\+", " ");
+		String text = df.format(value);
+		if (text.startsWith("+")) {
+			// text=text.replaceFirst("\\+", " ");
 		}
 		builder.append(text);
 		return this;
@@ -180,9 +184,9 @@ public class SeedStringBuilder {
 
 	public SeedStringBuilder appendElevation(double value) {
 		DecimalFormat df = new DecimalFormat("+#,#0000.0;-#");
-		String text=df.format(value);
-		if(text.startsWith("+")) {
-			//text=text.replaceFirst("\\+", " ");
+		String text = df.format(value);
+		if (text.startsWith("+")) {
+			// text=text.replaceFirst("\\+", " ");
 		}
 		builder.append(text);
 		return this;
@@ -193,19 +197,19 @@ public class SeedStringBuilder {
 		builder.append(df.format(value));
 		return this;
 	}
-	
+
 	public SeedStringBuilder appendAzimuth(double value) {
 		DecimalFormat df = new DecimalFormat("000.0");
-		String text=df.format(value);
+		String text = df.format(value);
 		builder.append(text);
 		return this;
 	}
-	
+
 	public SeedStringBuilder appendDip(double value) {
 		DecimalFormat df = new DecimalFormat("+#,#00.0;-#");
-		String text=df.format(value);
-		if(text.startsWith("+")) {
-			//text=text.replaceFirst("\\+", " ");
+		String text = df.format(value);
+		if (text.startsWith("+")) {
+			// text=text.replaceFirst("\\+", " ");
 		}
 		builder.append(text);
 		return this;

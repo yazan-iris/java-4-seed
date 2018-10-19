@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.Blockette;
+import edu.iris.dmc.seed.SeedException;
 
 public class B054 extends AbstractResponseBlockette implements OverFlowBlockette {
 
@@ -51,7 +52,7 @@ public class B054 extends AbstractResponseBlockette implements OverFlowBlockette
 	}
 
 	@Override
-	public boolean isOverFlown() {
+	public boolean isOverFlown() throws SeedException {
 		if (super.isOverFlown()) {
 			return true;
 		}

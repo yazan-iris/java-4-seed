@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.iris.dmc.io.SeedStringBuilder;
+import edu.iris.dmc.seed.SeedException;
 
 
 
@@ -27,7 +28,7 @@ public class B035 extends AbstractDictionaryBlockette {
 		this.components.add(comp);
 	}
 	@Override
-	public String toSeedString() {
+	public String toSeedString() throws SeedException {
 
 		SeedStringBuilder builder = new SeedStringBuilder(this.getType(), 3)
 				.append("####");

@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import edu.iris.dmc.seed.Blockette;
+import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.dictionary.B030;
 import edu.iris.dmc.seed.control.dictionary.B031;
 import edu.iris.dmc.seed.control.dictionary.B032;
@@ -52,7 +53,7 @@ public class SeedFormatter implements Formatter {
 	private static Logger LOGGER = Logger.getLogger(SeedFormatter.class.getName());
 
 	@Override
-	public String format(Blockette blockette) {
+	public String format(Blockette blockette) throws SeedException {
 		LOGGER.info("Formatting: " + blockette);
 		switch (blockette.getType()) {
 		case 5:
@@ -123,7 +124,7 @@ public class SeedFormatter implements Formatter {
 
 	}
 
-	private String format(B005 blockette) {
+	private String format(B005 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder(blockette.getType(), 3).append("####");
 		if (blockette.getVersion() != null) {
 			builder.append(blockette.getVersion(), 4);
@@ -137,7 +138,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	private String format(B008 blockette) {
+	private String format(B008 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder("00" + blockette.getType() + "####");
 		if (blockette.getVersion() != null) {
 			builder.append(blockette.getVersion(), 4);
@@ -171,7 +172,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	private String format(B010 blockette) {
+	private String format(B010 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder(blockette.getType(), 3).append("####");
 		builder.append(blockette.getVersion());
 		builder.leftPad(blockette.getNthPower(), 2, '0');
@@ -186,7 +187,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	private String format(B011 b011) {
+	private String format(B011 b011) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder(b011.getType(), 3).append("####");
 
 		int number = b011.getRows().size();
@@ -201,7 +202,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	private String format(B012 blockette) {
+	private String format(B012 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder(blockette.getType(), 3).append("####");
 
 		int number = 0;
@@ -233,7 +234,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B030 blockette) {
+	public String format(B030 blockette) throws SeedException {
 
 		SeedStringBuilder builder = new SeedStringBuilder(blockette.getType(), 3).append("####");
 
@@ -258,7 +259,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B031 blockette) {
+	public String format(B031 blockette) throws SeedException {
 
 		SeedStringBuilder builder = new SeedStringBuilder(blockette.getType(), 3).append("####");
 
@@ -273,7 +274,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B032 blockette) {
+	public String format(B032 blockette) throws SeedException {
 
 		SeedStringBuilder builder = new SeedStringBuilder(blockette.getType(), 3).append("####");
 
@@ -297,7 +298,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B033 blockette) {
+	public String format(B033 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder(blockette.getType(), 3).append("####");
 
 		builder.append(blockette.getLookupKey(), 3);
@@ -309,7 +310,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B034 blockette) {
+	public String format(B034 blockette) throws SeedException {
 
 		SeedStringBuilder builder = new SeedStringBuilder(blockette.getType(), 3).append("####");
 
@@ -326,7 +327,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B035 blockette) {
+	public String format(B035 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder(blockette.getType(), 3).append("####");
 
 		builder.append(blockette.getLookupKey(), 3);
@@ -344,7 +345,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B041 blockette) {
+	public String format(B041 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 
 		builder.append(blockette.getLookupKey(), 4);
@@ -368,7 +369,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B043 blockette) {
+	public String format(B043 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getTransferFunctionType());
 		builder.append(blockette.getLookupKey(), 4);
@@ -400,7 +401,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B044 blockette) {
+	public String format(B044 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getResponseType());
 		builder.append(blockette.getLookupKey(), 4);
@@ -425,7 +426,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B045 blockette) {
+	public String format(B045 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getLookupKey(), 4);
 		builder.append(blockette.getSignalInputUnit(), 3);
@@ -447,7 +448,7 @@ public class SeedFormatter implements Formatter {
 		return null;
 	}
 
-	public String format(B047 blockette) {
+	public String format(B047 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getLookupKey(), 4);
 		builder.append(blockette.getSampleRate(), "#0.000E00", 10);
@@ -461,7 +462,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B048 blockette) {
+	public String format(B048 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getLookupKey(), 4);
 		builder.append(blockette.getSensitivity(), "#0.00000E00", 12);
@@ -479,7 +480,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B050 blockette) {
+	public String format(B050 blockette) throws SeedException {
 		StringBuilder builder = new StringBuilder("0" + blockette.getType() + "####");
 		builder.append(SeedFormatter.format(blockette.getStationCode(), 5));
 		builder.append(SeedFormatter.format(blockette.getLatitude(), "+#,#00.000000;-#", 10));
@@ -502,7 +503,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B051 blockette) {
+	public String format(B051 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getStartTime()).append("~");
 		builder.append(blockette.getEndTime()).append("~");
@@ -513,7 +514,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B052 blockette) {
+	public String format(B052 blockette) throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getLocationCode(), 2);
 		builder.append(blockette.getLocationCode(), 3);
@@ -630,7 +631,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B055 blockette) {
+	public String format(B055 blockette) throws SeedException{
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getStageSequence(), 2);
 		builder.append(blockette.getSignalInputUnit(), 3);
@@ -648,11 +649,11 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B056 blockette) {
+	public String format(B056 blockette) throws SeedException{
 		return null;
 	}
 
-	public String format(B057 blockette) {
+	public String format(B057 blockette) throws SeedException{
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getStageSequence(), 2);
 		builder.append(blockette.getSampleRate(), "#0.000E00", 10);
@@ -666,7 +667,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B058 blockette) {
+	public String format(B058 blockette) throws SeedException{
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getStageSequence(), 2);
 		builder.append(blockette.getSensitivity(), "#0.00000E00", 12);
@@ -684,7 +685,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B059 blockette) {
+	public String format(B059 blockette) throws SeedException{
 		StringBuilder builder = new StringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getStartTime().toString()).append("~");
 		builder.append(blockette.getEndTime().toString()).append("~");
@@ -695,7 +696,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B060 blockette) {
+	public String format(B060 blockette) throws SeedException{
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 
 		builder.append(blockette.getStages().size(), 2);
@@ -711,7 +712,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B061 blockette) {
+	public String format(B061 blockette) throws SeedException{
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 
 		builder.append(blockette.getStageSequence(), 2);
@@ -735,7 +736,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public String format(B062 blockette) {
+	public String format(B062 blockette) throws SeedException{
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getTransferFunctionType());
 		builder.append(blockette.getStageSequence(), 2);
@@ -766,7 +767,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public static String format(int num, int length) {
+	public static String format(int num, int length) throws SeedException{
 		return String.format("%0" + length + "d", num);
 	}
 
@@ -789,7 +790,7 @@ public class SeedFormatter implements Formatter {
 		return builder.toString();
 	}
 
-	public static String format(Double s, String format, int width) {
+	public static String format(Double s, String format, int width) throws SeedException{
 		if (s == null) {
 
 		}
