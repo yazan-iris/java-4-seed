@@ -32,7 +32,7 @@ public class BTimeTest {
 	@Test
 	public void zonedDateTime() throws Exception {
 		BTime time = BTime.valueOf(ZonedDateTime.parse("1990-01-29T08:36:36.2222Z[UTC]"));
-		assertEquals("1990,029,08:36:36.2222", time.toSeedString());
+		assertEquals("1990,029,08:36:36.222200000", time.toSeedString());
 		
 		ZonedDateTime.parse("2012-06-30T12:30:40+01:00[+01:00]");
 	}
