@@ -562,7 +562,6 @@ public class BlocketteBuilder implements Builder<Blockette> {
 	}
 
 	public static B042 build042(byte[] bytes) throws SeedException {
-		LOGGER.info("building 042[" + new String(bytes) + "]");
 		if (bytes == null || bytes.length == 0) {
 			throw new IllegalArgumentException("object null|empty");
 		}
@@ -843,7 +842,6 @@ public class BlocketteBuilder implements Builder<Blockette> {
 	}
 
 	public static B049 build049(byte[] bytes) throws SeedException {
-		LOGGER.info("building 049[" + new String(bytes) + "]");
 		if (bytes == null || bytes.length == 0) {
 			throw new IllegalArgumentException("object null|empty");
 		}
@@ -894,7 +892,6 @@ public class BlocketteBuilder implements Builder<Blockette> {
 	}
 
 	public static B050 build050(byte[] bytes) throws SeedException {
-		LOGGER.info("building 050[" + new String(bytes) + "]");
 		int offset = 7;
 		B050 b = new B050(new String(bytes));
 
@@ -1027,7 +1024,6 @@ public class BlocketteBuilder implements Builder<Blockette> {
 	}
 
 	public static B052 build052(byte[] bytes) throws SeedException {
-		LOGGER.info("building 052[" + new String(bytes) + "]");
 		String dataToParse = new String(bytes);
 		int offset = 7;
 		B052 b = new B052(dataToParse);
@@ -1412,7 +1408,6 @@ public class BlocketteBuilder implements Builder<Blockette> {
 	}
 
 	public static B062 build062(byte[] bytes) throws SeedException {
-		LOGGER.info("building 062[" + new String(bytes) + "]");
 		if (bytes == null || bytes.length == 0) {
 			throw new IllegalArgumentException("object null|empty");
 		}
