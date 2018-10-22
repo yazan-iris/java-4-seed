@@ -1,4 +1,4 @@
-package edu.iris.dmc.seed.control.station;
+package edu.iris.dmc.seed.control.dictionary;
 
 import static org.junit.Assert.assertEquals;
 
