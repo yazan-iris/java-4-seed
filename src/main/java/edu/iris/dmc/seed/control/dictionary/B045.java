@@ -128,11 +128,11 @@ public class B045 extends AbstractDictionaryBlockette implements ResponseBlocket
 		builder.append(this.responses.size(), 4);
 
 		for (Response response : this.responses) {
-			builder.append(response.getFrequency(), "#0.00000E00", 12);
-			builder.append(response.getAmplitude(), "#0.00000E00", 12);
-			builder.append(response.getAmplitudeError(), "#0.00000E00", 12);
-			builder.append(response.getPhaaeAngle(), "#0.00000E00", 12);
-			builder.append(response.getPhaseError(), "#0.00000E00", 12);
+			builder.append(response.getFrequency(), "-0.00000E-00", 12);
+			builder.append(response.getAmplitude(), "-0.00000E-00", 12);
+			builder.append(response.getAmplitudeError(), "-0.00000E-00", 12);
+			builder.append(response.getPhaaeAngle(), "-0.00000E-00", 12);
+			builder.append(response.getPhaseError(), "-0.00000E-00", 12);
 		}
 
 		builder.replace(3, 7, builder.length(), "####");

@@ -16,7 +16,7 @@ public class BlocketteDirectorTest {
 	public void t1() throws Exception{
 		File source = null, target = null;
 
-		source = new File(BlocketteDirectorTest.class.getClassLoader().getResource("ESCA.dataless").getFile());
+		source = new File(BlocketteDirectorTest.class.getClassLoader().getResource("dataless.CI.DJJB.061013").getFile());
 
 		BlocketteDirector director = new BlocketteDirector(new BlocketteBuilder());
 		try (InputStream inputStream = new FileInputStream(source)) {
