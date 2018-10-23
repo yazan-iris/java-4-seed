@@ -45,10 +45,7 @@ public class SeedStringBuilder {
 		return this;
 	}
 
-	public SeedStringBuilder append(Integer num, int length) {
-		if (num == null) {
-			num = 0;
-		}
+	public SeedStringBuilder append(int num, int length) {
 		builder.append(String.format("%0" + length + "d", num));
 		return this;
 	}
@@ -198,13 +195,22 @@ public class SeedStringBuilder {
 
 	public SeedStringBuilder appendLocalDepth(double value) {
 		DecimalFormat df = new DecimalFormat("000.0");
-		builder.append(df.format(value));
+		String text = df.format(value);
+		if (text.length() > 5) {
+			throw new NumberFormatException(
+					"Couldn't format number!" + value + "   " + text + " [" + 5 + "  " + text.length() + " ]");
+		}
+		builder.append(text);
 		return this;
 	}
 
 	public SeedStringBuilder appendAzimuth(double value) {
 		DecimalFormat df = new DecimalFormat("000.0");
 		String text = df.format(value);
+		if (text.length() > 5) {
+			throw new NumberFormatException(
+					"Couldn't format number!" + value + "   " + text + " [" + 5 + "  " + text.length() + " ]");
+		}
 		builder.append(text);
 		return this;
 	}
@@ -214,6 +220,10 @@ public class SeedStringBuilder {
 		String text = df.format(value);
 		if (text.startsWith("+")) {
 			// text=text.replaceFirst("\\+", " ");
+		}
+		if (text.length() > 5) {
+			throw new NumberFormatException(
+					"Couldn't format number!" + value + "   " + text + " [" + 5 + "  " + text.length() + " ]");
 		}
 		builder.append(text);
 		return this;

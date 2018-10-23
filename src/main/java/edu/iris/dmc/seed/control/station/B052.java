@@ -275,7 +275,6 @@ public class B052 extends AbstractBlockette implements StationBlockette {
 		builder.appendAzimuth(this.azimuth);
 		builder.appendDip(this.dip);
 
-
 		builder.append(this.dataFormatIdentifier, 4);
 		builder.append(this.dataRecordLength, 2);
 
