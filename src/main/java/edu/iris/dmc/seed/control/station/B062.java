@@ -11,11 +11,11 @@ public class B062 extends AbstractResponseBlockette {
 	private char approximationType;
 	private char frequencyUnit;
 
-	private Double lowerValidFrequencyBound;// F 12 �-#.#####E-##�
-	private Double upperValidFrequencyBound;// F 12 �-#.#####E-##�
-	private Double lowerBoundOfApproximation;// F 12 �-#.#####E-##�
-	private Double upperBoundOfApproximation;// F 12 �-#.#####E-##�
-	private Double maximumAbsoluteError;
+	private double lowerValidFrequencyBound;// F 12 �-#.#####E-##�
+	private double upperValidFrequencyBound;// F 12 �-#.#####E-##�
+	private double lowerBoundOfApproximation;// F 12 �-#.#####E-##�
+	private double upperBoundOfApproximation;// F 12 �-#.#####E-##�
+	private double maximumAbsoluteError;
 
 	private List<Number> coefficients = new ArrayList<Number>();
 
@@ -48,43 +48,43 @@ public class B062 extends AbstractResponseBlockette {
 		this.frequencyUnit = frequencyUnit;
 	}
 
-	public Double getLowerValidFrequencyBound() {
+	public double getLowerValidFrequencyBound() {
 		return lowerValidFrequencyBound;
 	}
 
-	public void setLowerValidFrequencyBound(Double lowerValidFrequencyBound) {
+	public void setLowerValidFrequencyBound(double lowerValidFrequencyBound) {
 		this.lowerValidFrequencyBound = lowerValidFrequencyBound;
 	}
 
-	public Double getUpperValidFrequencyBound() {
+	public double getUpperValidFrequencyBound() {
 		return upperValidFrequencyBound;
 	}
 
-	public void setUpperValidFrequencyBound(Double upperValidFrequencyBound) {
+	public void setUpperValidFrequencyBound(double upperValidFrequencyBound) {
 		this.upperValidFrequencyBound = upperValidFrequencyBound;
 	}
 
-	public Double getLowerBoundOfApproximation() {
+	public double getLowerBoundOfApproximation() {
 		return lowerBoundOfApproximation;
 	}
 
-	public void setLowerBoundOfApproximation(Double lowerBoundOfApproximation) {
+	public void setLowerBoundOfApproximation(double lowerBoundOfApproximation) {
 		this.lowerBoundOfApproximation = lowerBoundOfApproximation;
 	}
 
-	public Double getUpperBoundOfApproximation() {
+	public double getUpperBoundOfApproximation() {
 		return upperBoundOfApproximation;
 	}
 
-	public void setUpperBoundOfApproximation(Double upperBoundOfApproximation) {
+	public void setUpperBoundOfApproximation(double upperBoundOfApproximation) {
 		this.upperBoundOfApproximation = upperBoundOfApproximation;
 	}
 
-	public Double getMaximumAbsoluteError() {
+	public double getMaximumAbsoluteError() {
 		return maximumAbsoluteError;
 	}
 
-	public void setMaximumAbsoluteError(Double maximumAbsoluteError) {
+	public void setMaximumAbsoluteError(double maximumAbsoluteError) {
 		this.maximumAbsoluteError = maximumAbsoluteError;
 	}
 
