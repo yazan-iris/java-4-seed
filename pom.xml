@@ -5,7 +5,7 @@
 
 	<groupId>edu.iris.dmc</groupId>
 	<artifactId>java-4-seed</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>java-seed-2</name>
