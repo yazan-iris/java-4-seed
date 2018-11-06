@@ -115,12 +115,7 @@ abstract class AbstractRecord implements Record {
 
 	}
 
-	/**
-	 * 
-	 * @param src
-	 * @param blocketteIndex
-	 * @return number of rejected bytes
-	 */
+
 	public byte[] add(byte[] src) {
 		int availableBytes = this.getAvailableBytes();
 

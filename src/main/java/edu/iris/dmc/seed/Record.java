@@ -20,11 +20,6 @@ public interface Record {
 
 	public void add(Blockette blockette);
 
-	/**
-	 * 
-	 * @param bytes
-	 * @return array of bytes that were not added
-	 */
 	public byte[] add(byte[] bytes);
 
 }

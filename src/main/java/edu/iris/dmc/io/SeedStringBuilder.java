@@ -40,7 +40,7 @@ public class SeedStringBuilder {
 			throw new SeedException("Invalid text " + s + " [" + length + "]");
 		}
 		if (s != null) {
-			builder.append(String.format("%" + length + "s", s));
+			builder.append(String.format("%-" + length + "s", s));
 		}
 		return this;
 	}

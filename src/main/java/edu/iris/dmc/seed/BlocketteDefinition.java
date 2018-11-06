@@ -4,22 +4,7 @@ package edu.iris.dmc.seed;
 
 public class BlocketteDefinition {
 
-	/**
-	 * Get blockette definitions. All information is provided as a set of static
-	 * String returns in a rudimentary selection branch so that no time is
-	 * wasted loading data, since this is a statically invoked class...the data
-	 * is effectively bound with the code. The first record is the general
-	 * blockette definition, followed by subsequent records detailing each
-	 * blockette field. Each record is separated by a newline character and the
-	 * columns of each record are tab-separated. The <i>Number Fields</i> column
-	 * is a specially formatted string of the form a0=b0,a1=b1,... where (a) is
-	 * the SEED version and (b) is the number of fields available at that
-	 * version. Newer versions always append fields to the end of the blockette.
-	 * The first version number (a0) always represents the initial version of
-	 * the blockette. This method is kept public so that applications have the
-	 * option of dumping the entire definition outward for their own purposes,
-	 * such as some form of documentation.
-	 */
+
 	public static String describe(int blkType) throws SeedException {
 		switch (blkType) {
 
