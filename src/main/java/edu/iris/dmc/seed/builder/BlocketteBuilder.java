@@ -1511,7 +1511,9 @@ public class BlocketteBuilder implements Builder<Blockette> {
 			throw new SeedException("Error reading buffer: " + new String(buf) + " at:" + begin + ", length:" + length);
 		}
 		try {
-			return new String(buf, begin, length, "us-ascii");
+			String text=new String(buf, begin, length, "us-ascii");
+			
+			return text.trim();
 		} catch (UnsupportedEncodingException e) {
 			throw new SeedException("Error reading buffer: " + new String(buf) + " at:" + begin + ", length:" + length);
 		}
