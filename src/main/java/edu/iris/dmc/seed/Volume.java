@@ -79,13 +79,13 @@ public class Volume {
 			record = add(record, b);
 		}
 
-		// record = RecordFactory.create(recordSize, ++sequence, 'S', false);
+		//record = RecordFactory.create(recordSize, ++sequence, 'S', false);
 		// this.records.add(record);
 
 		for (B050 b050 : this.control.getB050s()) {
-			sequence++;
-			record = RecordFactory.create(recordSize, sequence, 'S', false);
-			this.records.put(sequence, record);
+			//sequence++;
+			//record = RecordFactory.create(recordSize, sequence, 'S', false);
+			//this.records.put(sequence, record);
 			record = add(record, b050);
 			// update b011
 			b011.add(b050, record.getSequence());
@@ -132,6 +132,10 @@ public class Volume {
 	private Record add(Record record, Blockette b) throws SeedException {
 		int recordLength = record.size();
 		int sequence = record.getSequence();
+		if(b instanceof B050) {
+			record = RecordFactory.create(recordLength, record.getSequence()+1, 'S', false);
+			this.records.put(record.getSequence(), record);
+		}
 		byte[] bytes = b.toSeedString().getBytes();
 		while (true) {
 			bytes = record.add(bytes);
