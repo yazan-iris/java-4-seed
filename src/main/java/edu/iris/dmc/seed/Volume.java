@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import edu.iris.dmc.seed.control.dictionary.AbstractDictionaryBlockette;
 import edu.iris.dmc.seed.control.dictionary.DictionaryBlockette;
@@ -54,10 +55,10 @@ public class Volume {
 		this.ids.put(blockette.getId(), blockette);
 	}
 
-	private List<Record> records = new ArrayList<>();
+	private Map<Integer, Record> records = new TreeMap<>();
 
 	public void build() throws SeedException {
-		this.records = new ArrayList<>();// make sure start clean
+		this.records = new TreeMap<>();// make sure start clean
 		int sequence = 1;
 		int recordSize = 0;
 		if (this.b010 == null) {
@@ -66,22 +67,25 @@ public class Volume {
 
 		recordSize = BigInteger.valueOf(2).pow(b010.getNthPower()).intValue();
 		Record record = RecordFactory.create(recordSize, sequence, 'V', false);
-		this.records.add(record);
+		this.records.put(sequence, record);
 		record.add(b010);
 
 		this.b011 = new B011();
 		record.add(b011);
-
-		record = RecordFactory.create(recordSize, ++sequence, 'A', false);
-		this.records.add(record);
+		sequence++;
+		record = RecordFactory.create(recordSize, sequence, 'A', false);
+		this.records.put(sequence, record);
 		for (Blockette b : this.dictionary.getAll()) {
 			record = add(record, b);
 		}
 
-		record = RecordFactory.create(recordSize, ++sequence, 'S', false);
-		this.records.add(record);
+		// record = RecordFactory.create(recordSize, ++sequence, 'S', false);
+		// this.records.add(record);
 
 		for (B050 b050 : this.control.getB050s()) {
+			sequence++;
+			record = RecordFactory.create(recordSize, sequence, 'S', false);
+			this.records.put(sequence, record);
 			record = add(record, b050);
 			// update b011
 			b011.add(b050, record.getSequence());
@@ -134,8 +138,9 @@ public class Volume {
 			if (bytes == null || bytes.length == 0) {
 				break;
 			} else {
-				record = RecordFactory.create(recordLength, ++sequence, record.getType(), true);
-				this.records.add(record);
+				sequence++;
+				record = RecordFactory.create(recordLength, sequence, record.getType(), true);
+				this.records.put(sequence, record);
 			}
 		}
 		return record;
@@ -216,8 +221,12 @@ public class Volume {
 		return this.ids.get(id);
 	}
 
+	public Record getRecord(int sequence) {
+		return records.get(sequence);
+	}
+	
 	public List<Record> getRecords() {
-		return records;
+		return new ArrayList<>(records.values());
 	}
 
 	public List<Blockette> getAll() {

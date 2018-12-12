@@ -2,6 +2,8 @@ package edu.iris.dmc.seed.control.index;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.AbstractBlockette;
@@ -11,7 +13,8 @@ import edu.iris.dmc.seed.control.station.B050;
 public class B011 extends AbstractBlockette implements IndexBlockette {
 
 	private int numberOfStations;
-	private List<Row> rows = new ArrayList<>();
+	// private List<Row> rows = new ArrayList<>();
+	private Map<String, Row> rows = new TreeMap<>();
 
 	public B011() {
 		super(11, "Volume Station Header Index Blockette");
@@ -30,11 +33,13 @@ public class B011 extends AbstractBlockette implements IndexBlockette {
 	}
 
 	public void add(String code, int sequence) {
-		this.rows.add(new Row(code, sequence));
+		if (this.rows.get(code) == null) {
+			this.rows.put(code, new Row(code, sequence));
+		}
 	}
 
 	public List<Row> getRows() {
-		return this.rows;
+		return new ArrayList<>(this.rows.values());
 	}
 
 	@Override
@@ -51,7 +56,7 @@ public class B011 extends AbstractBlockette implements IndexBlockette {
 
 		builder.append(number, 3);
 
-		for (Row row : this.rows) {
+		for (Row row : this.rows.values()) {
 			builder.append(row.getCode(), 5);
 			builder.leftPad(row.getSequence(), 6, '0');
 		}
