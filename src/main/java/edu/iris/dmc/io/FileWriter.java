@@ -1,11 +1,11 @@
 package edu.iris.dmc.io;
 
+import java.io.Closeable;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import edu.iris.dmc.seed.Volume;
 
-public interface FileWriter {
+public interface FileWriter extends Closeable{
 
 	public boolean isFileTypeSupported(FileFormat.TYPE type);
 

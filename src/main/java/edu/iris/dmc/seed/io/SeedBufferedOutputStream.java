@@ -31,4 +31,10 @@ public class SeedBufferedOutputStream {
 		}
 		outputStream.flush();
 	}
+
+	public void close() throws IOException {
+		if (this.outputStream != null) {
+			this.outputStream.close();
+		}
+	}
 }

@@ -3,7 +3,6 @@ package edu.iris.dmc.seed.writer;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.logging.Logger;
 
 import edu.iris.dmc.io.FileFormat;
@@ -44,10 +43,6 @@ public class SeedFileWriter implements FileWriter {
 		}
 	}
 
-
-
-
-
 	public Formatter getFormatter() {
 		return formatter;
 	}
@@ -56,4 +51,9 @@ public class SeedFileWriter implements FileWriter {
 		this.formatter = formatter;
 	}
 
+	public void close() throws IOException {
+		if (this.stream != null) {
+			this.stream.close();
+		}
+	}
 }
