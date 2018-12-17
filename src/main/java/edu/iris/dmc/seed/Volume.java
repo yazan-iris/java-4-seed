@@ -20,10 +20,9 @@ import edu.iris.dmc.seed.control.station.B052;
 import edu.iris.dmc.seed.control.station.B059;
 import edu.iris.dmc.seed.control.station.OverFlowBlockette;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
+import edu.iris.dmc.seed.control.station.SeedResponseStage;
 import edu.iris.dmc.seed.control.station.StationBlockette;
 import edu.iris.dmc.seed.headers.Control;
-import edu.iris.dmc.seed.record.DictionaryRecord;
-import edu.iris.dmc.seed.record.VolumeRecord;
 
 /**
  * We need to examine this class and find some better representation.
@@ -79,13 +78,13 @@ public class Volume {
 			record = add(record, b);
 		}
 
-		//record = RecordFactory.create(recordSize, ++sequence, 'S', false);
+		// record = RecordFactory.create(recordSize, ++sequence, 'S', false);
 		// this.records.add(record);
 
 		for (B050 b050 : this.control.getB050s()) {
-			//sequence++;
-			//record = RecordFactory.create(recordSize, sequence, 'S', false);
-			//this.records.put(sequence, record);
+			// sequence++;
+			// record = RecordFactory.create(recordSize, sequence, 'S', false);
+			// this.records.put(sequence, record);
 			record = add(record, b050);
 			// update b011
 			b011.add(b050, record.getSequence());
@@ -97,32 +96,35 @@ public class Volume {
 				for (B059 b059 : b052.getB059s()) {
 					record = add(record, b059);
 				}
-				for (ResponseBlockette responseBlockette : b052.getResponseBlockette()) {
-					if (responseBlockette instanceof OverFlowBlockette) {
-						/**
-						 * This blockette is the only blockette that might overflow the maximum allowed
-						 * value of 9,999 characters. If there are more coefficients than fit in one
-						 * record, list as many as will fit in the first occurrence of this blockette
-						 * (the counts of Number of numerators and Number of denominators would then be
-						 * set to the number included, not the total number). In the next record, put
-						 * the remaining number. Be sure to write and read these blockettes in sequence,
-						 * and be sure that the first few fields of both records are identical. Reading
-						 * (and writing) programs have to be able to work with both blockettes as one
-						 * after reading (or before writing). In July 2007, the FDSN adopted a
-						 * convention that requires the coefficients to be listed in forward time order.
-						 * As a reference, minimum-p
-						 */
-						OverFlowBlockette ob = (OverFlowBlockette) responseBlockette;
 
-						if (ob.isOverFlown()) {
-							for (Blockette b : ob.split()) {
-								record = add(record, b);
+				for (SeedResponseStage responseStage : b052.getResponseStages()) {
+					for (ResponseBlockette responseBlockette : responseStage.getBlockettes()) {
+						if (responseBlockette instanceof OverFlowBlockette) {
+							/**
+							 * This blockette is the only blockette that might overflow the maximum allowed
+							 * value of 9,999 characters. If there are more coefficients than fit in one
+							 * record, list as many as will fit in the first occurrence of this blockette
+							 * (the counts of Number of numerators and Number of denominators would then be
+							 * set to the number included, not the total number). In the next record, put
+							 * the remaining number. Be sure to write and read these blockettes in sequence,
+							 * and be sure that the first few fields of both records are identical. Reading
+							 * (and writing) programs have to be able to work with both blockettes as one
+							 * after reading (or before writing). In July 2007, the FDSN adopted a
+							 * convention that requires the coefficients to be listed in forward time order.
+							 * As a reference, minimum-p
+							 */
+							OverFlowBlockette ob = (OverFlowBlockette) responseBlockette;
+
+							if (ob.isOverFlown()) {
+								for (Blockette b : ob.split()) {
+									record = add(record, b);
+								}
+							} else {
+								record = add(record, responseBlockette);
 							}
 						} else {
 							record = add(record, responseBlockette);
 						}
-					} else {
-						record = add(record, responseBlockette);
 					}
 				}
 			}
@@ -132,8 +134,8 @@ public class Volume {
 	private Record add(Record record, Blockette b) throws SeedException {
 		int recordLength = record.size();
 		int sequence = record.getSequence();
-		if(b instanceof B050) {
-			record = RecordFactory.create(recordLength, record.getSequence()+1, 'S', false);
+		if (b instanceof B050) {
+			record = RecordFactory.create(recordLength, record.getSequence() + 1, 'S', false);
 			this.records.put(record.getSequence(), record);
 		}
 		byte[] bytes = b.toSeedString().getBytes();
@@ -228,7 +230,7 @@ public class Volume {
 	public Record getRecord(int sequence) {
 		return records.get(sequence);
 	}
-	
+
 	public List<Record> getRecords() {
 		return new ArrayList<>(records.values());
 	}

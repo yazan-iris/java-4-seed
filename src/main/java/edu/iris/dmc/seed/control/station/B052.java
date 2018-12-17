@@ -43,7 +43,8 @@ public class B052 extends AbstractBlockette implements StationBlockette {
 	private char updateFlag;
 
 	private List<B059> b059s = new ArrayList<>();
-	private List<ResponseBlockette> response = new ArrayList<>();
+	// private List<ResponseBlockette> response = new ArrayList<>();
+	private Map<Integer, SeedResponseStage> stages = new TreeMap<>();
 
 	public B052() {
 		this(null);
@@ -243,15 +244,25 @@ public class B052 extends AbstractBlockette implements StationBlockette {
 	}
 
 	public void add(ResponseBlockette blockette) {
-		this.response.add(blockette);
+		int sequence = blockette.getStageSequence();
+		SeedResponseStage stage = this.stages.get(sequence);
+		if (stage == null) {
+			stage = new SeedResponseStage(sequence);
+			this.stages.put(sequence, stage);
+		}
+		stage.add(blockette);
 	}
 
-	public List<ResponseBlockette> getResponseBlockette() {
-		return this.response;
+	public SeedResponseStage getResponseStage(int sequence) {
+		return this.stages.get(sequence);
+	}
+
+	public List<SeedResponseStage> getResponseStages() {
+		return new ArrayList<>(this.stages.values());
 	}
 
 	@Override
-	public String toSeedString() throws SeedException{
+	public String toSeedString() throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
 		builder.append(this.locationCode, 2);
 		builder.append(this.channelCode, 3);

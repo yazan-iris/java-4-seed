@@ -19,6 +19,7 @@ import edu.iris.dmc.seed.control.station.B050;
 import edu.iris.dmc.seed.control.station.B052;
 import edu.iris.dmc.seed.control.station.B054;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
+import edu.iris.dmc.seed.control.station.SeedResponseStage;
 
 public class VolumeTest {
 
@@ -100,20 +101,16 @@ public class VolumeTest {
 		}
 		assertNotNull(theChannel);
 
-		List<ResponseBlockette> responseList = theChannel.getResponseBlockette();
-		assertNotNull(responseList);
-		assertEquals(11, responseList.size());
+		List<SeedResponseStage> responseStages = theChannel.getResponseStages();
+		assertNotNull(responseStages);
+		assertEquals(5, responseStages.size());
 
-		List<ResponseBlockette> stage = new ArrayList<>();
-		for (ResponseBlockette r : responseList) {
-			if (4 == r.getStageSequence()) {
-				stage.add(r);
-			}
-		}
-		assertEquals(3, stage.size());
-
+		SeedResponseStage stage4 = theChannel.getResponseStage(4);
+		assertNotNull(stage4);
+		assertEquals(3, stage4.size());
+		
 		B054 b054 = null;
-		for (ResponseBlockette r : stage) {
+		for (ResponseBlockette r : stage4.getBlockettes()) {
 			if (54 == r.getType()) {
 				b054 = (B054) r;
 				break;
@@ -231,7 +228,7 @@ public class VolumeTest {
 		assertEquals(-0.000000862909, b054.getNumerators().get(97).getValue(), 0.0000001);
 		assertEquals(-0.000000337741, b054.getNumerators().get(98).getValue(), 0.0000001);
 	}
-	
+
 	@Test
 	public void b054Long() {
 		List<Blockette> list = volume.find("II", "NNA", "BHE", "00");
@@ -250,22 +247,18 @@ public class VolumeTest {
 		}
 		assertNotNull(theChannel);
 
-		List<ResponseBlockette> responseList = theChannel.getResponseBlockette();
-		assertNotNull(responseList);
-		
-		
-		assertEquals(14, responseList.size());
+		List<SeedResponseStage> responseStages = theChannel.getResponseStages();
+		assertNotNull(responseStages);
 
-		List<ResponseBlockette> stage = new ArrayList<>();
-		for (ResponseBlockette r : responseList) {
-			if (5 == r.getStageSequence()) {
-				stage.add(r);
-			}
-		}
-		assertEquals(3, stage.size());
+		
+		SeedResponseStage stage5 = theChannel.getResponseStage(5);
+		assertNotNull(stage5);
+		assertEquals(3, stage5.size());
+		
+		
 
 		B054 b054 = null;
-		for (ResponseBlockette r : stage) {
+		for (ResponseBlockette r : stage5.getBlockettes()) {
 			if (54 == r.getType()) {
 				b054 = (B054) r;
 				break;

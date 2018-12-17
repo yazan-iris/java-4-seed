@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.control.station.B050;
 import edu.iris.dmc.seed.control.station.B052;
+import edu.iris.dmc.seed.control.station.SeedResponseStage;
 
 public class Control {
 
@@ -33,7 +34,9 @@ public class Control {
 			for (B052 b052 : b050.getB052s()) {
 				list.add(b052);
 				list.addAll(b052.getB059s());
-				list.addAll(b052.getResponseBlockette());
+				for (SeedResponseStage stage : b052.getResponseStages()) {
+					list.addAll(stage.getBlockettes());
+				}
 			}
 		}
 		return list;
