@@ -2,10 +2,8 @@ package edu.iris.dmc.seed.control.station;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import edu.iris.dmc.io.SeedStringBuilder;
-import edu.iris.dmc.seed.Blockette;
 
 public class B053 extends AbstractResponseBlockette{
 
