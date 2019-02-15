@@ -234,7 +234,6 @@ public class SeedStringBuilder {
 
 	public SeedStringBuilder append(double value, String format, int width) {
 		String text = null;
-
 		String pattern = format;
 		boolean signed = false;
 		if (pattern.startsWith("-")) {
@@ -254,13 +253,18 @@ public class SeedStringBuilder {
 				text = text.replaceAll("E", "E+");
 			}
 		}
-		if (value >= 0 && signed) {
-			text = "+" + text;
+		if(signed) {
+			if(!text.startsWith("-")&&!text.startsWith("+")) {
+				if (value >= 0 && signed) {
+					text = "+" + text;
+				}
+			}
 		}
+		
 
 		if (text.length() != width) {
 			throw new NumberFormatException(
-					"Couldn't format number!" + value + "   " + text + " [" + width + "  " + text.length() + " ]");
+					"Couldn't format number, value: " + value + " format: "+format+" pattern: "+pattern + " actual: "+text + " [" + width + "  " + text.length() + " ]");
 		}
 		builder.append(text);
 		return this;
