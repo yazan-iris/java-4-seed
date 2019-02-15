@@ -57,7 +57,6 @@ public class RecordInputStream extends BufferedInputStream {
 		if (bytesRead < bytes.length) {
 			throw new IOException("Couldn't read enough bytes to determine length");
 		}
-		System.out.println(new String(bytes));
 		reset();
 		if (isBeginingOfNewRecord(bytes)) {
 			recordLength = 256;
