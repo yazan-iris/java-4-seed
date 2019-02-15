@@ -158,6 +158,7 @@ abstract class AbstractRecord implements Record {
 			return null;
 		}
 		int length = Integer.parseInt(new String(bytes, index + 3, 4).trim());
+		
 		if (length + index <= bytes.length) {
 			byte[] b = new byte[length];
 			System.arraycopy(bytes, index, b, 0, length);

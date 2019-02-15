@@ -52,7 +52,6 @@ public class BlocketteItrator implements Iterator<Blockette>, Closeable {
 				}
 				while (true) {
 					Blockette blockette = this.record.next();
-
 					if (blockette == null) {
 						break;
 					}

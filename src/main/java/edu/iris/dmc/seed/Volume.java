@@ -195,13 +195,13 @@ public class Volume {
 				this.b050.add((B051) blockette);
 			} else if (52 == blockette.getType()) {
 				if (this.b050 == null) {
-					// do something
+					throw new SeedException("Trying to add b052 when no b050 is present.");
 				}
 				this.b052 = (B052) blockette;
 				b050.add(this.b052);
 			} else if (59 == blockette.getType()) {
-				if (this.b050 == null) {
-					// do something
+				if (this.b052 == null) {
+					throw new SeedException("Trying to add b059 when no b052 is present.");
 				}
 				this.b052.add((B059) blockette);
 			}
