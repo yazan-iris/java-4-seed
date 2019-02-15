@@ -58,7 +58,6 @@ public class BlocketteItrator implements Iterator<Blockette>, Closeable {
 					if (blockette instanceof IncompleteBlockette) {
 						blockette = completeBlockette((IncompleteBlockette) blockette);
 					}
-
 					q.add(blockette);
 				}
 			} catch (IOException | SeedException e) {
