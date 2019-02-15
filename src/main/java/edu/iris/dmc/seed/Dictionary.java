@@ -8,6 +8,7 @@ import edu.iris.dmc.seed.control.dictionary.B030;
 import edu.iris.dmc.seed.control.dictionary.B031;
 import edu.iris.dmc.seed.control.dictionary.B033;
 import edu.iris.dmc.seed.control.dictionary.B034;
+import edu.iris.dmc.seed.control.dictionary.DictionaryBlockette;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
 import edu.iris.dmc.seed.control.dictionary.AbstractDictionaryBlockette;
 
@@ -28,7 +29,7 @@ public class Dictionary {
 	private Map<Integer, ResponseBlockette> responseMap = new HashMap<>();
 	private DictionaryMap dictionaryMap = new DictionaryMap();
 
-	public AbstractDictionaryBlockette put(AbstractDictionaryBlockette b) throws SeedException {
+	public DictionaryBlockette put(AbstractDictionaryBlockette b) throws SeedException {
 		int type = b.getType();
 		int lookupId = 0;
 		if (30 == type) {
@@ -65,7 +66,7 @@ public class Dictionary {
 			}
 			this.b033Map.put(key, (B033) b);
 			if (b033 >= 999) {
-				throw new SeedException("b033 lookup code exceeds available space " + 99);
+				throw new SeedException("b033 lookup code exceeds available space " + 999);
 			}
 			lookupId = this.b033++;
 		} else if (34 == type) {

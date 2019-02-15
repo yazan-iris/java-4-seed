@@ -67,4 +67,8 @@ public class TestUtil {
 		b.setUnitsOfCommentLevel(unitsOfCommentLevel);
 		return b;
 	}
+	
+	public static Blockette create(String text) throws SeedException {
+		return BlocketteFactory.create(text.getBytes());
+	}
 }

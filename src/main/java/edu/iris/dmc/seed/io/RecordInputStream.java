@@ -33,7 +33,7 @@ public class RecordInputStream extends BufferedInputStream {
 
 		int bytesRead = read(bytes);
 		if (bytesRead < bytes.length) {
-			return null;
+			throw new SeedException("Reading record: Expected "+bytes.length+" but received "+bytesRead);
 		}
 		if (bytesRead < bytes.length) {
 			LOGGER.info("Expected 8 but read only " + bytesRead + " bytes");
@@ -52,6 +52,7 @@ public class RecordInputStream extends BufferedInputStream {
 		if (bytesRead < bytes.length) {
 			throw new IOException("Couldn't read enough bytes to determine length");
 		}
+		System.out.println(new String(bytes));
 		reset();
 		if (isBeginingOfNewRecord(bytes)) {
 			recordLength = 256;

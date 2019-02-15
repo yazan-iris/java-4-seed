@@ -88,21 +88,25 @@ public class BTime {
 		if (bytes == null) {
 			throw new IllegalArgumentException("Cannot build BTime object from NULL.");
 		}
-		if (bytes.length == 0) {
-			return null;
-		}
-		if (bytes.length < 4) {
 
-		}
-		BTime time = new BTime();
 		try {
-			time.setYear(Integer.parseInt(new String(bytes, 0, 4, "US-ASCII")));
-
-			if (bytes.length < 8) {
-
+			String btime = new String(bytes, "US-ASCII").trim();
+			String[] array = btime.split(",[ ]*");
+			if (bytes.length == 0) {
+				return null;
 			}
-			time.setDayOfYear(Integer.parseInt(new String(bytes, 5, 3, "US-ASCII")));
-			if (bytes.length < 11) {
+			if (array[0].length() < 4) {
+				throw new SeedException("Invalid time format: [" + btime + "]");
+			}
+			BTime time = new BTime();
+			time.setYear(Integer.parseInt(array[0]));
+
+			if (array.length < 2) {
+				return time;
+			}
+
+			time.setDayOfYear(Integer.parseInt(array[1]));
+			if (array.length < 3) {
 				return time;
 			}
 			time.setHour(Integer.parseInt(new String(bytes, 9, 2, "US-ASCII")));
@@ -118,10 +122,11 @@ public class BTime {
 				return time;
 			}
 			time.setTenthMilliSecond(Integer.parseInt(new String(bytes, 18, 4, "US-ASCII")));
+			return time;
 		} catch (NumberFormatException | UnsupportedEncodingException e) {
-			throw new SeedException(e);
+			throw new SeedException("invalid time " + new String(bytes), e);
 		}
-		return time;
+
 	}
 
 	public int getDayOfYear() {

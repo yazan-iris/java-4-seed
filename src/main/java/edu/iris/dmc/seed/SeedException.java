@@ -13,4 +13,8 @@ public class SeedException extends Exception {
 	public SeedException(String message) {
 		super(message);
 	}
+
+	public SeedException(String message, Exception e) {
+		super(message, e);
+	}
 }
