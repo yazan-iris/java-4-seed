@@ -52,14 +52,14 @@ public class BlocketteItrator implements Iterator<Blockette>, Closeable {
 				}
 				while (true) {
 					Blockette blockette = this.record.next();
-					
+
 					if (blockette == null) {
 						break;
 					}
 					if (blockette instanceof IncompleteBlockette) {
 						blockette = completeBlockette((IncompleteBlockette) blockette);
 					}
-					
+
 					q.add(blockette);
 				}
 			} catch (IOException | SeedException e) {
@@ -73,7 +73,7 @@ public class BlocketteItrator implements Iterator<Blockette>, Closeable {
 	private Blockette completeBlockette(IncompleteBlockette b) throws IOException, SeedException {
 		while (b.remainingBytes() > 0) {
 			this.record = this.recordInputStream.next();
-			if (!record.isContinuation()) {
+			if (record == null || !record.isContinuation()) {
 				throw new SeedException("Expected a continuation record but did not find one!");
 			}
 			byte[] bytes = this.record.get(b.remainingBytes());

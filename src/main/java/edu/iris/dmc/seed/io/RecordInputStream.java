@@ -12,9 +12,9 @@ import edu.iris.dmc.seed.RecordFactory;
 import edu.iris.dmc.seed.SeedException;
 
 public class RecordInputStream extends BufferedInputStream {
-	
+
 	public static Pattern headerPattern = Pattern.compile("^\\d{6}[VASTDRQM][\\s\\*]");
-	
+
 	private Logger LOGGER = Logger.getLogger("SeedInputStream");
 
 	private int recordLength = -1;
@@ -33,11 +33,16 @@ public class RecordInputStream extends BufferedInputStream {
 
 		int bytesRead = read(bytes);
 		if (bytesRead < bytes.length) {
-			throw new SeedException("Reading record: Expected "+bytes.length+" but received "+bytesRead);
-		}
-		if (bytesRead < bytes.length) {
 			LOGGER.info("Expected 8 but read only " + bytesRead + " bytes");
+			// throw new SeedException("Reading record: Expected "+bytes.length+" but
+			// received "+bytesRead);
+			if (bytesRead < 0) {
+				return null;
+			}else {
+				throw new SeedException("Reading record: Expected "+bytes.length+" but received "+bytesRead);
+			}
 		}
+
 		return RecordFactory.create(bytes);
 	}
 
