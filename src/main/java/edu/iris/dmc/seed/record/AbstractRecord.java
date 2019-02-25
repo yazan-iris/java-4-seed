@@ -19,7 +19,7 @@ abstract class AbstractRecord implements Record {
 	private boolean continuation;
 	private byte[] bytes;
 
-	private int length;
+	private int size;
 	private int index;
 
 	public AbstractRecord(int sequence, char type, boolean continuation) throws SeedException {
@@ -27,7 +27,7 @@ abstract class AbstractRecord implements Record {
 	}
 
 	public AbstractRecord(int sequence, char type, boolean continuation, int size) throws SeedException {
-		this.length = size;
+		this.size = size;
 		this.sequence = sequence;
 		this.type = type;
 		this.continuation = continuation;
@@ -106,13 +106,7 @@ abstract class AbstractRecord implements Record {
 	}
 
 	public int size() {
-		return this.length;
-	}
-
-	@Override
-	public void add(Blockette blockette) {
-		// TODO Auto-generated method stub
-
+		return this.size;
 	}
 
 
@@ -135,7 +129,7 @@ abstract class AbstractRecord implements Record {
 	}
 
 	public int getAvailableBytes() {
-		return this.length - this.index;
+		return this.size - this.index;
 	}
 
 	public Blockette next() throws SeedException {

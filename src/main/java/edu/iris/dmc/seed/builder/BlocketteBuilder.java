@@ -980,7 +980,7 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		b.setUpdateFlag((char) bytes[offset]);
 		offset = advance(bytes, offset, 1);
 		// offset++;
-		String networkCode = new String(bytes, offset, 2);
+		String networkCode = new String(bytes, offset, 2).trim();
 		b.setNetworkCode(networkCode);
 
 		return b;

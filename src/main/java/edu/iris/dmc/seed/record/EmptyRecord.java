@@ -57,16 +57,17 @@ public class EmptyRecord implements Record {
 		return 0;
 	}
 
-	@Override
-	public void add(Blockette blockette) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public byte[] add(byte[] bytes) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int getAvailableBytes() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

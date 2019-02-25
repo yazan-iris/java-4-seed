@@ -6,7 +6,9 @@ public interface Record {
 
 	public char getType();
 
-	public byte[] getBytes()throws SeedException;
+	public byte[] getBytes() throws SeedException;
+
+	public int getAvailableBytes();
 
 	public byte[] get(int length);
 
@@ -18,8 +20,6 @@ public interface Record {
 
 	public int size();
 
-	public void add(Blockette blockette);
-
-	public byte[] add(byte[] bytes);
+	public byte[] add(byte[] bytes)throws SeedException;
 
 }

@@ -32,6 +32,15 @@ public class B011 extends AbstractBlockette implements IndexBlockette {
 		this.add(b050.getStationCode(), sequence);
 	}
 
+	public void update(B050 b050, int sequence) {
+		Row row = this.rows.get(b050.getStationCode());
+		if (row == null) {
+
+		} else {
+			row.sequence = sequence;
+		}
+	}
+
 	public void add(String code, int sequence) {
 		if (this.rows.get(code) == null) {
 			this.rows.put(code, new Row(code, sequence));

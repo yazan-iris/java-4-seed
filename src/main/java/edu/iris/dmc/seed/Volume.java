@@ -67,11 +67,17 @@ public class Volume {
 		recordSize = BigInteger.valueOf(2).pow(b010.getNthPower()).intValue();
 		Record record = RecordFactory.create(recordSize, sequence, 'V', false);
 		this.records.put(sequence, record);
-		record.add(b010);
+		record = add(record, b010);
+		//If you choose to build we create b011
+		B011 b011 = new B011();
+		// find the number of records this blockette requires and update the sequence
+		for (B050 b050 : this.control.getB050s()) {
+			// place as a holder for now
+			b011.add(b050, sequence);
+		}
+		record = add(record, b011);
 
-		this.b011 = new B011();
-		record.add(b011);
-		sequence++;
+		sequence = record.getSequence() + 1;
 		record = RecordFactory.create(recordSize, sequence, 'A', false);
 		this.records.put(sequence, record);
 		for (Blockette b : this.dictionary.getAll()) {
@@ -87,7 +93,7 @@ public class Volume {
 			// this.records.put(sequence, record);
 			record = add(record, b050);
 			// update b011
-			b011.add(b050, record.getSequence());
+			b011.update(b050, record.getSequence());
 			for (B051 b051 : b050.getB051s()) {
 				record = add(record, b051);
 			}
@@ -250,7 +256,7 @@ public class Volume {
 		}
 
 		if (b011 != null) {
-			list.add(this.b011);
+			list.add(b011);
 		}
 
 		if (b012 != null) {

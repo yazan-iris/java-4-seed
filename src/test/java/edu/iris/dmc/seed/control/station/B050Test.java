@@ -18,6 +18,15 @@ public class B050Test {
 		Blockette b050 = BlocketteFactory.create(text.getBytes());
 		assertEquals(text, b050.toSeedString());
 	}
+	
+	@Test
+	public void networkCode() throws Exception {
+		String text = "0500154I58H1+28.209718-177.381430+0004.60000000Midway Islands Infrasonic Array, Site I58H1, USA~0003210102013,315,00:00:00.0000~2999,365,23:59:59.0000~NI ";
+		   
+		B050 b050 = (B050) BlocketteFactory.create(text.getBytes());
+		assertEquals(text, b050.toSeedString());
+		assertEquals("I", b050.getNetworkCode());
+	}
 
 	@Test
 	public void fromObject1() throws Exception {

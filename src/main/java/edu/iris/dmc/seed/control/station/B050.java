@@ -192,7 +192,7 @@ public class B050 extends AbstractBlockette implements StationBlockette {
 		}
 		builder.append("~");
 		builder.append(this.updateFlag);
-		builder.append(this.networkCode);
+		builder.append(this.networkCode,2);
 		builder.replace(3, 7, builder.length(), "####");
 		return builder.toString();
 	}

@@ -28,6 +28,7 @@ public class B010 extends AbstractBlockette implements IndexBlockette {
 			throw new IllegalArgumentException("Invalid record length power(" + power + ")");
 		}
 		this.nthPower = power;
+		this.volumeTime = BTime.now();
 	}
 
 	public String getVersion() {
