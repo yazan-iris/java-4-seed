@@ -9,18 +9,23 @@ import org.junit.Test;
 import edu.iris.dmc.seed.blockette.util.BlocketteItrator;
 import edu.iris.dmc.seed.builder.BlocketteBuilder;
 import edu.iris.dmc.seed.director.BlocketteDirector;
+import edu.iris.dmc.seed.director.BlocketteDirectorTest;
 
 public class RecordInputStreamTest {
 
 	@Test
 	public void d() throws Exception {
-		// RecordInputStream stream = new RecordInputStream();
-		try (InputStream stream = new FileInputStream(new File("/Users/Suleiman/RESP/AU.BN2S.fromHughGlanville.dataless.20180925"))) {
-			BlocketteDirector director = new BlocketteDirector(new BlocketteBuilder());
+		
+		
+		File source = null;
+
+		source = new File(BlocketteDirectorTest.class.getClassLoader().getResource("dataless.G.CAN.seed.051016").getFile());
+
+		BlocketteDirector director = new BlocketteDirector(new BlocketteBuilder());
+		try (InputStream stream = new FileInputStream(source)) {
 			BlocketteItrator iterator = director.process(stream);
-			
 			while(iterator.hasNext()) {
-				System.out.println(iterator.next().toSeedString());
+			System.out.println(iterator.next().toSeedString());
 			}
 		}
 	}
