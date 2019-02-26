@@ -19,7 +19,7 @@ public class RecordInputStreamTest {
 		
 		File source = null;
 
-		source = new File(BlocketteDirectorTest.class.getClassLoader().getResource("dataless.G.CAN.seed.051016").getFile());
+		source = new File(BlocketteDirectorTest.class.getClassLoader().getResource("AU.MILA.dataless.fromHughGlanville.20181018").getFile());
 
 		BlocketteDirector director = new BlocketteDirector(new BlocketteBuilder());
 		try (InputStream stream = new FileInputStream(source)) {
