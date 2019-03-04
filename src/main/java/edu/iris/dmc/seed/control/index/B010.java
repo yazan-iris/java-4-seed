@@ -1,12 +1,13 @@
 package edu.iris.dmc.seed.control.index;
 
+
 import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.AbstractBlockette;
 import edu.iris.dmc.seed.BTime;
 
 public class B010 extends AbstractBlockette implements IndexBlockette {
 
-	private String version;
+	private String version="V2.4";
 	// Volume logical record length, expressed as a power of 2. A 4096 byte
 	// logical record would have “12” in this field.
 	// Logical record lengths can be from 256 bytes to 32,768 bytes. 4096 bytes

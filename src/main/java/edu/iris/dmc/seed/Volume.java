@@ -241,6 +241,10 @@ public class Volume {
 		return new ArrayList<>(records.values());
 	}
 
+	/**
+	 * a list of all blockettes in this volume
+	 * @return a list of all blockettes ordered as they were inserted
+	 */
 	public List<Blockette> getAll() {
 		List<Blockette> list = new ArrayList<>();
 		if (b005 != null) {

@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.iris.dmc.seed.BTime;
@@ -52,7 +53,7 @@ import edu.iris.dmc.seed.control.station.Stage;
 import edu.iris.dmc.seed.control.station.Zero;
 
 public class BlocketteBuilder implements Builder<Blockette> {
-	private static Logger LOGGER = Logger.getLogger(BlocketteBuilder.class.getName());
+	private static Logger LOG = Logger.getLogger(BlocketteBuilder.class.getName());
 	private static Builder<Blockette> defaultInstance = new BlocketteBuilder();
 
 	public List<Blockette> createAll(byte[] bytes) throws SeedException, IOException {
@@ -257,6 +258,7 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		b.setVersion(new String(bytes, offset, 4));
 		offset = offset + 4;
 		int nthPower = BlocketteBuilder.parseInt(bytes, offset, 2);
+		LOG.log(Level.INFO,"Building: "+new String(bytes));
 		b.setNthPower(nthPower);
 		offset = offset + 2;
 		int from = offset;

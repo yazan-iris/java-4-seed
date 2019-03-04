@@ -1,7 +1,6 @@
 package edu.iris.dmc.seed.control.station;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import edu.iris.dmc.io.SeedStringBuilder;

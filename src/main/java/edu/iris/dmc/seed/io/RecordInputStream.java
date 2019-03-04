@@ -29,17 +29,22 @@ public class RecordInputStream extends BufferedInputStream {
 	}
 
 	public Record next() throws IOException, SeedException {
-		byte[] bytes = new byte[getRecordLength()];
+		int recordLength = getRecordLength();
+		if(recordLength==-1){
+			return null;
+		}
+		byte[] bytes = new byte[recordLength];
 
 		int bytesRead = read(bytes);
 		if (bytesRead < bytes.length) {
 			LOGGER.info("Expected 8 but read only " + bytesRead + " bytes");
-			// throw new SeedException("Reading record: Expected "+bytes.length+" but
+			// throw new SeedException("Reading record: Expected
+			// "+bytes.length+" but
 			// received "+bytesRead);
 			if (bytesRead < 0) {
 				return null;
-			}else {
-				throw new SeedException("Reading record: Expected "+bytes.length+" but received "+bytesRead);
+			} else {
+				throw new SeedException("Reading record: Expected " + bytes.length + " but received " + bytesRead);
 			}
 		}
 
@@ -54,6 +59,9 @@ public class RecordInputStream extends BufferedInputStream {
 		mark(8);
 		byte[] bytes = new byte[8];
 		int bytesRead = read(bytes);
+		if (bytesRead == -1) {
+			return -1;
+		}
 		if (bytesRead < bytes.length) {
 			throw new IOException("Couldn't read enough bytes to determine length");
 		}

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.Record;
@@ -14,10 +16,12 @@ import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.dictionary.DictionaryBlockette;
 import edu.iris.dmc.seed.control.index.IndexBlockette;
 import edu.iris.dmc.seed.control.station.B050;
+import edu.iris.dmc.seed.control.station.ResponseBlockette;
+import edu.iris.dmc.seed.control.station.StationBlockette;
 
 public class SeedRecordOutputStream implements Closeable, Flushable {
-
-	private int sequence;
+	private final Logger logger = Logger.getLogger(SeedRecordOutputStream.class.getName());
+	private int sequence = 1;
 	private OutputStream out;
 	private Record record;
 
@@ -37,6 +41,50 @@ public class SeedRecordOutputStream implements Closeable, Flushable {
 		// this.record = RecordFactory.create(size, sequence, 'A', false);
 	}
 
+	public synchronized int append(Blockette b) throws SeedException, IOException {
+
+		if (b instanceof IndexBlockette) {
+			if (this.record == null) {
+				record = RecordFactory.create(size, sequence++, 'V', false);
+			} else {
+				if (this.record.getType() != 'V') {
+					this.write(this.record);
+					record = RecordFactory.create(size, sequence++, 'V', false);
+				}
+			}
+		} else if (b instanceof DictionaryBlockette) {
+			if (this.record == null) {
+				record = RecordFactory.create(size, sequence++, 'A', false);
+			} else {
+				if (this.record.getType() != 'A') {
+					this.write(this.record);
+					record = RecordFactory.create(size, sequence++, 'A', false);
+				}
+			}
+		} else if (b instanceof StationBlockette) {
+			if (this.record == null) {
+				record = RecordFactory.create(size, sequence++, 'S', false);
+			} else {
+				if (b instanceof B050 || this.record.getType() != 'S') {
+					this.write(this.record);
+					record = RecordFactory.create(size, sequence++, 'S', false);
+				}
+			}
+		} else if (b instanceof ResponseBlockette) {
+			if (this.record == null) {
+				record = RecordFactory.create(size, sequence++, 'S', false);
+			} else {
+				if (this.record.getType() != 'S') {
+					this.write(this.record);
+					record = RecordFactory.create(size, sequence++, 'S', false);
+				}
+			}
+		} else {
+			throw new IllegalArgumentException("Unsupported blockette type " + b.getType());
+		}
+		return write(b);
+	}
+
 	/**
 	 * Append a blockette to the buffer, B050s start a new sequence
 	 * 
@@ -45,30 +93,11 @@ public class SeedRecordOutputStream implements Closeable, Flushable {
 	 * @throws SeedException
 	 * @throws IOException
 	 */
-	public synchronized int append(Blockette b) throws SeedException, IOException {
+	public synchronized int write(Blockette b) throws SeedException, IOException {
+		String seed = b.toSeedString();
+		logger.log(Level.INFO, "Writing " + seed);
+		byte[] bytes = seed.getBytes();
 
-		if (b instanceof B050) {
-			if (this.record != null) {
-				// output this record
-				this.out.write(this.record.getBytes());
-				this.write(this.record);
-			}
-			// always start a new record when B050
-			sequence++;
-			record = RecordFactory.create(size, sequence, 'S', false);
-			// record.add(b.toSeedString().getBytes());
-		} else {
-			if (this.record == null) {
-				if (b instanceof DictionaryBlockette) {
-					record = RecordFactory.create(size, sequence, 'A', false);
-				} else if (b instanceof IndexBlockette) {
-					record = RecordFactory.create(size, sequence, 'V', false);
-				} else {
-					throw new SeedException("Expected record but record was null when appending blockette:"+b.getType());
-				}
-			}
-		}
-		byte[] bytes = b.toSeedString().getBytes();
 		while (true) {
 			bytes = this.record.add(bytes);
 			if (bytes == null || bytes.length == 0) {
@@ -91,12 +120,30 @@ public class SeedRecordOutputStream implements Closeable, Flushable {
 	}
 
 	public void write(byte[] bytes) throws IOException {
+		flushRecord();
 		this.out.write(bytes);
 		flush();
 	}
 
 	public int getRecordSize() {
 		return this.size;
+	}
+
+	private void flushRecord() throws IOException {
+		try {
+			if (this.record != null) {
+				byte[] bytes;
+				bytes = this.record.getBytes();
+
+				Arrays.fill(bytes, bytes.length - 1 - this.record.getAvailableBytes(), bytes.length,
+						(byte) 32);
+				this.out.write(bytes);
+				flush();
+				this.record = null;
+			}
+		} catch (SeedException e) {
+			throw new IOException(e);
+		}
 	}
 
 	@Override
