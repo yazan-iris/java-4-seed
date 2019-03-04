@@ -13,12 +13,16 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
+import edu.iris.dmc.seed.director.BlocketteDirectorTest;
 import edu.iris.dmc.seed.io.RecordWriter;
 
 public class RecordWriterTest {
 
 	@Test
 	public void write() throws Exception {
+		File source = null;
+		source = new File(BlocketteDirectorTest.class.getClassLoader().getResource("dataless.G.CAN.seed.051016").getFile());
+
 		// File tempFile = File.createTempFile("prefix-", "-suffix");
 		Path path = Files.createTempFile("tempfiles", ".tmp");
 		// tempFile.deleteOnExit();
@@ -47,7 +51,8 @@ public class RecordWriterTest {
 		int sequence = 2;
 		char[] characters = new char[6];
 		try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-			try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("/Users/Suleiman/seed.seed"),
+			
+			try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(source.getAbsolutePath()),
 					StandardCharsets.UTF_8)) {
 				for (int i = 0; i < numberOfRecords; i++) {
 					int result = reader.read(characters);
