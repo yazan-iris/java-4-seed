@@ -51,13 +51,17 @@ public class BlocketteOutputStream implements Closeable {
 		Objects.requireNonNull(b, "blockette cannot be null");
 		char type = checkType(b);
 		int theSequence = sequence;
-		if (count == 0 || b instanceof B050 || type != currentType) {
+		if (availableBytesInBuffer() < 10 || count == 0 || b instanceof B050 || type != currentType) {
 			startNewRecord(type, false);
 		}
 		try {
-			byte[] bytes = b.toSeedString().getBytes();
-			if (!canFit(bytes)) {
-				LOG.log(Level.INFO, "blockette " + b.getType() + " does not fit.");
+			String seedString = b.toSeedString();
+			byte[] bytes = seedString.getBytes();
+			boolean canFit = canFit(bytes);
+			if (!canFit) {
+				// LOG.log(Level.INFO, "blockette " + b.getType() + " does not
+				// fit.");
+
 				if (shouldSplitBlockette(b.getType(), bytes)) {
 					int offset = 0;
 					int remaining = bytes.length;
@@ -119,7 +123,8 @@ public class BlocketteOutputStream implements Closeable {
 	}
 
 	private void startNewRecord(char type, boolean continuation) throws IOException {
-		LOG.log(Level.INFO, "Starting a new " + (continuation ? "continuation" : "") + " record of type " + type);
+		// LOG.log(Level.INFO, "Starting a new " + (continuation ?
+		// "continuation" : "") + " record of type " + type);
 		if (count > 0) {
 			flush();
 		}
@@ -128,7 +133,6 @@ public class BlocketteOutputStream implements Closeable {
 			byte[] sequence = getNextSequenceBytes(type, continuation);
 			this.write(sequence, 0, sequence.length);
 			currentType = type;
-			LOG.log(Level.INFO, "Count now is:" + count);
 		} catch (SeedException e) {
 			throw new IOException(e);
 		}
@@ -215,7 +219,7 @@ public class BlocketteOutputStream implements Closeable {
 		if (type >= 30 && type <= 40) {
 			return false;
 		}
-		if (buf.length - count >= 7) {
+		if (availableBytesInBuffer() >= 7) {
 			return true;
 		}
 		return false;

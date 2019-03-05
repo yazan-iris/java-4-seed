@@ -54,7 +54,7 @@ abstract class AbstractRecord implements Record {
 			sb.append(' ');
 		}
 
-		byte[] bytes= sb.toString().getBytes();
+		byte[] bytes = sb.toString().getBytes();
 		index = bytes.length;
 		return bytes;
 	}
@@ -109,7 +109,6 @@ abstract class AbstractRecord implements Record {
 		return this.size;
 	}
 
-
 	public byte[] add(byte[] src) {
 		int availableBytes = this.getAvailableBytes();
 
@@ -133,38 +132,46 @@ abstract class AbstractRecord implements Record {
 	}
 
 	public Blockette next() throws SeedException {
-		if (this.bytes == null || index >= bytes.length - 1) {
-			return null;
-		}
-		if (index + 3 >= bytes.length) {
-			return null;
-		}
+		try {
+			if (this.bytes == null || index >= bytes.length - 1) {
+				return null;
+			}
+			if (index + 3 >= bytes.length) {
+				return null;
+			}
 
-		if ("".equals(new String(bytes, index, 3).trim())) {
-			return null;
-		}
-		int type = Integer.parseInt(new String(bytes, index, 3).trim());
-		if (index + 3 >= bytes.length) {
-			return null;
-		}
+			if ("".equals(new String(bytes, index, 3).trim())) {
+				return null;
+			}
+			int type = Integer.parseInt(new String(bytes, index, 3).trim());
+			if (index + 3 >= bytes.length) {
+				return null;
+			}
 
-		if (index + 7 > bytes.length || "".equals(new String(bytes, index + 3, 4).trim())) {
-			return null;
-		}
-		int length = Integer.parseInt(new String(bytes, index + 3, 4).trim());
-		
-		if (length + index <= bytes.length) {
-			byte[] b = new byte[length];
-			System.arraycopy(bytes, index, b, 0, length);
-			index += length;
-			return BlocketteFactory.createBlockette(type, b);
-		} else {
-			// create incomplete blockette
-			byte[] bb = new byte[bytes.length - index];
-			System.arraycopy(bytes, index, bb, 0, bb.length);
-			IncompleteBlockette b = new IncompleteBlockette(length, bb);
-			index = bb.length;//bytes.length;
-			return b;
+			if (type == 61 || type == 52 || type == 50) {
+				//System.out.println(new String(bytes));
+			}
+			if (index + 7 > bytes.length || "".equals(new String(bytes, index + 3, 4).trim())) {
+				return null;
+			}
+			int length = Integer.parseInt(new String(bytes, index + 3, 4).trim());
+
+			if (length + index <= bytes.length) {
+				byte[] b = new byte[length];
+				System.arraycopy(bytes, index, b, 0, length);
+				index += length;
+				return BlocketteFactory.createBlockette(type, b);
+			} else {
+				// create incomplete blockette
+				byte[] bb = new byte[bytes.length - index];
+				System.arraycopy(bytes, index, bb, 0, bb.length);
+				IncompleteBlockette b = new IncompleteBlockette(length, bb);
+				index = bb.length;// bytes.length;
+				return b;
+			}
+		} catch (NumberFormatException e) {
+			System.out.println(new String(bytes));
+			throw new SeedException(e,bytes);
 		}
 	}
 
