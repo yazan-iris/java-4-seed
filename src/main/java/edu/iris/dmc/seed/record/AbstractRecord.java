@@ -149,7 +149,7 @@ abstract class AbstractRecord implements Record {
 			}
 
 			if (type == 61 || type == 52 || type == 50) {
-				//System.out.println(new String(bytes));
+				// System.out.println(new String(bytes));
 			}
 			if (index + 7 > bytes.length || "".equals(new String(bytes, index + 3, 4).trim())) {
 				return null;
@@ -166,12 +166,11 @@ abstract class AbstractRecord implements Record {
 				byte[] bb = new byte[bytes.length - index];
 				System.arraycopy(bytes, index, bb, 0, bb.length);
 				IncompleteBlockette b = new IncompleteBlockette(length, bb);
-				index = bb.length;// bytes.length;
+				index = bb.length;
 				return b;
 			}
 		} catch (NumberFormatException e) {
-			System.out.println(new String(bytes));
-			throw new SeedException(e,bytes);
+			throw new SeedException(e, bytes);
 		}
 	}
 
