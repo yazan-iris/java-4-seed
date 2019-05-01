@@ -37,7 +37,7 @@ public class RecordInputStream extends BufferedInputStream {
 
 		int bytesRead = read(bytes);
 		if (bytesRead < bytes.length) {
-			LOGGER.info("Expected 8 but read only " + bytesRead + " bytes");
+			// LOGGER.info("Expected 8 but read only " + bytesRead + " bytes");
 			// throw new SeedException("Reading record: Expected
 			// "+bytes.length+" but
 			// received "+bytesRead);

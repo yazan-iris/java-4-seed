@@ -258,7 +258,7 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		b.setVersion(new String(bytes, offset, 4));
 		offset = offset + 4;
 		int nthPower = BlocketteBuilder.parseInt(bytes, offset, 2);
-		LOG.log(Level.INFO,"Building: "+new String(bytes));
+		//LOG.log(Level.INFO,"Building: "+new String(bytes));
 		b.setNthPower(nthPower);
 		offset = offset + 2;
 		int from = offset;
