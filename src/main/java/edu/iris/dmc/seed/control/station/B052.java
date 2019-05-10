@@ -43,8 +43,19 @@ public class B052 extends AbstractBlockette implements StationBlockette {
 	private char updateFlag;
 
 	private List<B059> b059s = new ArrayList<>();
-	// private List<ResponseBlockette> response = new ArrayList<>();
-	private Map<Integer, SeedResponseStage> stages = new TreeMap<>();
+	private Map<Integer, SeedResponseStage> stages = new TreeMap<>(new Comparator<Integer>() {
+
+		@Override
+		public int compare(Integer o1, Integer o2) {
+			if (o1 == 0) {
+				return 1;
+			}
+			if (o2 == 0) {
+				return -1;
+			}
+			return Integer.compare(o1, o2);
+		}
+	});
 
 	public B052() {
 		this(null);

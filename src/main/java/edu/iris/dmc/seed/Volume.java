@@ -216,7 +216,7 @@ public class Volume {
 			return this.dictionary.put((AbstractDictionaryBlockette) blockette);
 		} else if (blockette instanceof ResponseBlockette) {
 			if (this.b052 == null) {
-				// do something
+				throw new SeedException("Expected b052 but was null.");
 			}
 			this.b052.add((ResponseBlockette) blockette);
 			return blockette;
