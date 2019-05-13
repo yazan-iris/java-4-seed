@@ -153,8 +153,7 @@ public class BlocketteOutputStream implements Closeable {
 			sb.append(' ');
 		}
 
-		byte[] bytes = sb.toString().getBytes();
-		return bytes;
+		return sb.toString().getBytes();
 	}
 
 	public synchronized void flush() throws IOException {
@@ -169,7 +168,7 @@ public class BlocketteOutputStream implements Closeable {
 	private void flushInternal() throws IOException {
 		if (count > 0) {
 			if (count < buf.length) {
-				Arrays.fill(buf, count, buf.length - 1, (byte) 32);
+				Arrays.fill(buf, count, buf.length, (byte) 32);
 			}
 			out.write(buf, 0, buf.length);
 			count = 0;
@@ -177,15 +176,13 @@ public class BlocketteOutputStream implements Closeable {
 	}
 
 	private char checkType(Blockette b) {
-		char type = ' ';
 		if (b.getType() <= 12) {
-			type = 'V';
+			return 'V';
 		} else if (b.getType() > 12 && b.getType() < 50) {
-			type = 'A';
+			return 'A';
 		} else {
-			type = 'S';
+			return 'S';
 		}
-		return type;
 	}
 
 	private int availableBytesInBuffer() {
@@ -219,10 +216,7 @@ public class BlocketteOutputStream implements Closeable {
 		if (type >= 30 && type <= 40) {
 			return false;
 		}
-		if (availableBytesInBuffer() >= 7) {
-			return true;
-		}
-		return false;
+		return availableBytesInBuffer() >= 7;
 	}
 
 	private boolean isPowerOf2(final int n) {
