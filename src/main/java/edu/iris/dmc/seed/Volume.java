@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import edu.iris.dmc.seed.control.dictionary.AbstractDictionaryBlockette;
 import edu.iris.dmc.seed.control.dictionary.DictionaryBlockette;
@@ -54,10 +56,13 @@ public class Volume {
 		this.ids.put(blockette.getId(), blockette);
 	}
 
-	private Map<Integer, Record> records = new TreeMap<>();
+	private Map<Integer, Record> volumeRecords = new TreeMap<>();
+	private Map<Integer, Record> dictionaryRecords = new TreeMap<>();
+	private Map<Integer, Record> stationRecords = new TreeMap<>();
 
 	public void build() throws SeedException {
-		this.records = new TreeMap<>();// make sure start clean
+		// this.records = new TreeMap<>();// make sure start clean
+		this.volumeRecords = new TreeMap<>();
 		int sequence = 1;
 		int recordSize = 0;
 		if (this.b010 == null) {
@@ -66,41 +71,34 @@ public class Volume {
 
 		recordSize = BigInteger.valueOf(2).pow(b010.getNthPower()).intValue();
 		Record record = RecordFactory.create(recordSize, sequence, 'V', false);
-		this.records.put(sequence, record);
-		record = add(record, b010);
-		//If you choose to build we create b011
+		this.volumeRecords.put(sequence, record);
+		record = addVolume(record, b010);
+		// If you choose to build we create b011
 		B011 b011 = new B011();
 		// find the number of records this blockette requires and update the sequence
 		for (B050 b050 : this.control.getB050s()) {
 			// place as a holder for now
 			b011.add(b050, sequence);
 		}
-		record = add(record, b011);
+		record = addVolume(record, b011);
 
 		sequence = record.getSequence() + 1;
 		record = RecordFactory.create(recordSize, sequence, 'A', false);
-		this.records.put(sequence, record);
+		this.dictionaryRecords.put(sequence, record);
 		for (Blockette b : this.dictionary.getAll()) {
-			record = add(record, b);
+			record = addDictionary(record, b);
 		}
 
-		// record = RecordFactory.create(recordSize, ++sequence, 'S', false);
-		// this.records.add(record);
-
 		for (B050 b050 : this.control.getB050s()) {
-			// sequence++;
-			// record = RecordFactory.create(recordSize, sequence, 'S', false);
-			// this.records.put(sequence, record);
-			record = add(record, b050);
-			// update b011
+			record = addStation(record, b050);
 			b011.update(b050, record.getSequence());
 			for (B051 b051 : b050.getB051s()) {
-				record = add(record, b051);
+				record = addStation(record, b051);
 			}
 			for (B052 b052 : b050.getB052s()) {
-				record = add(record, b052);
+				record = addStation(record, b052);
 				for (B059 b059 : b052.getB059s()) {
-					record = add(record, b059);
+					record = addStation(record, b059);
 				}
 
 				for (SeedResponseStage responseStage : b052.getResponseStages()) {
@@ -123,26 +121,31 @@ public class Volume {
 
 							if (ob.isOverFlown()) {
 								for (Blockette b : ob.split()) {
-									record = add(record, b);
+									record = addStation(record, b);
 								}
 							} else {
-								record = add(record, responseBlockette);
+								record = addStation(record, responseBlockette);
 							}
 						} else {
-							record = add(record, responseBlockette);
+							record = addStation(record, responseBlockette);
 						}
 					}
 				}
 			}
 		}
+		this.volumeRecords = new TreeMap<>();
+		record = RecordFactory.create(recordSize, sequence, 'V', false);
+		this.volumeRecords.put(sequence, record);
+		record = addVolume(record, b010);
+		addVolume(record, b011);
 	}
 
-	private Record add(Record record, Blockette b) throws SeedException {
+	private Record addVolume(Record record, Blockette b) throws SeedException {
 		int recordLength = record.size();
 		int sequence = record.getSequence();
 		if (b instanceof B050) {
 			record = RecordFactory.create(recordLength, record.getSequence() + 1, 'S', false);
-			this.records.put(record.getSequence(), record);
+			this.volumeRecords.put(record.getSequence(), record);
 		}
 		byte[] bytes = b.toSeedString().getBytes();
 		while (true) {
@@ -152,7 +155,49 @@ public class Volume {
 			} else {
 				sequence++;
 				record = RecordFactory.create(recordLength, sequence, record.getType(), true);
-				this.records.put(sequence, record);
+				this.volumeRecords.put(sequence, record);
+			}
+		}
+		return record;
+	}
+
+	private Record addDictionary(Record record, Blockette b) throws SeedException {
+		int recordLength = record.size();
+		int sequence = record.getSequence();
+		if (b instanceof B050) {
+			record = RecordFactory.create(recordLength, record.getSequence() + 1, 'S', false);
+			this.dictionaryRecords.put(record.getSequence(), record);
+		}
+		byte[] bytes = b.toSeedString().getBytes();
+		while (true) {
+			bytes = record.add(bytes);
+			if (bytes == null || bytes.length == 0) {
+				break;
+			} else {
+				sequence++;
+				record = RecordFactory.create(recordLength, sequence, record.getType(), true);
+				this.dictionaryRecords.put(sequence, record);
+			}
+		}
+		return record;
+	}
+
+	private Record addStation(Record record, Blockette b) throws SeedException {
+		int recordLength = record.size();
+		int sequence = record.getSequence();
+		if (b instanceof B050) {
+			record = RecordFactory.create(recordLength, record.getSequence() + 1, 'S', false);
+			this.stationRecords.put(record.getSequence(), record);
+		}
+		byte[] bytes = b.toSeedString().getBytes();
+		while (true) {
+			bytes = record.add(bytes);
+			if (bytes == null || bytes.length == 0) {
+				break;
+			} else {
+				sequence++;
+				record = RecordFactory.create(recordLength, sequence, record.getType(), true);
+				this.stationRecords.put(sequence, record);
 			}
 		}
 		return record;
@@ -234,15 +279,28 @@ public class Volume {
 	}
 
 	public Record getRecord(int sequence) {
-		return records.get(sequence);
+		if (this.volumeRecords.size() > sequence) {
+			return this.volumeRecords.get(sequence);
+		}
+		if (this.dictionaryRecords.size() > sequence) {
+			return this.dictionaryRecords.get(sequence);
+		}
+		if (this.stationRecords.size() > sequence) {
+			return this.stationRecords.get(sequence);
+		}
+		throw new IndexOutOfBoundsException();
 	}
 
 	public List<Record> getRecords() {
-		return new ArrayList<>(records.values());
+		List<Record> list = new ArrayList<>(volumeRecords.values());
+		list.addAll(dictionaryRecords.values());
+		list.addAll(stationRecords.values());
+		return list;
 	}
 
 	/**
 	 * a list of all blockettes in this volume
+	 * 
 	 * @return a list of all blockettes ordered as they were inserted
 	 */
 	public List<Blockette> getAll() {

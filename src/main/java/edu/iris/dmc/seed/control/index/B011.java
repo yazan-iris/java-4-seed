@@ -13,7 +13,6 @@ import edu.iris.dmc.seed.control.station.B050;
 public class B011 extends AbstractBlockette implements IndexBlockette {
 
 	private int numberOfStations;
-	// private List<Row> rows = new ArrayList<>();
 	private Map<String, Row> rows = new TreeMap<>();
 
 	public B011() {
@@ -34,10 +33,8 @@ public class B011 extends AbstractBlockette implements IndexBlockette {
 
 	public void update(B050 b050, int sequence) {
 		Row row = this.rows.get(b050.getStationCode());
-		if (row == null) {
-
-		} else {
-			row.sequence = sequence;
+		if (row != null) {
+			row.updateSequence(sequence);
 		}
 	}
 
@@ -89,6 +86,10 @@ public class B011 extends AbstractBlockette implements IndexBlockette {
 
 		public int getSequence() {
 			return sequence;
+		}
+
+		public void updateSequence(int sequence) {
+			this.sequence = sequence;
 		}
 	}
 
