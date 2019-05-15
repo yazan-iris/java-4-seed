@@ -54,11 +54,7 @@ public class B059 extends AbstractBlockette implements StationBlockette {
 	@Override
 	public String toSeedString() {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
-		if (this.startTime == null) {
-			builder.append("0").append("~");
-		} else {
-			builder.append(this.startTime).append("~");
-		}
+		builder.append(this.startTime).append("~");
 		if (this.endTime != null) {
 			builder.append(this.endTime);
 		}

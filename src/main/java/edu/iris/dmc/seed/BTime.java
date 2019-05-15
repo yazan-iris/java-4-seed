@@ -1,6 +1,6 @@
 package edu.iris.dmc.seed;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
@@ -90,7 +90,7 @@ public class BTime {
 		}
 
 		try {
-			String btime = new String(bytes, "US-ASCII").trim();
+			String btime = new String(bytes, StandardCharsets.US_ASCII).trim();
 			String[] array = btime.split(",[ ]*");
 			if (bytes.length == 0) {
 				return null;
@@ -109,21 +109,21 @@ public class BTime {
 			if (array.length < 3) {
 				return time;
 			}
-			time.setHour(Integer.parseInt(new String(bytes, 9, 2, "US-ASCII")));
+			time.setHour(Integer.parseInt(new String(bytes, 9, 2, StandardCharsets.US_ASCII)));
 			if (bytes.length < 14) {
 				return time;
 			}
-			time.setMinute(Integer.parseInt(new String(bytes, 12, 2, "US-ASCII")));
+			time.setMinute(Integer.parseInt(new String(bytes, 12, 2, StandardCharsets.US_ASCII)));
 			if (bytes.length < 17) {
 				return time;
 			}
-			time.setSecond(Integer.parseInt(new String(bytes, 15, 2, "US-ASCII")));
+			time.setSecond(Integer.parseInt(new String(bytes, 15, 2, StandardCharsets.US_ASCII)));
 			if (bytes.length < 22) {
 				return time;
 			}
-			time.setTenthMilliSecond(Integer.parseInt(new String(bytes, 18, 4, "US-ASCII")));
+			time.setTenthMilliSecond(Integer.parseInt(new String(bytes, 18, 4, StandardCharsets.US_ASCII)));
 			return time;
-		} catch (NumberFormatException | UnsupportedEncodingException e) {
+		} catch (NumberFormatException e) {
 			throw new SeedException("invalid time " + new String(bytes), e);
 		}
 

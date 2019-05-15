@@ -134,8 +134,8 @@ public class Volume {
 			}
 		}
 		this.volumeRecords = new TreeMap<>();
-		record = RecordFactory.create(recordSize, sequence, 'V', false);
-		this.volumeRecords.put(sequence, record);
+		record = RecordFactory.create(recordSize, 1, 'V', false);
+		this.volumeRecords.put(1, record);
 		record = addVolume(record, b010);
 		addVolume(record, b011);
 	}
