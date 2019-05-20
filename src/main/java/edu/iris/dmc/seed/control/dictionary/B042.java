@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.iris.dmc.io.SeedStringBuilder;
-import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.station.Number;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
 
-public class B042 extends AbstractDictionaryBlockette implements ResponseBlockette  {
+public class B042 extends AbstractDictionaryBlockette implements ResponseBlockette {
 
 	private String responseName;
 	private char transferFunctionType;
@@ -19,13 +18,13 @@ public class B042 extends AbstractDictionaryBlockette implements ResponseBlocket
 	private int signalInputUnit;
 	private int signalOutputUnit;
 
-	private Double lowerValidFrequencyBound;// F 12 �-#.#####E-##�
-	private Double upperValidFrequencyBound;// F 12 �-#.#####E-##�
-	private Double lowerBoundOfApproximation;// F 12 �-#.#####E-##�
-	private Double upperBoundOfApproximation;// F 12 �-#.#####E-##�
-	private Double maximumAbsoluteError;
+	private double lowerValidFrequencyBound;// F 12 �-#.#####E-##�
+	private double upperValidFrequencyBound;// F 12 �-#.#####E-##�
+	private double lowerBoundOfApproximation;// F 12 �-#.#####E-##�
+	private double upperBoundOfApproximation;// F 12 �-#.#####E-##�
+	private double maximumAbsoluteError;
 
-	private List<edu.iris.dmc.seed.control.station.Number> coefficients = new ArrayList<edu.iris.dmc.seed.control.station.Number>();
+	private List<edu.iris.dmc.seed.control.station.Number> coefficients = new ArrayList<>();
 
 	public B042() {
 		super(42, "Response [Polynomial] Blockette");
@@ -137,7 +136,7 @@ public class B042 extends AbstractDictionaryBlockette implements ResponseBlocket
 	}
 
 	@Override
-	public String toSeedString() throws SeedException{
+	public String toSeedString() throws SeedException {
 
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
 		builder.append(this.getLookupKey(), 4);
