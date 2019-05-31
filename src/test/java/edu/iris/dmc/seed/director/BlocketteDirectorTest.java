@@ -18,7 +18,7 @@ public class BlocketteDirectorTest {
 
 		source = new File(BlocketteDirectorTest.class.getClassLoader().getResource("dataless.CI.DJJB.061013").getFile());
 
-		BlocketteDirector director = new BlocketteDirector(new BlocketteBuilder());
+		BlocketteDirector director = new BlocketteDirector();
 		try (InputStream inputStream = new FileInputStream(source)) {
 			BlocketteItrator iterator = director.process(inputStream);
 			

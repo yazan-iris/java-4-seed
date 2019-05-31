@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import edu.iris.dmc.seed.control.dictionary.AbstractDictionaryBlockette;
 import edu.iris.dmc.seed.control.dictionary.DictionaryBlockette;
@@ -44,13 +42,10 @@ public class Volume {
 	private B050 b050;
 	private B052 b052;
 
-	private final Dictionary dictionary = new Dictionary();
+	private final DictionaryIndex dictionary = new DictionaryIndex();
 	private final Control control = new Control();
 
 	private Map<Integer, Blockette> ids = new HashMap<>();
-
-	public Volume() {
-	}
 
 	private void index(Blockette blockette) {
 		this.ids.put(blockette.getId(), blockette);
@@ -333,22 +328,16 @@ public class Volume {
 	public List<Blockette> find(String network, String station, String channel, String location) {
 		List<Blockette> list = new ArrayList<>();
 		for (B050 b : this.control.getB050s()) {
-			if (network != null) {
-				if (!b.getNetworkCode().trim().equals(network)) {
-					continue;
-				}
+			if (network != null && !b.getNetworkCode().trim().equals(network)) {
+				continue;
 			}
-			if (station != null) {
-				if (!b.getStationCode().trim().equals(station)) {
-					continue;
-				}
+			if (station != null && !b.getStationCode().trim().equals(station)) {
+				continue;
 			}
 
 			if (channel != null) {
 				for (B052 b052 : b.getB052s()) {
-					if (!b052.getChannelCode().trim().equals(channel)) {
-						continue;
-					} else {
+					if (b052.getChannelCode().trim().equals(channel)) {
 						if (location == null) {
 							list.add(b052);
 						} else {
@@ -359,7 +348,6 @@ public class Volume {
 					}
 				}
 			}
-
 		}
 		return list;
 	}
@@ -380,7 +368,7 @@ public class Volume {
 		return this.ids.get(id);
 	}
 
-	public Dictionary getDictionary() {
+	public DictionaryIndex getDictionary() {
 		return this.dictionary;
 	}
 

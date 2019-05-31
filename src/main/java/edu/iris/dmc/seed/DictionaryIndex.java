@@ -12,7 +12,7 @@ import edu.iris.dmc.seed.control.dictionary.DictionaryBlockette;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
 import edu.iris.dmc.seed.control.dictionary.AbstractDictionaryBlockette;
 
-public class Dictionary {
+public class DictionaryIndex {
 
 	private int b030 = 1;
 	private int b031 = 1;

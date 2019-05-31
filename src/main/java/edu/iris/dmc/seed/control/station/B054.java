@@ -65,9 +65,6 @@ public class B054 extends AbstractResponseBlockette implements OverFlowBlockette
 	@Override
 	public List<Blockette> split() {
 		List<Blockette> list = new ArrayList<>();
-
-		int count = this.numerators.size();
-
 		int cnt = 0;
 		B054 b054 = null;
 
@@ -75,6 +72,7 @@ public class B054 extends AbstractResponseBlockette implements OverFlowBlockette
 			if (cnt % 415 == 0) {
 				b054 = new B054();
 				b054.setId(this.id);
+				b054.setStageSequence(this.getStageSequence());
 				b054.setResponseType(this.responseType);
 				b054.setSignalInputUnit(this.getSignalInputUnit());
 				b054.setSignalOutputUnit(this.getSignalOutputUnit());
@@ -94,6 +92,7 @@ public class B054 extends AbstractResponseBlockette implements OverFlowBlockette
 				} else {
 					b054 = new B054();
 					b054.setId(this.id);
+					b054.setStageSequence(this.getStageSequence());
 					b054.setResponseType(this.responseType);
 					b054.setSignalInputUnit(this.getSignalInputUnit());
 					b054.setSignalOutputUnit(this.getSignalOutputUnit());
@@ -104,7 +103,6 @@ public class B054 extends AbstractResponseBlockette implements OverFlowBlockette
 			b054.addDenominator(n);
 			cnt++;
 		}
-
 		return list;
 	}
 

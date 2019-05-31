@@ -15,7 +15,7 @@ public class DictionaryHeaderTest {
 		B034 b034 = BlocketteBuilder
 				.build034(new String("0340049178COUNTS~Digital Count in Digital counts~").getBytes());
 
-		Dictionary dictionary = new Dictionary();
+		DictionaryIndex dictionary = new DictionaryIndex();
 		dictionary.put(b034);
 		assertEquals(1, dictionary.size());
 

@@ -22,7 +22,7 @@ public class TestUtil {
 	}
 
 	public static Volume load(InputStream inputStream) throws Exception {
-		BlocketteDirector director = new BlocketteDirector(new BlocketteBuilder());
+		BlocketteDirector director = new BlocketteDirector();
 		BlocketteItrator iterator = director.process(inputStream);
 
 		Volume volume = new Volume();

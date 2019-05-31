@@ -29,26 +29,40 @@ public class RecordInputStream extends BufferedInputStream {
 	}
 
 	public Record next() throws IOException, SeedException {
-		int recordLength = getRecordLength();
-		if(recordLength==-1){
+		int length = getRecordLength();
+		if (length == -1) {
 			return null;
 		}
-		byte[] bytes = new byte[recordLength];
+		byte[] bytes = new byte[length];
 
 		int bytesRead = read(bytes);
 		if (bytesRead < bytes.length) {
-			// LOGGER.info("Expected 8 but read only " + bytesRead + " bytes");
-			// throw new SeedException("Reading record: Expected
-			// "+bytes.length+" but
-			// received "+bytesRead);
-			if (bytesRead < 0) {
+			if (bytesRead <= 0) {
 				return null;
 			} else {
-				throw new SeedException("Reading record: Expected " + bytes.length + " but received " + bytesRead);
+				// are we at end of file?
+				if (isNL(bytes) && read(bytes) == -1) {
+					return null;
+				} else {
+					throw new SeedException("Reading record: Expected " + bytes.length + " but received " + bytesRead);
+				}
 			}
 		}
 
 		return RecordFactory.create(bytes);
+	}
+
+	private boolean isNL(byte[] byteArray) {
+		for (int index = 0; index < byteArray.length; index++) {
+			if (byteArray.length == 0) {
+				return true;
+			} else {
+				if (byteArray[index] == '\n' || byteArray[index] == '\r') {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public int getRecordLength() throws IOException {

@@ -8,14 +8,16 @@ import edu.iris.dmc.seed.record.StationRecord;
 import edu.iris.dmc.seed.record.VolumeRecord;
 
 public class RecordFactory {
-	private static Logger LOGGER = Logger.getLogger("RecordFactory");
+	private static final Logger LOGGER = Logger.getLogger("RecordFactory");
+
+	private RecordFactory() {
+	}
 
 	public static Record create(byte[] bytes) throws SeedException {
 		char type = (char) bytes[6];
 		int sequence = Integer.parseInt(new String(bytes, 0, 6));
 		boolean continuation = ((char) bytes[7]) == '*';
 		Record record = create(sequence, type, continuation);
-		// record.setBytes(Arrays.copyOfRange(bytes, 8, bytes.length));
 		record.setBytes(bytes);
 		return record;
 	}

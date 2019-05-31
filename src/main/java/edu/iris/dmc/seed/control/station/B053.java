@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.iris.dmc.io.SeedStringBuilder;
+import edu.iris.dmc.seed.Blockette;
 
-public class B053 extends AbstractResponseBlockette{
+public class B053 extends AbstractResponseBlockette implements OverFlowBlockette {
 
 	private char transferFunctionType;
 	private double normalizationFactor = 1;
@@ -67,6 +68,60 @@ public class B053 extends AbstractResponseBlockette{
 	}
 
 	@Override
+	public List<Blockette> split() {
+		List<Blockette> list = new ArrayList<>();
+		int cnt = 0;
+		B053 b053 = null;
+
+		if (this.zeros.size() + this.poles.size() <= 206) {
+			list.add(this);
+			return list;
+		}
+		for (Zero z : this.zeros) {
+			if (cnt % 206 == 0) {
+				b053 = new B053();
+				b053.setId(this.id);
+				b053.setStageSequence(this.getStageSequence());
+				b053.setNormalizationFactor(this.normalizationFactor);
+				b053.setNormalizationFrequency(this.normalizationFrequency);
+				b053.setTransferFunctionType(transferFunctionType);
+				b053.setStageSequence(this.getStageSequence());
+				b053.setSignalInputUnit(this.getSignalInputUnit());
+				b053.setSignalOutputUnit(this.getSignalOutputUnit());
+				b053.setStageSequence(this.getStageSequence());
+				list.add(b053);
+			}
+			b053.add(z);
+			cnt++;
+		}
+
+		cnt = 0;
+		for (Pole p : this.poles) {
+			int mod = cnt % 207;
+			if (mod == 0) {
+				if (mod < list.size() && (207 - b053.getZeros().size() > 0)) {
+					b053 = (B053) list.get(mod);
+				} else {
+					b053 = new B053();
+					b053.setId(this.id);
+					b053.setStageSequence(this.getStageSequence());
+					b053.setNormalizationFactor(this.normalizationFactor);
+					b053.setNormalizationFrequency(this.normalizationFrequency);
+					b053.setTransferFunctionType(transferFunctionType);
+					b053.setStageSequence(this.getStageSequence());
+					b053.setSignalInputUnit(this.getSignalInputUnit());
+					b053.setSignalOutputUnit(this.getSignalOutputUnit());
+					b053.setStageSequence(this.getStageSequence());
+					list.add(b053);
+				}
+			}
+			b053.add(p);
+			cnt++;
+		}
+		return list;
+	}
+
+	@Override
 	public String toSeedString() {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
 		builder.append(this.transferFunctionType);
@@ -85,22 +140,21 @@ public class B053 extends AbstractResponseBlockette{
 			builder.append(zero.getReal().getError(), "-0.00000E-00", 12);
 			builder.append(zero.getImaginary().getError(), "-0.00000E-00", 12);
 		}
-		
 
 		builder.append(this.poles.size(), 3);
 
 		for (Pole pole : this.poles) {
-			double realValue=0;
-			double realError=0;
-			double imaginaryValue=0;
-			double imaginaryError=0;
+			double realValue = 0;
+			double realError = 0;
+			double imaginaryValue = 0;
+			double imaginaryError = 0;
 			if (pole.getReal() != null) {
-				realValue=pole.getReal().getValue();
-				realError=pole.getReal().getError();
+				realValue = pole.getReal().getValue();
+				realError = pole.getReal().getError();
 			}
 			if (pole.getImaginary() != null) {
-				imaginaryValue=pole.getImaginary().getValue();
-				imaginaryError=pole.getImaginary().getError();
+				imaginaryValue = pole.getImaginary().getValue();
+				imaginaryError = pole.getImaginary().getError();
 			}
 			builder.append(realValue, "-0.00000E-00", 12);
 			builder.append(imaginaryValue, "-0.00000E-00", 12);

@@ -21,7 +21,7 @@ public class DictionaryMap {
 	}
 
 	public List<Blockette> getAll() {
-		return new ArrayList<Blockette>(this.map.values());
+		return new ArrayList<>(this.map.values());
 	}
 
 	public boolean isEmpty() {
