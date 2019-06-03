@@ -3,15 +3,13 @@ package edu.iris.dmc.seed;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import edu.iris.dmc.seed.director.BlocketteDirectorTest;
 import edu.iris.dmc.seed.io.RecordWriter;

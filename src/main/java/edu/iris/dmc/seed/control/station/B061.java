@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.Blockette;
+import edu.iris.dmc.seed.SeedException;
 
 public class B061 extends AbstractResponseBlockette implements OverFlowBlockette {
 
@@ -46,26 +47,19 @@ public class B061 extends AbstractResponseBlockette implements OverFlowBlockette
 	}
 
 	@Override
-	public List<Blockette> split() {
+	public List<Blockette> split() throws SeedException {
 		List<Blockette> list = new ArrayList<>();
-		int cnt = 0;
 		B061 b061 = null;
-
-		int size = 20;
-		if (this.getName() != null) {
-			size += this.getName().getBytes().length;
-		}
-		// How many coef can we fit?
-		int numberOfCoefThatCanFit = (9999 - size) / 14;
-		if (this.coefficients.size() <= numberOfCoefThatCanFit) {
+		if (this.getSize() < this.getLength()) {
 			list.add(this);
 			return list;
 		}
 
 		for (Double n : this.coefficients) {
-			if (cnt % numberOfCoefThatCanFit == 0) {
+			if (b061 == null || b061.getSize()+14 > this.getLength()) {
 				b061 = new B061();
 				b061.setId(this.id);
+				b061.setName(this.getName());
 				b061.setSymetryCode(this.symetryCode);
 				b061.setStageSequence(this.getStageSequence());
 				b061.setSignalInputUnit(this.getSignalInputUnit());
@@ -74,7 +68,6 @@ public class B061 extends AbstractResponseBlockette implements OverFlowBlockette
 				list.add(b061);
 			}
 			b061.addCoefficient(n);
-			cnt++;
 		}
 		return list;
 	}

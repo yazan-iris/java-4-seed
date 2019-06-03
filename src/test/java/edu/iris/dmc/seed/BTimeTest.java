@@ -1,10 +1,10 @@
 package edu.iris.dmc.seed;
 
 import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
 
-import org.junit.Test;
 
 public class BTimeTest {
 

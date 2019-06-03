@@ -63,13 +63,15 @@ public class B054 extends AbstractResponseBlockette implements OverFlowBlockette
 	}
 
 	@Override
-	public List<Blockette> split() {
+	public List<Blockette> split() throws SeedException {
 		List<Blockette> list = new ArrayList<>();
-		int cnt = 0;
 		B054 b054 = null;
-
+		if (this.getSize() < this.getLength()) {
+			list.add(this);
+			return list;
+		}
 		for (edu.iris.dmc.seed.control.station.Number n : this.numerators) {
-			if (cnt % 415 == 0) {
+			if (b054 == null || b054.getSize()+24 > this.getLength()) {
 				b054 = new B054();
 				b054.setId(this.id);
 				b054.setStageSequence(this.getStageSequence());
@@ -80,28 +82,20 @@ public class B054 extends AbstractResponseBlockette implements OverFlowBlockette
 				list.add(b054);
 			}
 			b054.addNumerator(n);
-			cnt++;
 		}
 
-		cnt = 0;
 		for (edu.iris.dmc.seed.control.station.Number n : this.denominators) {
-			int mod = cnt % 415;
-			if (mod == 0) {
-				if (mod < list.size()&&(415 - b054.getNumerators().size()>0)) {
-					b054 = (B054) list.get(mod);
-				} else {
-					b054 = new B054();
-					b054.setId(this.id);
-					b054.setStageSequence(this.getStageSequence());
-					b054.setResponseType(this.responseType);
-					b054.setSignalInputUnit(this.getSignalInputUnit());
-					b054.setSignalOutputUnit(this.getSignalOutputUnit());
-					b054.setStageSequence(this.getStageSequence());
-					list.add(b054);
-				}
+			if (b054 == null || b054.getSize()+24 > this.getLength()) {
+				b054 = new B054();
+				b054.setId(this.id);
+				b054.setStageSequence(this.getStageSequence());
+				b054.setResponseType(this.responseType);
+				b054.setSignalInputUnit(this.getSignalInputUnit());
+				b054.setSignalOutputUnit(this.getSignalOutputUnit());
+				b054.setStageSequence(this.getStageSequence());
+				list.add(b054);
 			}
 			b054.addDenominator(n);
-			cnt++;
 		}
 		return list;
 	}

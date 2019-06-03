@@ -1,7 +1,10 @@
 package edu.iris.dmc.seed;
 
+
 import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import edu.iris.dmc.seed.builder.BlocketteBuilder;
 import edu.iris.dmc.seed.control.station.B050;
@@ -37,17 +40,23 @@ public class BlocketteBuilderTest {
 				b.toSeedString());
 	}
 
-	@Test(expected = SeedException.class)
+	@Test
 	public void bytesTooShort() throws Exception {
 		String seedString = new String(
 				"0500142ESCA +43.831000+007.374000+0550.00000000Chapelle Saint Pancrace à l'Escarène~0013210102003,302,12:30:00.0000~2500,365,12:00:00.0000~N");
-		BlocketteBuilder.build050(seedString.getBytes());
+		Assertions.assertThrows(SeedException.class, () -> {
+			BlocketteBuilder.build050(seedString.getBytes());
+		  });
+		
 	}
 
-	@Test(expected = SeedException.class)
+	@Test
 	public void bytesIncomplete() throws Exception {
 		String seedString = new String(
 				"0500144ESCA +43.831000+007.374000+0550.00000000Chapelle Saint Pancrace à l'Escarène~0013210102003,302,12:30:00.0000~2500,365,12:00:00.0");
-		BlocketteBuilder.build050(seedString.getBytes());
+		
+		Assertions.assertThrows(SeedException.class, () -> {
+			BlocketteBuilder.build050(seedString.getBytes());
+		  });
 	}
 }

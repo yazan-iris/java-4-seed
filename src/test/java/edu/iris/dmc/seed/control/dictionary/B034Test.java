@@ -1,12 +1,13 @@
 package edu.iris.dmc.seed.control.dictionary;
 
-import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 import edu.iris.dmc.seed.DictionaryIndex;
 import edu.iris.dmc.seed.builder.BlocketteBuilder;
-import edu.iris.dmc.seed.control.index.B005;
+
 
 public class B034Test {
 	@Test

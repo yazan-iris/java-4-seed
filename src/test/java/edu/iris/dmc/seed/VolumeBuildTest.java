@@ -1,9 +1,11 @@
 package edu.iris.dmc.seed;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import org.junit.jupiter.api.Test;
+
 
 import edu.iris.dmc.seed.control.index.B010;
 import edu.iris.dmc.seed.control.station.B050;

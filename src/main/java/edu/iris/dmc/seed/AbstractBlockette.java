@@ -1,12 +1,14 @@
 package edu.iris.dmc.seed;
 
+import java.nio.charset.StandardCharsets;
+
 public abstract class AbstractBlockette {
 	protected int id;
 	protected int type;
 	protected String title;
 	protected String originalText;
 
-	private int maximumLength;
+	private int length;
 
 	protected Volume volume;
 
@@ -16,10 +18,10 @@ public abstract class AbstractBlockette {
 		this(type, title, 9999);
 	}
 
-	public AbstractBlockette(int type, String title, int maximumLength) {
+	public AbstractBlockette(int type, String title, int length) {
 		this.type = type;
 		this.title = title;
-		this.maximumLength = maximumLength;
+		this.length = length;
 	}
 
 	public int getId() {
@@ -32,10 +34,6 @@ public abstract class AbstractBlockette {
 
 	public int getType() {
 		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
 	}
 
 	public String getTitle() {
@@ -70,20 +68,20 @@ public abstract class AbstractBlockette {
 		return originalText;
 	}
 
-	public int getLength() throws SeedException {
+	public int getSize() throws SeedException {
 		String string = this.toSeedString();
 		if (string == null || string.isEmpty()) {
 			return 0;
 		}
-		return string.getBytes().length;
+		return string.getBytes(StandardCharsets.US_ASCII).length;
 	}
 
-	public int getMaximumLength() {
-		return maximumLength;
+	public int getLength() {
+		return length;
 	}
 
 	public boolean isOverFlown() throws SeedException {
-		return this.toSeedString().getBytes().length > this.maximumLength;
+		return this.getSize() > this.length;
 	}
 
 	@Override

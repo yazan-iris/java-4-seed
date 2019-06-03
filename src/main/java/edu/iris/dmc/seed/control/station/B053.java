@@ -5,14 +5,15 @@ import java.util.List;
 
 import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.Blockette;
+import edu.iris.dmc.seed.SeedException;
 
 public class B053 extends AbstractResponseBlockette implements OverFlowBlockette {
 
 	private char transferFunctionType;
 	private double normalizationFactor = 1;
 	private double normalizationFrequency;// Hz
-	private List<Zero> zeros = new ArrayList<Zero>();
-	private List<Pole> poles = new ArrayList<Pole>();
+	private List<Zero> zeros = new ArrayList<>();
+	private List<Pole> poles = new ArrayList<>();
 
 	public B053() {
 		super(53, "Response (Poles & Zeros) Blockette");
@@ -68,17 +69,16 @@ public class B053 extends AbstractResponseBlockette implements OverFlowBlockette
 	}
 
 	@Override
-	public List<Blockette> split() {
+	public List<Blockette> split() throws SeedException {
 		List<Blockette> list = new ArrayList<>();
-		int cnt = 0;
 		B053 b053 = null;
-
-		if (this.zeros.size() + this.poles.size() <= 206) {
+		if (this.getSize() < this.getLength()) {
 			list.add(this);
 			return list;
 		}
+
 		for (Zero z : this.zeros) {
-			if (cnt % 206 == 0) {
+			if (b053 == null || b053.getSize()+48 > this.getLength()) {
 				b053 = new B053();
 				b053.setId(this.id);
 				b053.setStageSequence(this.getStageSequence());
@@ -92,31 +92,23 @@ public class B053 extends AbstractResponseBlockette implements OverFlowBlockette
 				list.add(b053);
 			}
 			b053.add(z);
-			cnt++;
 		}
 
-		cnt = 0;
 		for (Pole p : this.poles) {
-			int mod = cnt % 207;
-			if (mod == 0) {
-				if (mod < list.size() && (207 - b053.getZeros().size() > 0)) {
-					b053 = (B053) list.get(mod);
-				} else {
-					b053 = new B053();
-					b053.setId(this.id);
-					b053.setStageSequence(this.getStageSequence());
-					b053.setNormalizationFactor(this.normalizationFactor);
-					b053.setNormalizationFrequency(this.normalizationFrequency);
-					b053.setTransferFunctionType(transferFunctionType);
-					b053.setStageSequence(this.getStageSequence());
-					b053.setSignalInputUnit(this.getSignalInputUnit());
-					b053.setSignalOutputUnit(this.getSignalOutputUnit());
-					b053.setStageSequence(this.getStageSequence());
-					list.add(b053);
-				}
+			if (b053 == null || b053.getSize()+48 > this.getLength()) {
+				b053 = new B053();
+				b053.setId(this.id);
+				b053.setStageSequence(this.getStageSequence());
+				b053.setNormalizationFactor(this.normalizationFactor);
+				b053.setNormalizationFrequency(this.normalizationFrequency);
+				b053.setTransferFunctionType(transferFunctionType);
+				b053.setStageSequence(this.getStageSequence());
+				b053.setSignalInputUnit(this.getSignalInputUnit());
+				b053.setSignalOutputUnit(this.getSignalOutputUnit());
+				b053.setStageSequence(this.getStageSequence());
+				list.add(b053);
 			}
 			b053.add(p);
-			cnt++;
 		}
 		return list;
 	}

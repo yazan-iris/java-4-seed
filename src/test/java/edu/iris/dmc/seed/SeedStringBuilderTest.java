@@ -1,6 +1,7 @@
 package edu.iris.dmc.seed;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
 import edu.iris.dmc.io.SeedStringBuilder;
 

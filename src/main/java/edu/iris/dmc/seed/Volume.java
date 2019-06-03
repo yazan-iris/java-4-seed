@@ -209,14 +209,9 @@ public class Volume {
 		blockette.setId(id++);
 		blockette.setVolume(this);
 
-		if (blockette.getLength() >= 9999) {
-			if (54 == blockette.getType()) {
-				// split
-
-			} else {
-				throw new SeedException("Blockette " + blockette.getType()
-						+ " is too long, expected maximum 9999 but was " + blockette.getLength());
-			}
+		if (blockette.getSize() > blockette.getLength() && !(blockette instanceof OverFlowBlockette)) {
+			throw new SeedException("Blockette " + blockette.getType() + " is too long, expected maximum 9999 but was "
+					+ blockette.getLength());
 		}
 
 		index(blockette);

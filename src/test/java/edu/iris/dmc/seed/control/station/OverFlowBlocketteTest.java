@@ -1,12 +1,14 @@
 package edu.iris.dmc.seed.control.station;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import org.junit.Test;
+
 
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.BlocketteFactory;
@@ -45,6 +47,7 @@ public class OverFlowBlocketteTest {
 		assertEquals(2, list.size());
 
 		B061 first = (B061) list.get(0);
+		assertEquals(9992,first.getSize());
 		assertFalse(first.isOverFlown());
 		assertEquals(711, first.getCoefficients().size());
 
@@ -58,9 +61,27 @@ public class OverFlowBlocketteTest {
 	public void overFlowB053() throws Exception {
 		String text = "0530382A01001002+3.14096E+02+1.00000E+00003+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00-1.70000E-01+0.00000E+00+0.00000E+00+0.00000E+00004+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00-3.14000E+02+0.00000E+00+0.00000E+00+0.00000E+00-1.88000E-01+0.00000E+00+0.00000E+00+0.00000E+00-4.40000E-02+0.00000E+00+2.00000E-04+2.00000E-04";
 		B053 b053 = (B053) BlocketteFactory.create(text.getBytes());
+		assertEquals(3,b053.getZeros().size());
+		assertEquals(4,b053.getPoles().size());
+		assertFalse(b053.isOverFlown());
+		for (int i = 0; i < 210; i++) {
+			Zero z = new Zero();
+			Number n = new Number();
+			n.setValue(1);
+			z.setReal(n);
+			z.setImaginary(n);
+			b053.add(z);
+		}
+		assertTrue(b053.isOverFlown());
+		List<Blockette> list = b053.split();
+		assertEquals(2, list.size());
+		B053 first = (B053) list.get(0);
+		B053 second = (B053) list.get(1);
+		assertEquals(207,first.getZeros().size());
+		assertEquals(0,first.getPoles().size());
 		
-		//b053.add(pole);
-		//b053.add(zero);
+		assertEquals(6,second.getZeros().size());
+		assertEquals(4,second.getPoles().size());
 	}
 
 	@Test

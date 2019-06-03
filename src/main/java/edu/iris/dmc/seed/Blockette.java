@@ -8,11 +8,9 @@ public interface Blockette {
 
 	public int getType();
 
-	public int getLength() throws SeedException;
+	public int getSize() throws SeedException;
 	
-	public int getMaximumLength();
-
-	public void setType(int type);
+	public int getLength();
 
 	public String getTitle();
 
