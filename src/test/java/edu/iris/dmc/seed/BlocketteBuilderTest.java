@@ -1,11 +1,9 @@
 package edu.iris.dmc.seed;
 
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions;
 import edu.iris.dmc.seed.builder.BlocketteBuilder;
 import edu.iris.dmc.seed.control.station.B050;
 import edu.iris.dmc.seed.control.station.B053;

@@ -1,8 +1,8 @@
 package edu.iris.dmc.seed.control.volume;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
 
 import edu.iris.dmc.seed.builder.BlocketteBuilder;
 import edu.iris.dmc.seed.control.index.B011;

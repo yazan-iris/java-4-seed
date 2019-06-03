@@ -1,8 +1,8 @@
 package edu.iris.dmc.seed.control.station;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions;
 
 import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.seed.Blockette;
@@ -71,8 +71,9 @@ public class B050Test {
 		assertEquals("0500154I58H +28.209718-177.381430+0004.60000000Midway Islands Infrasonic Array, Site I58H1, USA~0003210102013,315,00:00:00.0000~2999,365,23:59:59.0000~NIM", b050.toSeedString());
 	}
 	
-	@Test(expected = SeedException.class)
-	public void exceptionHandling() throws Exception {
+	@Test
+	public void exceptionHandling() throws Exception {	
+	    Assertions.assertThrows(SeedException.class, () -> {
 		B050 b = new B050();
 		b.setNetworkCode("IM");
 		b.setStationCode("I58H111");
@@ -87,6 +88,7 @@ public class B050Test {
 		b.setBit16BitOrder(10);
 		b.setUpdateFlag('N');
 		b.toSeedString();
+	    });
 	}
 	
 	

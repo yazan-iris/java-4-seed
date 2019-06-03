@@ -1,13 +1,15 @@
 package edu.iris.dmc.seed.control.station;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.BlocketteFactory;
 import edu.iris.dmc.seed.SeedException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+
 
 public class B052Test {
 
@@ -37,8 +39,9 @@ public class B052Test {
 		//assertEquals(text, b.toSeedString());
 	}
 	
-	@Test(expected = SeedException.class)
+	@Test
 	public void handleException() throws Exception {
+		Assertions.assertThrows(SeedException.class, () -> {
 		B052 b = new B052();
 		b.setChannelCode("BDF");
 		b.setLocationCode("  ");
@@ -53,5 +56,6 @@ public class B052Test {
 		System.out.println(b.toSeedString());
 
 		//assertEquals(text, b.toSeedString());
+		  });
 	}
 }

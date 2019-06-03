@@ -1,10 +1,10 @@
 package edu.iris.dmc.seed.control.station;
 
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -84,9 +84,137 @@ public class OverFlowBlocketteTest {
 		assertEquals(4,second.getPoles().size());
 	}
 
+
 	@Test
-	public void overFlowB054() throws Exception {
+	public void overFlowB053_Zeros() throws Exception {
+		String text = "0530382A01001002+3.14096E+02+1.00000E+00003+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00-1.70000E-01+0.00000E+00+0.00000E+00+0.00000E+00004+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00-3.14000E+02+0.00000E+00+0.00000E+00+0.00000E+00-1.88000E-01+0.00000E+00+0.00000E+00+0.00000E+00-4.40000E-02+0.00000E+00+2.00000E-04+2.00000E-04";
+		B053 b053 = (B053) BlocketteFactory.create(text.getBytes());
+		assertEquals(3,b053.getZeros().size());
+		assertEquals(4,b053.getPoles().size());
+		assertFalse(b053.isOverFlown());
+		for (int i = 0; i < 210; i++) {
+			Zero z = new Zero();
+			Number n = new Number();
+			n.setValue(1);
+			z.setReal(n);
+			z.setImaginary(n);
+			b053.add(z);
+		}
+		assertTrue(b053.isOverFlown());
+		List<Blockette> list = b053.split();
+		assertEquals(2, list.size());
+		B053 first = (B053) list.get(0);
+		B053 second = (B053) list.get(1);
+		assertEquals(207,first.getZeros().size());
+		assertEquals(0,first.getPoles().size());
+
+		assertEquals(6,second.getZeros().size());
+		assertEquals(4,second.getPoles().size());
 
 	}
 
+	// Poles are always written to the continuation blockette if zeros fill up the first blockette what does that do? 
+	@Test
+	public void overFlowB053_Poles() throws Exception {
+		String text = "0530382A01001002+3.14096E+02+1.00000E+00003+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00-1.70000E-01+0.00000E+00+0.00000E+00+0.00000E+00004+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00-3.14000E+02+0.00000E+00+0.00000E+00+0.00000E+00-1.88000E-01+0.00000E+00+0.00000E+00+0.00000E+00-4.40000E-02+0.00000E+00+2.00000E-04+2.00000E-04";
+		B053 b053 = (B053) BlocketteFactory.create(text.getBytes());
+		assertEquals(3,b053.getZeros().size());
+		assertEquals(4,b053.getPoles().size());
+		assertFalse(b053.isOverFlown());
+		int size = 46; // Size in bytes of b053 without fields 10-13 and 15-18
+		size += b053.getPoles().size()*48;
+		size += b053.getZeros().size()*48;
+		Number Image_Value = new Number(0.1, 0.0);
+		Number Real_Value = new Number(0.1, 0.0);
+		Pole p = new Pole(Real_Value,Image_Value);
+		int numberOfPZThatCanFit = (9999 - size) / 48;
+		for (int i = 0; i < numberOfPZThatCanFit + 20; i++) {
+			b053.add(p);
+		}
+
+		OverFlowBlockette o = (OverFlowBlockette) b053;
+		assertTrue(b053.isOverFlown());
+
+		List<Blockette> list = b053.split();
+		assertEquals(2, list.size());
+
+		B053 first = (B053) list.get(0);
+		assertFalse(first.isOverFlown());
+		assertEquals(3, first.getZeros().size());
+		assertEquals(204, first.getPoles().size());
+
+
+		B053 second = (B053) list.get(1);
+		assertFalse(second.isOverFlown());
+		assertEquals(0, second.getZeros().size());
+		assertEquals(20, second.getPoles().size());
+
+	}
+	
+	
+	// Poles are always written to the continuation blockette if zeros fill up the first blockette what does that do? 
+	@Test
+	public void overFlowB053_3blocks() throws Exception {
+		String text = "0530382A01001002+3.14096E+02+1.00000E+00003+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00-1.70000E-01+0.00000E+00+0.00000E+00+0.00000E+00004+0.00000E+00+0.00000E+00+0.00000E+00+0.00000E+00-3.14000E+02+0.00000E+00+0.00000E+00+0.00000E+00-1.88000E-01+0.00000E+00+0.00000E+00+0.00000E+00-4.40000E-02+0.00000E+00+2.00000E-04+2.00000E-04";
+		B053 b053 = (B053) BlocketteFactory.create(text.getBytes());
+		assertEquals(3,b053.getZeros().size());
+		assertEquals(4,b053.getPoles().size());
+		assertFalse(b053.isOverFlown());
+		int size = 46; // Size in bytes of b053 without fields 10-13 and 15-18
+		size += b053.getPoles().size()*48;
+		size += b053.getZeros().size()*48;
+		Number Image_Value = new Number(0.1, 0.0);
+		Number Real_Value = new Number(0.1, 0.0);
+		Pole p = new Pole(Real_Value,Image_Value);
+		Zero z = new Zero(Real_Value,Image_Value);
+
+		int numberOfPZThatCanFit = (9999 - size) / (48*2);
+		for (int i = 0; i < numberOfPZThatCanFit*2 + 20; i++) {
+			b053.add(p);
+			b053.add(z);
+
+		}
+
+		OverFlowBlockette o = (OverFlowBlockette) b053;
+		assertTrue(b053.isOverFlown());
+
+		List<Blockette> list = b053.split();
+		assertEquals(3, list.size());
+
+		B053 first = (B053) list.get(0);
+		assertFalse(first.isOverFlown());
+		assertEquals(207, first.getZeros().size());
+		assertEquals(0, first.getPoles().size());
+
+
+		B053 second = (B053) list.get(1);
+		assertFalse(second.isOverFlown());
+		assertEquals(16, second.getZeros().size());
+		assertEquals(191, second.getPoles().size());
+	
+
+		B053 third = (B053) list.get(2);
+		assertFalse(third.isOverFlown());
+		assertEquals(0, third.getZeros().size());
+		assertEquals(33, third.getPoles().size());
+		
+	}
+	
+
+	
+	@Test
+	public void overFlowB054() throws Exception {
+
+
+	}
+
+
+
+
 }
+
+
+
+
+
+

@@ -3,9 +3,7 @@ package edu.iris.dmc.seed.director;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.blockette.util.BlocketteItrator;
 import edu.iris.dmc.seed.builder.BlocketteBuilder;

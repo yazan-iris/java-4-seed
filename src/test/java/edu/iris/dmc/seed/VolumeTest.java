@@ -1,15 +1,17 @@
 package edu.iris.dmc.seed;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 import java.io.File;
 import java.util.List;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import edu.iris.dmc.seed.TestUtil;
 import edu.iris.dmc.seed.builder.BlocketteBuilder;
 import edu.iris.dmc.seed.control.dictionary.B034;
 import edu.iris.dmc.seed.control.index.B010;
@@ -24,7 +26,7 @@ public class VolumeTest {
 
 	static Volume volume;
 
-	@BeforeClass
+	@BeforeAll
 	public static void onceExecutedBeforeAll() throws Exception {
 		File source = new File(
 				VolumeTest.class.getClassLoader().getResource("II_NNA.20180906T205825.datales").getFile());
