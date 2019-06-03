@@ -1,6 +1,7 @@
 package edu.iris.dmc.seed;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -142,7 +143,7 @@ public class Volume {
 			record = RecordFactory.create(recordLength, record.getSequence() + 1, 'S', false);
 			this.volumeRecords.put(record.getSequence(), record);
 		}
-		byte[] bytes = b.toSeedString().getBytes();
+		byte[] bytes = b.toSeedString().getBytes(StandardCharsets.US_ASCII);
 		while (true) {
 			bytes = record.add(bytes);
 			if (bytes == null || bytes.length == 0) {
@@ -163,7 +164,7 @@ public class Volume {
 			record = RecordFactory.create(recordLength, record.getSequence() + 1, 'S', false);
 			this.dictionaryRecords.put(record.getSequence(), record);
 		}
-		byte[] bytes = b.toSeedString().getBytes();
+		byte[] bytes = b.toSeedString().getBytes(StandardCharsets.US_ASCII);
 		while (true) {
 			bytes = record.add(bytes);
 			if (bytes == null || bytes.length == 0) {
@@ -184,7 +185,7 @@ public class Volume {
 			record = RecordFactory.create(recordLength, record.getSequence() + 1, 'S', false);
 			this.stationRecords.put(record.getSequence(), record);
 		}
-		byte[] bytes = b.toSeedString().getBytes();
+		byte[] bytes = b.toSeedString().getBytes(StandardCharsets.US_ASCII);
 		while (true) {
 			bytes = record.add(bytes);
 			if (bytes == null || bytes.length == 0) {

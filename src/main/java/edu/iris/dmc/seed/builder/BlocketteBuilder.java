@@ -5,7 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.iris.dmc.seed.BTime;
@@ -57,7 +56,7 @@ public class BlocketteBuilder implements Builder<Blockette> {
 	private static Builder<Blockette> defaultInstance = new BlocketteBuilder();
 
 	public List<Blockette> createAll(byte[] bytes) throws SeedException, IOException {
-		List<Blockette> list = new ArrayList<Blockette>();
+		List<Blockette> list = new ArrayList<>();
 		int index = 0;
 		while (true) {
 			if ((index + 7) >= bytes.length) {
@@ -70,7 +69,7 @@ public class BlocketteBuilder implements Builder<Blockette> {
 			}
 			int type = Integer.parseInt(typeString);
 			String lengthString = new String(bytes, index + 3, 4);
-			int length = Integer.valueOf(lengthString);
+			int length = Integer.parseInt(lengthString);
 			if (index + length > bytes.length) {
 				// error or continuation needed
 
@@ -258,7 +257,6 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		b.setVersion(new String(bytes, offset, 4));
 		offset = offset + 4;
 		int nthPower = BlocketteBuilder.parseInt(bytes, offset, 2);
-		//LOG.log(Level.INFO,"Building: "+new String(bytes));
 		b.setNthPower(nthPower);
 		offset = offset + 2;
 		int from = offset;
@@ -323,8 +321,8 @@ public class BlocketteBuilder implements Builder<Blockette> {
 				offset += 6;
 				sequenceString = sequenceString.replaceFirst("^0+(?!$)", "");
 				try {
-					int sequence = Integer.valueOf(sequenceString);
-					b.add(code, Integer.valueOf(sequence));
+					int sequence = Integer.parseInt(sequenceString);
+					b.add(code, sequence);
 				} catch (NumberFormatException e) {
 					throw new SeedException(e);
 				}
