@@ -77,7 +77,7 @@ public abstract class AbstractBlockette {
 	}
 
 	public int getLength() {
-		return length;
+		return this.length;
 	}
 
 	public boolean isOverFlown() throws SeedException {
