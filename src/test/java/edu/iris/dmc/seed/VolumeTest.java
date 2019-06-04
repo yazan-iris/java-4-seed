@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
 import java.util.List;
@@ -217,6 +217,18 @@ public class VolumeTest {
 		assertEquals(3, responseStages.get(2).getBlockettes().size());		
 		
 	}
+	
+	@Test
+	public void volumeMerge_importb54_same2() throws Exception{
+		
+		assertThrows(RuntimeException.class, () -> {
+		File source = new File(VolumeTest.class.getClassLoader().getResource("b54s_same_ogdataless.dataless").getFile());
+		Volume v = TestUtil.load(source);
+		 });
+	
+
+	}
+	
 	
 	@Test
 	public void b054Short() {
