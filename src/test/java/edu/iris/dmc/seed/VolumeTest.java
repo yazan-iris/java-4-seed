@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import edu.iris.dmc.seed.TestUtil;
@@ -85,36 +85,49 @@ public class VolumeTest {
 	}
 
 	@Test
-	public void volumeMerge() throws Exception{
-		
+	public void volumeMerge() throws Exception {
+
+		Blockette b = BlocketteFactory.create(
+				"0500154I58H1+28.209718-177.381430+0004.60000000Midway Islands Infrasonic Array, Site I58H1, USA~0003210102013,315,00:00:00.0000~2999,365,23:59:59.0000~NIM"
+						.getBytes(StandardCharsets.US_ASCII));
+
 		File source = new File(VolumeTest.class.getClassLoader().getResource("pass_nocoefficient.dataless").getFile());
 
 		Volume v = TestUtil.load(source);
-		//Make a dummy dataless file to build off of. Use the converter to build the dataless
-		
-	
+		// Make a dummy dataless file to build off of. Use the converter to build the
+		// dataless
+
 		List<B050> list = v.getB050s();
+
 		assertNotNull(list);
 		assertEquals(1, list.size());
 
 		assertEquals(1, v.getNumberOfStations());
 
 		B050 b050 = list.get(0);
+		System.out.println(b050.toSeedString());
 
 		List<B052> b052s = b050.getB052s();
 		assertNotNull(b052s);
 		assertEquals(1, b052s.size());
-		
+
 		B052 b052 = b052s.get(0);
-		
+
 		List<SeedResponseStage> responseStages = b052.getResponseStages();
+		
+		for(SeedResponseStage s:responseStages) {
+			System.out.println("s->"+s.getSequence());
+			for(Blockette bl:s.getBlockettes()) {
+				System.out.println("	"+bl.toSeedString());
+			}
+		}
 		assertNotNull(responseStages);
-		
+
 		assertEquals(3, responseStages.size());
-		
+
 		String text = "0540888D030030030036+3.05176E-05+0.00000E+00+1.52588E-04+0.00000E+00+4.57764E-04+0.00000E+00+1.06812E-03+0.00000E+00+2.13623E-03+0.00000E+00+3.84521E-03+0.00000E+00+6.40869E-03+0.00000E+00+1.00708E-02+0.00000E+00+1.49536E-02+0.00000E+00+2.10571E-02+0.00000E+00+2.82593E-02+0.00000E+00+3.63159E-02+0.00000E+00+4.48608E-02+0.00000E+00+5.34058E-02+0.00000E+00+6.13403E-02+0.00000E+00+6.79321E-02+0.00000E+00+7.26318E-02+0.00000E+00+7.50732E-02+0.00000E+00+7.50732E-02+0.00000E+00+7.26318E-02+0.00000E+00+6.79321E-02+0.00000E+00+6.13403E-02+0.00000E+00+5.34058E-02+0.00000E+00+4.48608E-02+0.00000E+00+3.63159E-02+0.00000E+00+2.82593E-02+0.00000E+00+2.10571E-02+0.00000E+00+1.49536E-02+0.00000E+00+1.00708E-02+0.00000E+00+6.40869E-03+0.00000E+00+3.84521E-03+0.00000E+00+2.13623E-03+0.00000E+00+1.06812E-03+0.00000E+00+4.57764E-04+0.00000E+00+1.52588E-04+0.00000E+00+3.05176E-05+0.00000E+000000";
 		B054 b54 = (B054) BlocketteFactory.create(text.getBytes());
-		
+
 		assertEquals('D', b54.getResponseType());
 		assertEquals(36, b54.getNumerators().size());
 		assertEquals(0, b54.getDenominators().size());
@@ -122,6 +135,18 @@ public class VolumeTest {
 		v.add(b54);
 		v.add(b54);
 		
+		responseStages = b052.getResponseStages();
+		for(SeedResponseStage s:responseStages) {
+			System.out.println("s->"+s.getSequence());
+			for(Blockette bl:s.getBlockettes()) {
+				System.out.println("	"+bl.toSeedString());
+			}
+		}
+		
+		
+		
+		
+
 		List<B050> list_add = v.getB050s();
 		assertNotNull(list_add);
 		assertEquals(1, list_add.size());
@@ -133,21 +158,19 @@ public class VolumeTest {
 		List<B052> b052_add = b050_add.getB052s();
 		assertNotNull(b052_add);
 		assertEquals(1, b052_add.size());
-		
+
 		B052 b052_coef = b052_add.get(0);
-		
+
 		List<SeedResponseStage> responseStages_add = b052_coef.getResponseStages();
 		assertNotNull(responseStages_add);
-		//responseStages_add.get(3).add(b54);
+		// responseStages_add.get(3).add(b54);
 		assertEquals(4, responseStages_add.size());
 		assertEquals(54, responseStages_add.get(3).getBlockettes().get(0).getType());
-		
+
 		System.out.println(responseStages_add.get(3).getBlockettes());
 
-		
-		
-		
 	}
+
 	@Test
 	public void b054Short() {
 		List<Blockette> list = volume.find("II", "NNA", "BHE", "00");
@@ -173,7 +196,7 @@ public class VolumeTest {
 		SeedResponseStage stage4 = theChannel.getResponseStage(4);
 		assertNotNull(stage4);
 		assertEquals(3, stage4.size());
-		
+
 		B054 b054 = null;
 		for (ResponseBlockette r : stage4.getBlockettes()) {
 			if (54 == r.getType()) {
@@ -315,12 +338,9 @@ public class VolumeTest {
 		List<SeedResponseStage> responseStages = theChannel.getResponseStages();
 		assertNotNull(responseStages);
 
-		
 		SeedResponseStage stage5 = theChannel.getResponseStage(5);
 		assertNotNull(stage5);
 		assertEquals(3, stage5.size());
-		
-		
 
 		B054 b054 = null;
 		for (ResponseBlockette r : stage5.getBlockettes()) {
