@@ -85,7 +85,7 @@ public class VolumeTest {
 	}
 
 	@Test
-	public void volumeMerge_createb54s() throws Exception{
+	public void volumeMergeCreateb54s() throws Exception{
 		
 		File source = new File(VolumeTest.class.getClassLoader().getResource("pass_nocoefficient.dataless").getFile());
 
@@ -133,10 +133,11 @@ public class VolumeTest {
 		
 	}
 	
+	
 	@Test
-	public void volumeMerge_importb54_diff() throws Exception{
+	public void volumeMergeOverflow() throws Exception{
 		
-		File source = new File(VolumeTest.class.getClassLoader().getResource("b54s_different.dataless").getFile());
+		File source = new File(VolumeTest.class.getClassLoader().getResource("b54Overflow.dataless").getFile());
 
 		Volume v = TestUtil.load(source);
 		//Make a dummy dataless file to build off of. Use the converter to build the dataless
@@ -159,56 +160,13 @@ public class VolumeTest {
 		List<SeedResponseStage> responseStages = b052.getResponseStages();
 		assertNotNull(responseStages);
 		
-		for(int i=0; i<responseStages.size(); i++) {
-			
-			System.out.println("Stage"+ responseStages.get(i).getSequence());
-			for(int i2=0; i2<responseStages.get(i).getBlockettes().size(); i2++) {
-			System.out.println(responseStages.get(i).getBlockettes().get(i2));
-			}
-		
-		}
-		assertNotNull(responseStages);
-		assertEquals(4, responseStages.size());
-		assertEquals(54, responseStages.get(2).getBlockettes().get(0).getType());
-		assertEquals(57, responseStages.get(2).getBlockettes().get(1).getType());
-		assertEquals(58, responseStages.get(2).getBlockettes().get(2).getType());
-		assertEquals(3, responseStages.get(2).getBlockettes().size());		
-	}
-	
-	@Test
-	public void volumeMerge_importb54_same() throws Exception{
-		
-		File source = new File(VolumeTest.class.getClassLoader().getResource("b54s_same.dataless").getFile());
-
-		Volume v = TestUtil.load(source);
-		//Make a dummy dataless file to build off of. Use the converter to build the dataless
-		
-	
-		List<B050> list = v.getB050s();
-		assertNotNull(list);
-		assertEquals(1, list.size());
-
-		assertEquals(1, v.getNumberOfStations());
-
-		B050 b050 = list.get(0);
-
-		List<B052> b052s = b050.getB052s();
-		assertNotNull(b052s);
-		assertEquals(1, b052s.size());
-		
-		B052 b052 = b052s.get(0);
-		
-		List<SeedResponseStage> responseStages = b052.getResponseStages();
-		assertNotNull(responseStages);
-		
-		for(int i=0; i<responseStages.size(); i++) {
-			
-			System.out.println("Stage"+ responseStages.get(i).getSequence());
-			for(int i2=0; i2<responseStages.get(i).getBlockettes().size(); i2++) {
-			System.out.println(responseStages.get(i).getBlockettes().get(i2));
-			}
-		
-		}
+		//for(int i=0; i<responseStages.size(); i++) {
+		//	
+		//	System.out.println("Stage"+ responseStages.get(i).getSequence());
+		//	for(int i2=0; i2<responseStages.get(i).getBlockettes().size(); i2++) {
+		//	System.out.println(responseStages.get(i).getBlockettes().get(i2));
+		//	}	
+	   //	}
 		assertNotNull(responseStages);
 		assertEquals(4, responseStages.size());
 		assertEquals(54, responseStages.get(2).getBlockettes().get(0).getType());
@@ -216,13 +174,20 @@ public class VolumeTest {
 		assertEquals(58, responseStages.get(2).getBlockettes().get(2).getType());
 		assertEquals(3, responseStages.get(2).getBlockettes().size());		
 		
+		
+		B054 b054 = (B054) responseStages.get(2).getBlockettes().get(0);
+		
+		assertFalse(b054.isOverFlown());
+
+		System.out.println(b054.getNumerators().size());
+		
 	}
 	
 	@Test
-	public void volumeMerge_importb54_same2() throws Exception{
+	public void volumeMergeImportb54s() throws Exception{
 		
 		assertThrows(RuntimeException.class, () -> {
-		File source = new File(VolumeTest.class.getClassLoader().getResource("b54s_same_ogdataless.dataless").getFile());
+		File source = new File(VolumeTest.class.getClassLoader().getResource("b54sDuplicate.dataless").getFile());
 		Volume v = TestUtil.load(source);
 		 });
 	
