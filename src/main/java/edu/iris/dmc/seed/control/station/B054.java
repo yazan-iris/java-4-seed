@@ -2,6 +2,7 @@ package edu.iris.dmc.seed.control.station;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.Blockette;
@@ -63,6 +64,18 @@ public class B054 extends AbstractResponseBlockette implements OverFlowBlockette
 	}
 
 	@Override
+	public OverFlowBlockette merge(OverFlowBlockette b) throws SeedException {
+		Objects.requireNonNull(b, "Blockette cannot be null");
+		if (!(b instanceof B054)) {
+			throw new SeedException("Cannot merge with " + this.type + ".");
+		}
+		B054 m = (B054) b;
+		this.getDenominators().addAll(m.getDenominators());
+		this.getNumerators().addAll(m.getNumerators());
+		return this;
+	}
+
+	@Override
 	public List<Blockette> split() throws SeedException {
 		List<Blockette> list = new ArrayList<>();
 		B054 b054 = null;
@@ -71,7 +84,7 @@ public class B054 extends AbstractResponseBlockette implements OverFlowBlockette
 			return list;
 		}
 		for (edu.iris.dmc.seed.control.station.Number n : this.numerators) {
-			if (b054 == null || b054.getSize()+24 > this.getLength()) {
+			if (b054 == null || b054.getSize() + 24 > this.getLength()) {
 				b054 = new B054();
 				b054.setId(this.id);
 				b054.setStageSequence(this.getStageSequence());
@@ -85,7 +98,7 @@ public class B054 extends AbstractResponseBlockette implements OverFlowBlockette
 		}
 
 		for (edu.iris.dmc.seed.control.station.Number n : this.denominators) {
-			if (b054 == null || b054.getSize()+24 > this.getLength()) {
+			if (b054 == null || b054.getSize() + 24 > this.getLength()) {
 				b054 = new B054();
 				b054.setId(this.id);
 				b054.setStageSequence(this.getStageSequence());

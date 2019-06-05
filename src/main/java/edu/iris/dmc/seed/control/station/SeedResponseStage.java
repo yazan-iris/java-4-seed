@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.SeedRunTimeException;
 
 public class SeedResponseStage {
@@ -15,10 +16,16 @@ public class SeedResponseStage {
 		this.sequence = sequence;
 	}
 
-	public void add(ResponseBlockette b) {
-		if (blockettes.get(b.getType()) != null) {
-			throw new SeedRunTimeException("Cannot add response filter " + b.getType()
-					+ " response filter already exist in this stage [" + this.sequence + "]");
+	public void add(ResponseBlockette b) throws SeedException {
+		ResponseBlockette r = blockettes.get(b.getType());
+		if (r != null) {
+			if (b instanceof OverFlowBlockette) {
+				((OverFlowBlockette)r).merge((OverFlowBlockette)b);
+				return;
+			} else {
+				throw new SeedRunTimeException("Cannot add response filter " + b.getType()
+						+ " response filter already exist in this stage [" + this.sequence + "]");
+			}
 		}
 		blockettes.put(b.getType(), b);
 	}

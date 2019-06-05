@@ -41,10 +41,12 @@ public class RecordInputStream extends BufferedInputStream {
 				return null;
 			} else {
 				// are we at end of file?
-				if (isNL(bytes) && read(bytes) == -1) {
+				boolean isNL = isNL(bytes);
+				if (isNL && read(bytes) == -1) {
 					return null;
 				} else {
-					throw new SeedException("Reading record: Expected " + bytes.length + " but received " + bytesRead);
+					throw new SeedException("Reading record: Expected " + bytes.length + " but received " + bytesRead
+							+ ": " + new String(bytes));
 				}
 			}
 		}
@@ -53,13 +55,12 @@ public class RecordInputStream extends BufferedInputStream {
 	}
 
 	private boolean isNL(byte[] byteArray) {
+		if (byteArray.length == 0) {
+			return true;
+		}
 		for (int index = 0; index < byteArray.length; index++) {
-			if (byteArray.length == 0) {
-				return true;
-			} else {
-				if (byteArray[index] == '\n' || byteArray[index] == '\r') {
-					return false;
-				}
+			if (Character.isLetterOrDigit(byteArray[index])) {
+				return false;
 			}
 		}
 		return true;
