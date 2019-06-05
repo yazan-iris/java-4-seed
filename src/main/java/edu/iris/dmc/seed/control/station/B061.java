@@ -2,6 +2,7 @@ package edu.iris.dmc.seed.control.station;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.Blockette;
@@ -47,6 +48,17 @@ public class B061 extends AbstractResponseBlockette implements OverFlowBlockette
 	}
 
 	@Override
+	public OverFlowBlockette merge(OverFlowBlockette b) throws SeedException {
+		Objects.requireNonNull(b, "Blockette cannot be null");
+		if (!(b instanceof B061)) {
+			throw new SeedException("Cannot merge with " + this.type + ".");
+		}
+		B061 m = (B061) b;
+		this.getCoefficients().addAll(m.getCoefficients());
+		return this;
+	}
+
+	@Override
 	public List<Blockette> split() throws SeedException {
 		List<Blockette> list = new ArrayList<>();
 		B061 b061 = null;
@@ -56,7 +68,7 @@ public class B061 extends AbstractResponseBlockette implements OverFlowBlockette
 		}
 
 		for (Double n : this.coefficients) {
-			if (b061 == null || b061.getSize()+14 > this.getLength()) {
+			if (b061 == null || b061.getSize() + 14 > this.getLength()) {
 				b061 = new B061();
 				b061.setId(this.id);
 				b061.setName(this.getName());

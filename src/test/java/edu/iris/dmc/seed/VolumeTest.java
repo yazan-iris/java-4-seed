@@ -87,7 +87,7 @@ public class VolumeTest {
 	@Test
 	public void volumeMergeCreateb54s() throws Exception{
 		
-		File source = new File(VolumeTest.class.getClassLoader().getResource("pass_nocoefficient.dataless").getFile());
+		File source = new File(VolumeTest.class.getClassLoader().getResource("noCoefficient.dataless").getFile());
 
 		Volume v = TestUtil.load(source);
 		//Make a dummy dataless file to build off of. Use the converter to build the dataless
@@ -127,7 +127,6 @@ public class VolumeTest {
 		assertNotNull(responseStages_add);
 		assertEquals(4, responseStages_add.size());
 		assertEquals(54, responseStages_add.get(2).getBlockettes().get(0).getType());
-		assertEquals(54, responseStages_add.get(2).getBlockettes().get(1).getType());
 		
 		
 		
@@ -176,21 +175,51 @@ public class VolumeTest {
 		
 		
 		B054 b054 = (B054) responseStages.get(2).getBlockettes().get(0);
-		
+		System.out.println(b054.getNumerators().size());
 		assertFalse(b054.isOverFlown());
 
-		System.out.println(b054.getNumerators().size());
+	
 		
 	}
 	
 	@Test
 	public void volumeMergeImportb54s() throws Exception{
 		
-		assertThrows(RuntimeException.class, () -> {
+		//assertThrows(RuntimeException.class, () -> {
 		File source = new File(VolumeTest.class.getClassLoader().getResource("b54sDuplicate.dataless").getFile());
 		Volume v = TestUtil.load(source);
-		 });
-	
+		
+		List<B050> list = v.getB050s();
+		assertNotNull(list);
+		assertEquals(1, list.size());
+
+		assertEquals(1, v.getNumberOfStations());
+
+		B050 b050 = list.get(0);
+
+		List<B052> b052s = b050.getB052s();
+		assertNotNull(b052s);
+		assertEquals(1, b052s.size());
+		
+		B052 b052 = b052s.get(0);
+		
+		List<SeedResponseStage> responseStages = b052.getResponseStages();
+		assertNotNull(responseStages);
+		
+		assertNotNull(responseStages);
+		assertEquals(4, responseStages.size());
+		assertEquals(54, responseStages.get(2).getBlockettes().get(0).getType());
+		assertEquals(57, responseStages.get(2).getBlockettes().get(1).getType());
+		assertEquals(58, responseStages.get(2).getBlockettes().get(2).getType());
+		assertEquals(3, responseStages.get(2).getBlockettes().size());		
+		
+		
+		B054 b054 = (B054) responseStages.get(2).getBlockettes().get(0);
+		assertEquals(2, b054.getNumerators().size());
+		System.out.println(b054.getNumerators());
+		assertFalse(b054.isOverFlown());
+		
+		 	
 
 	}
 	

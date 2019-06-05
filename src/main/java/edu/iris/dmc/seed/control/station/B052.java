@@ -254,7 +254,7 @@ public class B052 extends AbstractBlockette implements StationBlockette {
 		this.b059s.addAll(b059s);
 	}
 
-	public void add(ResponseBlockette blockette) {
+	public void add(ResponseBlockette blockette) throws SeedException {
 		int sequence = blockette.getStageSequence();
 		SeedResponseStage stage = this.stages.get(sequence);
 		if (stage == null) {
