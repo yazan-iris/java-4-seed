@@ -1,31 +1,37 @@
 package edu.iris.dmc.seed.control.station;
 
 public class Number {
-	private double value;
-	private double error;
+	private Double value;
+	private Double error;
 
 	public Number() {
 
 	}
 
-	public Number(double value, double error) {
+	public Number(Double value, Double error) {
 		this.value = value;
 		this.error = error;
 	}
 
-	public double getValue() {
+	public Double getValue() {
 		return value;
 	}
 
-	public void setValue(double value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 
-	public double getError() {
+	public Double getError() {
+		if(error !=null) {
+		return error;
+		}else {
+			error=0.0;
+		}
 		return error;
 	}
+	
 
-	public void setError(double error) {
+	public void setError(Double error) {
 		this.error = error;
 	}
 

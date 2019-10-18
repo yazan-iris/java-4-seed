@@ -602,9 +602,9 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		offset = offset + 3;
 
 		for (int i = 0; i < numberOfCoefficients; i++) {
-			Float value = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double value = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
-			Float error = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double error = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
 			b.add(new Number(value, error));
 		}
@@ -705,9 +705,9 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		offset = offset + 4;
 
 		for (i = 0; i < numberOfNumerators; i++) {
-			float numerator = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double numerator = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
-			float error = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double error = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
 			b.addNumerator(new Number(numerator, error));
 		}
@@ -715,9 +715,9 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		int numberOfDenominators = BlocketteBuilder.parseInt(bytes, offset, 4);
 		offset = offset + 4;
 		for (i = 0; i < numberOfDenominators; i++) {
-			float denominator = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double denominator = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
-			float error = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double error = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
 			b.addDenominator(new Number(denominator, error));
 		}
@@ -882,9 +882,9 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		offset = offset + 3;
 
 		for (int i = 0; i < numberOfCoefficients; i++) {
-			Float value = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double value = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
-			Float error = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double error = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
 			b.add(new Number(value, error));
 		}
@@ -1202,9 +1202,9 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		offset = offset + 4;
 
 		for (int i = 0; i < numberOfNumerators; i++) {
-			float numerator = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double numerator = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
-			float error = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double error = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
 			b.addNumerator(new Number(numerator, error));
 		}
@@ -1212,9 +1212,9 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		int numberOfDenominators = BlocketteBuilder.parseInt(bytes, offset, 4);
 		offset = offset + 4;
 		for (int i = 0; i < numberOfDenominators; i++) {
-			float denominator = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double denominator = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
-			float error = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double error = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
 			b.addDenominator(new Number(denominator, error));
 		}
@@ -1447,9 +1447,9 @@ public class BlocketteBuilder implements Builder<Blockette> {
 		int numberOfCoefficients = BlocketteBuilder.parseInt(bytes, offset, 3);
 		offset = offset + 3;
 		for (int i = 0; i < numberOfCoefficients; i++) {
-			Float value = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double value = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
-			Float error = BlocketteBuilder.parseFloat(bytes, offset, 12);
+			Double error = (double) BlocketteBuilder.parseFloat(bytes, offset, 12);
 			offset = offset + 12;
 			b.add(new Number(value, error));
 		}
