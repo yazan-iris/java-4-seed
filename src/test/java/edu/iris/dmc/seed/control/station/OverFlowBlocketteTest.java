@@ -67,7 +67,7 @@ public class OverFlowBlocketteTest {
 		for (int i = 0; i < 210; i++) {
 			Zero z = new Zero();
 			Number n = new Number();
-			n.setValue(1);
+			n.setValue(1.0);
 			z.setReal(n);
 			z.setImaginary(n);
 			b053.add(z);
@@ -95,7 +95,7 @@ public class OverFlowBlocketteTest {
 		for (int i = 0; i < 210; i++) {
 			Zero z = new Zero();
 			Number n = new Number();
-			n.setValue(1);
+			n.setValue(1.0);
 			z.setReal(n);
 			z.setImaginary(n);
 			b053.add(z);
