@@ -1,14 +1,16 @@
 package edu.iris.dmc.seed;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.io.File;
+
 import org.junit.jupiter.api.Test;
 
-
 import edu.iris.dmc.seed.control.index.B010;
+import edu.iris.dmc.seed.control.index.B011;
 import edu.iris.dmc.seed.control.station.B050;
+import edu.iris.dmc.seed.director.BlocketteDirectorTest;
 
 public class VolumeBuildTest {
 
@@ -34,6 +36,17 @@ public class VolumeBuildTest {
 			System.out.println(new String(r.getBytes()));
 			break;
 		}
+	}
+
+	@Test
+	public void build() throws Exception {
+		File source = new File(BlocketteDirectorTest.class.getClassLoader().getResource("test.xml.seed").getFile());
+		Volume v = TestUtil.load(source);
+		B011 b = v.getB011();
+		assertEquals("0110032002CONZ 000003BELA 000009",b.toSeedString());
+		v.build();
+		b = v.getB011();
+		assertEquals("0110032002CONZ 000003BELA 000009",b.toSeedString());
 	}
 
 	public B050 randomStation() throws SeedException {

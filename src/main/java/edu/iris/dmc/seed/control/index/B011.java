@@ -1,6 +1,7 @@
 package edu.iris.dmc.seed.control.index;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -13,7 +14,7 @@ import edu.iris.dmc.seed.control.station.B050;
 public class B011 extends AbstractBlockette implements IndexBlockette {
 
 	private int numberOfStations;
-	private Map<String, Row> rows = new TreeMap<>();
+	private Map<String, Row> rows = new LinkedHashMap<>();
 
 	public B011() {
 		super(11, "Volume Station Header Index Blockette");
