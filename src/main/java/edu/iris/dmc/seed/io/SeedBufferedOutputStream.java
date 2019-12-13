@@ -1,12 +1,14 @@
 package edu.iris.dmc.seed.io;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import edu.iris.dmc.seed.Record;
 import edu.iris.dmc.seed.SeedException;
+import edu.iris.dmc.seed.Volume;
 
-public class SeedBufferedOutputStream {
+public class SeedBufferedOutputStream implements Closeable {
 
 	private OutputStream outputStream;
 
@@ -15,6 +17,12 @@ public class SeedBufferedOutputStream {
 			throw new IllegalArgumentException("Buffer size <= 0");
 		}
 		this.outputStream = outputStream;
+	}
+
+	public void write(Volume volume) throws IOException {
+		for (Record record : volume.getRecords()) {
+			write(record);
+		}
 	}
 
 	public void write(Record record) throws IOException {
