@@ -7,16 +7,15 @@ import java.util.logging.Logger;
 
 import edu.iris.dmc.io.FileFormat;
 import edu.iris.dmc.io.FileWriter;
-import edu.iris.dmc.seed.SeedFormatter;
 import edu.iris.dmc.seed.Record;
 import edu.iris.dmc.seed.BlocketteFormatter;
+import edu.iris.dmc.seed.Formatter;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.seed.io.SeedBufferedOutputStream;
 
-public class SeedFileWriter implements FileWriter {
+public class SeedFileWriter implements AutoCloseable{
 
 	private Logger LOGGER = Logger.getLogger(SeedFileWriter.class.getName());
-	private SeedFormatter formatter = new BlocketteFormatter();
 
 	private SeedBufferedOutputStream stream;
 
@@ -31,24 +30,8 @@ public class SeedFileWriter implements FileWriter {
 		return true;
 	}
 
-	@Override
 	public void write(Volume volume) throws IOException {
-		write(volume, this.formatter);
-	}
-
-	@Override
-	public void write(Volume volume, SeedFormatter formatter) throws IOException {
-		for (Record record : volume.getRecords()) {
-			this.stream.write(record);
-		}
-	}
-
-	public SeedFormatter getFormatter() {
-		return formatter;
-	}
-
-	public void setFormatter(SeedFormatter formatter) {
-		this.formatter = formatter;
+		write(volume);
 	}
 
 	public void close() throws IOException {

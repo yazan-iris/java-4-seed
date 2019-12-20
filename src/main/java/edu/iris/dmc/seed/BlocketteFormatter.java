@@ -45,11 +45,11 @@ import edu.iris.dmc.seed.control.station.Pole;
 import edu.iris.dmc.seed.control.station.Stage;
 import edu.iris.dmc.seed.control.station.Zero;
 
-public class BlocketteFormatter implements SeedFormatter {
+public class BlocketteFormatter {
 
 	private static Logger LOGGER = Logger.getLogger(BlocketteFormatter.class.getName());
 
-	@Override
+
 	public String format(Blockette blockette) throws SeedException {
 		LOGGER.info("Formatting: " + blockette);
 		switch (blockette.getType()) {
