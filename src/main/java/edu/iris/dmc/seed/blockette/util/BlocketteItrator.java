@@ -62,12 +62,12 @@ public class BlocketteItrator implements Iterator<Blockette>, Closeable {
 	}
 
 	private Blockette completeBlockette(IncompleteBlockette b) throws IOException, SeedException {
-		while (b.remainingBytes() > 0) {
+		while (b.numberOfRequiredBytesToComplete() > 0) {
 			this.record = this.recordInputStream.next();
 			if (record == null || !record.isContinuation()) {
 				throw new SeedException("Expected a continuation record but did not find one!");
 			}
-			byte[] bytes = this.record.get(b.remainingBytes());
+			byte[] bytes = this.record.get(b.numberOfRequiredBytesToComplete());
 			b.append(bytes);
 		}
 		return BlocketteFactory.create(b.getBytes());

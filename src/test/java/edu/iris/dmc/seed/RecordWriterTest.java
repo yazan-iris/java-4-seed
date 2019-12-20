@@ -11,7 +11,6 @@ import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
-import edu.iris.dmc.seed.director.BlocketteDirectorTest;
 import edu.iris.dmc.seed.io.RecordWriter;
 
 public class RecordWriterTest {
@@ -19,7 +18,7 @@ public class RecordWriterTest {
 	@Test
 	public void write() throws Exception {
 		File source = null;
-		source = new File(BlocketteDirectorTest.class.getClassLoader().getResource("dataless.G.CAN.seed.051016").getFile());
+		source = new File(RecordWriterTest.class.getClassLoader().getResource("dataless.G.CAN.seed.051016").getFile());
 
 		// File tempFile = File.createTempFile("prefix-", "-suffix");
 		Path path = Files.createTempFile("tempfiles", ".tmp");

@@ -1,6 +1,6 @@
 package edu.iris.dmc.seed.control.dictionary;
 
-import edu.iris.dmc.io.SeedStringBuilder;
+import edu.iris.dmc.seed.SeedStringBuilder;
 
 public class B033 extends AbstractDictionaryBlockette {
 

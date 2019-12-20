@@ -1,9 +1,7 @@
-package edu.iris.dmc.io;
+package edu.iris.dmc.seed;
 
 import java.text.DecimalFormat;
 
-import edu.iris.dmc.seed.BTime;
-import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.station.Pole;
 import edu.iris.dmc.seed.control.station.Zero;
 

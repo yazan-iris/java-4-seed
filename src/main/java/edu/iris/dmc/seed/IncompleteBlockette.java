@@ -43,14 +43,13 @@ public class IncompleteBlockette extends AbstractBlockette implements Blockette 
 		return array;
 	}
 
-	public int remainingBytes() {
+	public int numberOfRequiredBytesToComplete() {
 		return size - actual;
 	}
 
 	@Override
 	public String toSeedString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "INCOMPLETE:"+type+":"+actual+":"+size;
 	}
 
 }

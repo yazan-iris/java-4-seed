@@ -10,7 +10,7 @@ import edu.iris.dmc.seed.control.dictionary.B031;
 import edu.iris.dmc.seed.control.station.B050;
 import edu.iris.dmc.seed.control.station.B051;
 import edu.iris.dmc.seed.control.station.B052;
-import edu.iris.dmc.seed.director.BlocketteDirector;
+import edu.iris.dmc.seed.io.RecordInputStream;
 
 public class TestUtil {
 
@@ -21,15 +21,15 @@ public class TestUtil {
 	}
 
 	public static Volume load(InputStream inputStream) throws Exception {
-		BlocketteDirector director = new BlocketteDirector();
-		BlocketteItrator iterator = director.process(inputStream);
 
-		Volume volume = new Volume();
-		while (iterator.hasNext()) {
-			Blockette blockette = iterator.next();
-			volume.add(blockette);
+		try (BlocketteItrator iterator = new BlocketteItrator(new RecordInputStream(inputStream))) {
+			Volume volume = new Volume();
+			while (iterator.hasNext()) {
+				Blockette blockette = iterator.next();
+				volume.add(blockette);
+			}
+			return volume;
 		}
-		return volume;
 	}
 
 	public static B050 createB050(String networkCode, String stationCode, ZonedDateTime start, ZonedDateTime end,
@@ -66,7 +66,7 @@ public class TestUtil {
 		b.setUnitsOfCommentLevel(unitsOfCommentLevel);
 		return b;
 	}
-	
+
 	public static Blockette create(String text) throws SeedException {
 		return BlocketteFactory.create(text.getBytes());
 	}

@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.AbstractBlockette;
 import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.seed.SeedException;
+import edu.iris.dmc.seed.SeedStringBuilder;
 
 public class B052 extends AbstractBlockette implements StationBlockette {
 

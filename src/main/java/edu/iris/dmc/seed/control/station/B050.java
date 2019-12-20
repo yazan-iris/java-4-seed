@@ -3,10 +3,10 @@ package edu.iris.dmc.seed.control.station;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.AbstractBlockette;
 import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.seed.SeedException;
+import edu.iris.dmc.seed.SeedStringBuilder;
 
 public class B050 extends AbstractBlockette implements StationBlockette {
 

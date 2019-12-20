@@ -4,8 +4,10 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.iris.dmc.seed.Record;
 import edu.iris.dmc.seed.RecordFactory;
@@ -15,7 +17,7 @@ public class RecordInputStream extends BufferedInputStream {
 
 	public static Pattern headerPattern = Pattern.compile("^\\d{6}[VASTDRQM][\\s\\*]");
 
-	private Logger LOGGER = Logger.getLogger("SeedInputStream");
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private int recordLength = -1;
 	int seq = 0;
@@ -31,7 +33,7 @@ public class RecordInputStream extends BufferedInputStream {
 	public Record next() throws IOException, SeedException {
 		int length = getRecordLength();
 		if (length == -1) {
-			return null;
+			throw new SeedException("Invalid record length {}", length);
 		}
 		byte[] bytes = new byte[length];
 
@@ -45,12 +47,12 @@ public class RecordInputStream extends BufferedInputStream {
 				if (isNL && read(bytes) == -1) {
 					return null;
 				} else {
-					throw new SeedException("Reading record: Expected " + bytes.length + " but received " + bytesRead
-							+ ": " + new String(bytes));
+					throw new SeedException("Reading record: Expected {} but received {}:{}", bytes.length, bytesRead,
+							new String(bytes));
 				}
 			}
 		}
-
+		logger.debug("bytesRead: {}", bytesRead);
 		return RecordFactory.create(bytes);
 	}
 

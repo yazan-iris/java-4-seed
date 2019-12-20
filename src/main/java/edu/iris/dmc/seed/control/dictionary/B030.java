@@ -2,9 +2,8 @@ package edu.iris.dmc.seed.control.dictionary;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import edu.iris.dmc.io.SeedStringBuilder;
+import edu.iris.dmc.seed.SeedStringBuilder;
 
 public class B030 extends AbstractDictionaryBlockette {
 

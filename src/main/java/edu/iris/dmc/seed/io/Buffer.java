@@ -2,8 +2,8 @@ package edu.iris.dmc.seed.io;
 
 import java.util.Arrays;
 
-import edu.iris.dmc.io.SeedFormatter;
 import edu.iris.dmc.seed.SeedException;
+import edu.iris.dmc.seed.BlocketteFormatter;
 
 public class Buffer {
 
@@ -21,7 +21,7 @@ public class Buffer {
 			if (offset == 0 || offset >= this.bytes.length) {
 				flush();
 				this.sequence++;
-				byte[] s = (SeedFormatter.format(this.sequence, 6) + "" + type + '*').getBytes();
+				byte[] s = (BlocketteFormatter.format(this.sequence, 6) + "" + type + '*').getBytes();
 				System.arraycopy(s, 0, this.bytes, offset, s.length);
 				Arrays.copyOfRange(this.bytes, 0, s.length);
 				offset = s.length;

@@ -3,8 +3,7 @@ package edu.iris.dmc.seed.control.dictionary;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.iris.dmc.io.SeedStringBuilder;
-import edu.iris.dmc.seed.control.station.Calibration;
+import edu.iris.dmc.seed.SeedStringBuilder;
 import edu.iris.dmc.seed.control.station.Number;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
 

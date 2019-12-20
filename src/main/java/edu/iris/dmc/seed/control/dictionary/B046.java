@@ -1,6 +1,5 @@
 package edu.iris.dmc.seed.control.dictionary;
 
-import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
 
 public class B046 extends AbstractDictionaryBlockette implements ResponseBlockette  {
