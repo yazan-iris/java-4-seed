@@ -10,5 +10,6 @@ public interface FileWriter extends Closeable{
 	public boolean isFileTypeSupported(FileFormat.TYPE type);
 
 	public void write(Volume volume)throws IOException;
+	public void write(Volume volume, Formatter formatter)throws IOException;
 
 }

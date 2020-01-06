@@ -1,7 +1,7 @@
 package edu.iris.dmc.seed.control.station;
 
 
-import edu.iris.dmc.seed.SeedStringBuilder;
+import edu.iris.dmc.io.SeedStringBuilder;
 
 public class B057 extends AbstractResponseBlockette {
 

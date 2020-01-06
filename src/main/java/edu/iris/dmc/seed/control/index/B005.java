@@ -1,9 +1,9 @@
 package edu.iris.dmc.seed.control.index;
 
+import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.AbstractBlockette;
 import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.seed.SeedException;
-import edu.iris.dmc.seed.SeedStringBuilder;
 
 
 public class B005 extends AbstractBlockette implements IndexBlockette {

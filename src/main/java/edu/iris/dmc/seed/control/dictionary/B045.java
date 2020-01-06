@@ -3,7 +3,7 @@ package edu.iris.dmc.seed.control.dictionary;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.iris.dmc.seed.SeedStringBuilder;
+import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
 
 public class B045 extends AbstractDictionaryBlockette implements ResponseBlockette {

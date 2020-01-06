@@ -1,8 +1,11 @@
 package edu.iris.dmc.seed.control.station;
 
+import edu.iris.dmc.seed.Blockette;
+import java.util.Set;
+
+import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.AbstractBlockette;
 import edu.iris.dmc.seed.BTime;
-import edu.iris.dmc.seed.SeedStringBuilder;
 
 public class B059 extends AbstractBlockette implements StationBlockette {
 	private BTime startTime;
@@ -10,6 +13,7 @@ public class B059 extends AbstractBlockette implements StationBlockette {
 	private int lookupKey;
 	private int level;
 
+	private B052 b052;
 
 	public B059() {
 		super(59, "Channel Comment Blockette");

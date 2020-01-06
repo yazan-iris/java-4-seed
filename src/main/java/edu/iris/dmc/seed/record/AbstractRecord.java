@@ -5,46 +5,48 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import edu.iris.dmc.io.SeedFormatter;
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.BlocketteFactory;
 import edu.iris.dmc.seed.IncompleteBlockette;
 import edu.iris.dmc.seed.Record;
 import edu.iris.dmc.seed.SeedException;
-import edu.iris.dmc.seed.BlocketteFormatter;
 
 abstract class AbstractRecord implements Record {
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	private int sequence;
 	private char type;
 	private boolean continuation;
-	protected byte[] bytes;
+	private byte[] bytes;
 
 	private int size;
-	protected int index;
+	private int index;
 
 	public AbstractRecord(int sequence, char type, boolean continuation) throws SeedException {
 		this(sequence, type, continuation, 4096);
 	}
 
 	public AbstractRecord(int sequence, char type, boolean continuation, int size) throws SeedException {
-		logger.debug("Initializing record of type {} and sequence {} [{}], size:{}", type, sequence, continuation,
-				size);
 		this.size = size;
 		this.sequence = sequence;
 		this.type = type;
 		this.continuation = continuation;
 		this.bytes = new byte[size];
 
+		StringBuilder sb = new StringBuilder(SeedFormatter.format(this.sequence, 6));
+		sb.append(type);
+		if (continuation) {
+			sb.append('*');
+		} else {
+			sb.append(' ');
+		}
+
 		byte[] s = buildSequence();
 		System.arraycopy(s, 0, this.bytes, 0, s.length);
 	}
 
 	protected byte[] buildSequence() throws SeedException {
-		StringBuilder sb = new StringBuilder(BlocketteFormatter.format(this.sequence, 6));
+		StringBuilder sb = new StringBuilder(SeedFormatter.format(this.sequence, 6));
 		sb.append(type);
 		if (continuation) {
 			sb.append('*');
@@ -130,7 +132,6 @@ abstract class AbstractRecord implements Record {
 	}
 
 	public Blockette next() throws SeedException {
-		System.out.println(index);
 		try {
 			if (this.bytes == null || index >= bytes.length - 1) {
 				return null;
@@ -147,6 +148,9 @@ abstract class AbstractRecord implements Record {
 				return null;
 			}
 
+			if (type == 61 || type == 52 || type == 50) {
+				// System.out.println(new String(bytes));
+			}
 			if (index + 7 > bytes.length || "".equals(new String(bytes, index + 3, 4).trim())) {
 				return null;
 			}
@@ -162,11 +166,11 @@ abstract class AbstractRecord implements Record {
 				byte[] bb = new byte[bytes.length - index];
 				System.arraycopy(bytes, index, bb, 0, bb.length);
 				IncompleteBlockette b = new IncompleteBlockette(length, bb);
-				index += bb.length;
+				index = bb.length;
 				return b;
 			}
 		} catch (NumberFormatException e) {
-			throw new SeedException(e, bytes,index);
+			throw new SeedException(e, bytes);
 		}
 	}
 

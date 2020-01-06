@@ -3,7 +3,7 @@ package edu.iris.dmc.seed.control.station;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.iris.dmc.seed.SeedStringBuilder;
+import edu.iris.dmc.io.SeedStringBuilder;
 
 public class B058 extends AbstractResponseBlockette {
 

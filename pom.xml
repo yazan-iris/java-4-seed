@@ -30,12 +30,6 @@
 	</licenses>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<junit.jupiter.version>5.3.2</junit.jupiter.version>
-		<junit.vintage.version>5.3.2</junit.vintage.version>
-		<logback.version>1.2.3</logback.version>
-		<timestamp>${maven.build.timestamp}</timestamp>
-		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 	</properties>
 
 
@@ -91,13 +85,6 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${logback.version}</version>
-		</dependency>
-
-
-		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>5.4.2</version>
@@ -109,6 +96,15 @@
 			<version>5.4.2</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-runner</artifactId>
+			<version>1.4.2</version>
+			<scope>test</scope>
+		</dependency>
+
 
 	</dependencies>
 	<distributionManagement>

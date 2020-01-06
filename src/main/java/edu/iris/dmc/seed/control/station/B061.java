@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import edu.iris.dmc.io.SeedStringBuilder;
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.SeedException;
-import edu.iris.dmc.seed.SeedStringBuilder;
 
 public class B061 extends AbstractResponseBlockette implements OverFlowBlockette {
 

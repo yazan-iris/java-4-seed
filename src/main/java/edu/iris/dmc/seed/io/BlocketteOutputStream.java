@@ -4,14 +4,17 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import edu.iris.dmc.io.SeedFormatter;
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.Record;
 import edu.iris.dmc.seed.SeedException;
-import edu.iris.dmc.seed.BlocketteFormatter;
 import edu.iris.dmc.seed.control.station.B050;
+import edu.iris.dmc.seed.control.station.OverFlowBlockette;
 
 public class BlocketteOutputStream implements Closeable {
 
@@ -142,7 +145,7 @@ public class BlocketteOutputStream implements Closeable {
 
 	protected byte[] getNextSequenceBytes(char type, boolean continuation) throws SeedException {
 		sequence += 1;
-		StringBuilder sb = new StringBuilder(BlocketteFormatter.format(this.sequence, 6));
+		StringBuilder sb = new StringBuilder(SeedFormatter.format(this.sequence, 6));
 		sb.append(type);
 		if (continuation) {
 			sb.append('*');

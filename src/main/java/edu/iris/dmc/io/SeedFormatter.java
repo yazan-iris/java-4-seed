@@ -1,11 +1,14 @@
-package edu.iris.dmc.seed;
+package edu.iris.dmc.io;
 
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
+import edu.iris.dmc.seed.Blockette;
+import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.dictionary.B030;
 import edu.iris.dmc.seed.control.dictionary.B031;
 import edu.iris.dmc.seed.control.dictionary.B032;
@@ -45,11 +48,11 @@ import edu.iris.dmc.seed.control.station.Pole;
 import edu.iris.dmc.seed.control.station.Stage;
 import edu.iris.dmc.seed.control.station.Zero;
 
-public class BlocketteFormatter {
+public class SeedFormatter implements Formatter {
 
-	private static Logger LOGGER = Logger.getLogger(BlocketteFormatter.class.getName());
+	private static Logger LOGGER = Logger.getLogger(SeedFormatter.class.getName());
 
-
+	@Override
 	public String format(Blockette blockette) throws SeedException {
 		LOGGER.info("Formatting: " + blockette);
 		switch (blockette.getType()) {
@@ -188,11 +191,11 @@ public class BlocketteFormatter {
 		SeedStringBuilder builder = new SeedStringBuilder(b011.getType(), 3).append("####");
 
 		int number = b011.getRows().size();
-		builder.append(BlocketteFormatter.format(number, 3));
+		builder.append(SeedFormatter.format(number, 3));
 
 		for (B011.Row row : b011.getRows()) {
-			builder.append(BlocketteFormatter.rightPad(row.getCode(), 5));
-			builder.append(BlocketteFormatter.leftPad(row.getSequence(), 6));
+			builder.append(SeedFormatter.rightPad(row.getCode(), 5));
+			builder.append(SeedFormatter.leftPad(row.getSequence(), 6));
 		}
 
 		builder.replace(3, 7, builder.length(), "####");
@@ -208,7 +211,7 @@ public class BlocketteFormatter {
 		if (spans != null) {
 			number = spans.size();
 		}
-		builder.append(BlocketteFormatter.format(number, 4));
+		builder.append(SeedFormatter.format(number, 4));
 
 		if (spans != null) {
 			Iterator<Entry<String, Span>> iterator = spans.entrySet().iterator();
@@ -224,7 +227,7 @@ public class BlocketteFormatter {
 					builder.append(span.getEnd());
 				}
 				builder.append("~");
-				builder.append(BlocketteFormatter.rightPad(mapEntry.getKey(), 6));
+				builder.append(SeedFormatter.rightPad(mapEntry.getKey(), 6));
 			}
 		}
 		builder.replace(3, 7, builder.length(), "####");
@@ -239,14 +242,14 @@ public class BlocketteFormatter {
 			builder.append(blockette.getName());
 		}
 		builder.append("~");
-		builder.append(BlocketteFormatter.format(blockette.getLookupKey(), 4))
-				.append(BlocketteFormatter.format(blockette.getDataFamilyType(), 3));
+		builder.append(SeedFormatter.format(blockette.getLookupKey(), 4))
+				.append(SeedFormatter.format(blockette.getDataFamilyType(), 3));
 
 		int numberOfKeys = 0;
 		if (blockette.getDecoderKeys() != null) {
 			numberOfKeys = blockette.getDecoderKeys().size();
 		}
-		builder.append(BlocketteFormatter.format(numberOfKeys, 2));
+		builder.append(SeedFormatter.format(numberOfKeys, 2));
 		if (blockette.getDecoderKeys() != null) {
 			for (String s : blockette.getDecoderKeys()) {
 				builder.append(s).append("~");
@@ -260,7 +263,7 @@ public class BlocketteFormatter {
 
 		SeedStringBuilder builder = new SeedStringBuilder(blockette.getType(), 3).append("####");
 
-		builder.append(BlocketteFormatter.format(blockette.getLookupKey(), 4)).append(blockette.getClassCode());
+		builder.append(SeedFormatter.format(blockette.getLookupKey(), 4)).append(blockette.getClassCode());
 		if (blockette.getDescription() != null) {
 			builder.append(blockette.getDescription());
 		}
@@ -479,16 +482,16 @@ public class BlocketteFormatter {
 
 	public String format(B050 blockette) throws SeedException {
 		StringBuilder builder = new StringBuilder("0" + blockette.getType() + "####");
-		builder.append(BlocketteFormatter.format(blockette.getStationCode(), 5));
-		builder.append(BlocketteFormatter.format(blockette.getLatitude(), "+#,#00.000000;-#", 10));
-		builder.append(BlocketteFormatter.format(blockette.getLongitude(), "+#,#000.000000;-#", 11));
-		builder.append(BlocketteFormatter.format(blockette.getElevation(), "+#,#0000.0;-#", 7));
-		builder.append(BlocketteFormatter.format(blockette.getNumberOfChannels(), 4));
-		builder.append(BlocketteFormatter.format(blockette.getNumberOfComments(), 3));
+		builder.append(SeedFormatter.format(blockette.getStationCode(), 5));
+		builder.append(SeedFormatter.format(blockette.getLatitude(), "+#,#00.000000;-#", 10));
+		builder.append(SeedFormatter.format(blockette.getLongitude(), "+#,#000.000000;-#", 11));
+		builder.append(SeedFormatter.format(blockette.getElevation(), "+#,#0000.0;-#", 7));
+		builder.append(SeedFormatter.format(blockette.getNumberOfChannels(), 4));
+		builder.append(SeedFormatter.format(blockette.getNumberOfComments(), 3));
 		builder.append(blockette.getSiteName()).append("~");
-		builder.append(BlocketteFormatter.format(blockette.getNetworkIdentifierCode(), 3));
-		builder.append(BlocketteFormatter.format(blockette.getBit32BitOrder(), 4));
-		builder.append(BlocketteFormatter.format(blockette.getBit16BitOrder(), 2));
+		builder.append(SeedFormatter.format(blockette.getNetworkIdentifierCode(), 3));
+		builder.append(SeedFormatter.format(blockette.getBit32BitOrder(), 4));
+		builder.append(SeedFormatter.format(blockette.getBit16BitOrder(), 2));
 		builder.append(blockette.getStartTime().toSeedString()).append("~");
 		if (blockette.getEndTime() != null) {
 			builder.append(blockette.getEndTime().toSeedString());
@@ -496,7 +499,7 @@ public class BlocketteFormatter {
 		builder.append("~");
 		builder.append(blockette.getUpdateFlag());
 		builder.append(blockette.getNetworkCode());
-		builder.replace(3, 7, BlocketteFormatter.format(builder.length(), 4));
+		builder.replace(3, 7, SeedFormatter.format(builder.length(), 4));
 		return builder.toString();
 	}
 
@@ -504,8 +507,8 @@ public class BlocketteFormatter {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getStartTime()).append("~");
 		builder.append(blockette.getEndTime()).append("~");
-		builder.append(BlocketteFormatter.format(blockette.getLookupKey(), 4));
-		builder.append(BlocketteFormatter.format(blockette.getLevel(), 6));
+		builder.append(SeedFormatter.format(blockette.getLookupKey(), 4));
+		builder.append(SeedFormatter.format(blockette.getLevel(), 6));
 
 		builder.replace(3, 7, builder.length(), "####");
 		return builder.toString();
@@ -686,10 +689,10 @@ public class BlocketteFormatter {
 		StringBuilder builder = new StringBuilder("0" + blockette.getType() + "####");
 		builder.append(blockette.getStartTime().toString()).append("~");
 		builder.append(blockette.getEndTime().toString()).append("~");
-		builder.append(BlocketteFormatter.format(blockette.getLookupKey(), 4));
-		builder.append(BlocketteFormatter.format(blockette.getLevel(), 6));
+		builder.append(SeedFormatter.format(blockette.getLookupKey(), 4));
+		builder.append(SeedFormatter.format(blockette.getLevel(), 6));
 
-		builder.replace(3, 7, BlocketteFormatter.format(builder.length(), 4));
+		builder.replace(3, 7, SeedFormatter.format(builder.length(), 4));
 		return builder.toString();
 	}
 

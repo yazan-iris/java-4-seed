@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.logging.Logger;
 
+import edu.iris.dmc.io.SeedStringBuilder;
+
 public class BTime {
 
 	private static Logger LOGGER = Logger.getLogger(BTime.class.getName());
