@@ -1,0 +1,2377 @@
+[ {
+  "number" : 5,
+  "type" : "Volume Index",
+  "description" : "Field Volume Identifier Blockette",
+  "since" : "2.0=5",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 005",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Version of format",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"00.0\""
+  }, {
+    "number" : 4,
+    "description" : "Logical record length",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 5,
+    "description" : "Beginning of volume",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  } ]
+}, {
+  "number" : 70,
+  "type" : "Time Span",
+  "description" : "Time Span Identifier Blockette",
+  "since" : "2.0=5",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 070",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Time span flag",
+    "type" : "A",
+    "length" : "1",
+    "mask" : "[U]"
+  }, {
+    "number" : 4,
+    "description" : "Beginning time of data span",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 5,
+    "description" : "End time of data span",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  } ]
+}, {
+  "number" : 71,
+  "type" : "Time Span",
+  "description" : "Hypocenter Information Blockette",
+  "since" : "2.0=11,2.3=14",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 071",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Origin time of event",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 4,
+    "description" : "Hypocenter source identifier",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 5,
+    "description" : "Latitude of event (degrees)",
+    "type" : "D",
+    "length" : "10",
+    "mask" : "\"00.000000\""
+  }, {
+    "number" : 6,
+    "description" : "Longitude of event (degrees)",
+    "type" : "D",
+    "length" : "11",
+    "mask" : "\"000.000000\""
+  }, {
+    "number" : 7,
+    "description" : "Depth (Km)",
+    "type" : "D",
+    "length" : "7",
+    "mask" : "\"0000.00\""
+  }, {
+    "number" : 8,
+    "description" : "Number of magnitudes",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 9,
+    "description" : "Magnitude",
+    "type" : "D",
+    "length" : "5",
+    "mask" : "\"00.00\""
+  }, {
+    "number" : 10,
+    "description" : "Magnitude type",
+    "type" : "V",
+    "length" : "1-10",
+    "mask" : "[UNLPS]"
+  }, {
+    "number" : 11,
+    "description" : "Magnitude source",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 12,
+    "description" : "Seismic region",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 13,
+    "description" : "Seismic Location",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 14,
+    "description" : "Region Name",
+    "type" : "V",
+    "length" : "1-40",
+    "mask" : "[UNLPS]"
+  } ]
+}, {
+  "number" : 8,
+  "type" : "Volume Index",
+  "description" : "Telemetry Volume Identifier Blockette",
+  "since" : "2.1=11",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 008",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Version of format",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"00.0\""
+  }, {
+    "number" : 4,
+    "description" : "Logical record length",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 5,
+    "description" : "Station identifier",
+    "type" : "A",
+    "length" : "5",
+    "mask" : "[UN]"
+  }, {
+    "number" : 6,
+    "description" : "Location identifier",
+    "type" : "A",
+    "length" : "2",
+    "mask" : "[UNS]"
+  }, {
+    "number" : 7,
+    "description" : "Channel identifier",
+    "type" : "A",
+    "length" : "3",
+    "mask" : "[UN]"
+  }, {
+    "number" : 8,
+    "description" : "Beginning of volume",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 9,
+    "description" : "End of volume",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 10,
+    "description" : "Station info effective date",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 11,
+    "description" : "Channel info effective date",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 12,
+    "description" : "Network Code",
+    "type" : "A",
+    "length" : "2",
+    "mask" : "[UN]"
+  } ]
+}, {
+  "number" : 72,
+  "type" : "Time Span",
+  "description" : "Event Phases Blockette",
+  "since" : "2.0=10,2.3=12",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 072",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Station identifier",
+    "type" : "A",
+    "length" : "5",
+    "mask" : "[UN]"
+  }, {
+    "number" : 4,
+    "description" : "Location identifier",
+    "type" : "A",
+    "length" : "2",
+    "mask" : "[UNS]"
+  }, {
+    "number" : 5,
+    "description" : "Channel identifier",
+    "type" : "A",
+    "length" : "3",
+    "mask" : "[UN]"
+  }, {
+    "number" : 6,
+    "description" : "Arrival time of phase",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 7,
+    "description" : "Amplitude of signal",
+    "type" : "F",
+    "length" : "10",
+    "mask" : "\"0.0000E00\""
+  }, {
+    "number" : 8,
+    "description" : "Period of signal (seconds)",
+    "type" : "F",
+    "length" : "10",
+    "mask" : "\"0.0000E00\""
+  }, {
+    "number" : 9,
+    "description" : "Signal-to-noise ratio",
+    "type" : "F",
+    "length" : "10",
+    "mask" : "\"0.0000E00\""
+  }, {
+    "number" : 10,
+    "description" : "Name of phase",
+    "type" : "V",
+    "length" : "1-20",
+    "mask" : "[UNLP]"
+  }, {
+    "number" : 11,
+    "description" : "Source",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 12,
+    "description" : "Network Code",
+    "type" : "A",
+    "length" : "2",
+    "mask" : "[UN]"
+  } ]
+}, {
+  "number" : 73,
+  "type" : "Time Span",
+  "description" : "Time Span Data Start Index Blockette",
+  "since" : "2.0=9",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 073",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Number of data pieces",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 4,
+    "description" : "Station identifier",
+    "type" : "A",
+    "length" : "5",
+    "mask" : "[UN]"
+  }, {
+    "number" : 5,
+    "description" : "Location identifier",
+    "type" : "A",
+    "length" : "2",
+    "mask" : "[UNS]"
+  }, {
+    "number" : 6,
+    "description" : "Channel identifier",
+    "type" : "A",
+    "length" : "3",
+    "mask" : "[UN]"
+  }, {
+    "number" : 7,
+    "description" : "Time of record",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 8,
+    "description" : "Sequence number of first record",
+    "type" : "D",
+    "length" : "6",
+    "mask" : "\"000000\""
+  }, {
+    "number" : 9,
+    "description" : "Sub-sequence number",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  } ]
+}, {
+  "number" : 10,
+  "type" : "Volume Index",
+  "description" : "Volume Identifier Blockette",
+  "since" : "2.0=6,2.3=9",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 010",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Version of format",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"00.0\""
+  }, {
+    "number" : 4,
+    "description" : "Logical record length",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 5,
+    "description" : "Beginning time",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 6,
+    "description" : "End time",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 7,
+    "description" : "Volume Time",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 8,
+    "description" : "Originating Organization",
+    "type" : "V",
+    "length" : "1-80",
+    "mask" : "[]"
+  }, {
+    "number" : 9,
+    "description" : "Label",
+    "type" : "V",
+    "length" : "1-80",
+    "mask" : "[]"
+  } ]
+}, {
+  "number" : 74,
+  "type" : "Time Span",
+  "description" : "Time Series Index Blockette",
+  "since" : "2.1=15,2.3=16",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 074",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Station identifier",
+    "type" : "A",
+    "length" : "5",
+    "mask" : "[UN]"
+  }, {
+    "number" : 4,
+    "description" : "Location identifier",
+    "type" : "A",
+    "length" : "2",
+    "mask" : "[UNS]"
+  }, {
+    "number" : 5,
+    "description" : "Channel identifier",
+    "type" : "A",
+    "length" : "3",
+    "mask" : "[UN]"
+  }, {
+    "number" : 6,
+    "description" : "Series start time",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 7,
+    "description" : "Sequence number of first data",
+    "type" : "D",
+    "length" : "6",
+    "mask" : "\"000000\""
+  }, {
+    "number" : 8,
+    "description" : "Sub-sequence number",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 9,
+    "description" : "Series end time",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 10,
+    "description" : "Sequence number of last record",
+    "type" : "D",
+    "length" : "6",
+    "mask" : "\"000000\""
+  }, {
+    "number" : 11,
+    "description" : "Sub-sequence number",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 12,
+    "description" : "Number of accelerator repeats",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 13,
+    "description" : "Record start time",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 14,
+    "description" : "Sequence number of record",
+    "type" : "D",
+    "length" : "6",
+    "mask" : "\"000000\""
+  }, {
+    "number" : 15,
+    "description" : "Sub-sequence number",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 16,
+    "description" : "Network Code",
+    "type" : "A",
+    "length" : "2",
+    "mask" : "[UN]"
+  } ]
+}, {
+  "number" : 11,
+  "type" : "Volume Index",
+  "description" : "Volume Station Header Index Blockette",
+  "since" : "2.0=5",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 011",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Number of stations",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 4,
+    "description" : "Station identifier code",
+    "type" : "A",
+    "length" : "5",
+    "mask" : "[]"
+  }, {
+    "number" : 5,
+    "description" : "Sequence no. of station header",
+    "type" : "D",
+    "length" : "6",
+    "mask" : "\"000000\""
+  } ]
+}, {
+  "number" : 12,
+  "type" : "Volume Index",
+  "description" : "Volume Time Span Index Blockette",
+  "since" : "2.0=6",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 012",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Number of spans in table",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 4,
+    "description" : "Beginning of span",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 5,
+    "description" : "End of span",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 6,
+    "description" : "Sequence no. of time span hdr.",
+    "type" : "D",
+    "length" : "6",
+    "mask" : "\"000000\""
+  } ]
+}, {
+  "number" : 30,
+  "type" : "Abbreviation Dictionary",
+  "description" : "Data Format Dictionary Blockette",
+  "since" : "2.0=7",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 030",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Short descriptive name",
+    "type" : "V",
+    "length" : "1-50",
+    "mask" : "[UNLPS]"
+  }, {
+    "number" : 4,
+    "description" : "Data format identifier code",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 5,
+    "description" : "Data family type",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 6,
+    "description" : "Number of decoder keys",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 7,
+    "description" : "Decoder keys",
+    "type" : "V",
+    "length" : "1-9999",
+    "mask" : "[UNLPS]"
+  } ]
+}, {
+  "number" : 31,
+  "type" : "Abbreviation Dictionary",
+  "description" : "Comment Description Blockette",
+  "since" : "2.0=6",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 031",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Comment code key",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 4,
+    "description" : "Comment class code",
+    "type" : "A",
+    "length" : "1",
+    "mask" : "[U]"
+  }, {
+    "number" : 5,
+    "description" : "Description of comment",
+    "type" : "V",
+    "length" : "1-70",
+    "mask" : "[UNLPS]"
+  }, {
+    "number" : 6,
+    "description" : "Units of comment level",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  } ]
+}, {
+  "number" : 32,
+  "type" : "Abbreviation Dictionary",
+  "description" : "Cited Source Dictionary Blockette",
+  "since" : "2.0=6",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 032",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Source lookup code",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 4,
+    "description" : "Name of publication/author",
+    "type" : "V",
+    "length" : "1-70",
+    "mask" : "[UNLPS]"
+  }, {
+    "number" : 5,
+    "description" : "Date published/catalog",
+    "type" : "V",
+    "length" : "1-70",
+    "mask" : "[UNLPS]"
+  }, {
+    "number" : 6,
+    "description" : "Publisher name",
+    "type" : "V",
+    "length" : "1-50",
+    "mask" : "[UNLPS]"
+  } ]
+}, {
+  "number" : 33,
+  "type" : "Abbreviation Dictionary",
+  "description" : "Generic Abbreviation Blockette",
+  "since" : "2.0=4",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 033",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Abbreviation lookup code",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 4,
+    "description" : "Abbreviation description",
+    "type" : "V",
+    "length" : "1-50",
+    "mask" : "[UNLPS]"
+  } ]
+}, {
+  "number" : 34,
+  "type" : "Abbreviation Dictionary",
+  "description" : "Units Abbreviations Blockette",
+  "since" : "2.0=5",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 034",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Unit lookup code",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 4,
+    "description" : "Unit name",
+    "type" : "V",
+    "length" : "1-20",
+    "mask" : "[UNP]"
+  }, {
+    "number" : 5,
+    "description" : "Unit description",
+    "type" : "V",
+    "length" : "0-50",
+    "mask" : "[UNLPS]"
+  } ]
+}, {
+  "number" : 35,
+  "type" : "Abbreviation Dictionary",
+  "description" : "Beam Configuration Blockette",
+  "since" : "2.0=9",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 035",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Unit lookup code",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 4,
+    "description" : "Number of components",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 5,
+    "description" : "Station identifier",
+    "type" : "A",
+    "length" : "5",
+    "mask" : "[UN]"
+  }, {
+    "number" : 6,
+    "description" : "Location identifier",
+    "type" : "A",
+    "length" : "2",
+    "mask" : "[UNS]"
+  }, {
+    "number" : 7,
+    "description" : "Channel identifier",
+    "type" : "A",
+    "length" : "3",
+    "mask" : "[UN]"
+  }, {
+    "number" : 8,
+    "description" : "Sub-channel identifier",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 9,
+    "description" : "Component weight",
+    "type" : "D",
+    "length" : "5",
+    "mask" : "\"0.000\""
+  } ]
+}, {
+  "number" : 41,
+  "type" : "Abbreviation Dictionary",
+  "description" : "FIR Dictionary Blockette",
+  "since" : "2.2=9",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 041",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Response Lookup Key",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 4,
+    "description" : "Response Name",
+    "type" : "V",
+    "length" : "1-25",
+    "mask" : "[UNL_]"
+  }, {
+    "number" : 5,
+    "description" : "Symmetry Code",
+    "type" : "A",
+    "length" : "1",
+    "mask" : "[U]"
+  }, {
+    "number" : 6,
+    "description" : "Signal In Units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 7,
+    "description" : "Signal Out Units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 8,
+    "description" : "Number of Factors",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 9,
+    "description" : "FIR Coefficient",
+    "type" : "F",
+    "length" : "14",
+    "mask" : "\"0.0000000E00\""
+  } ]
+}, {
+  "number" : 43,
+  "type" : "Abbreviation Dictionary",
+  "description" : "Response (Poles & Zeros) Dictionary Blockette",
+  "since" : "2.1=19",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 043",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Response Lookup Key",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 4,
+    "description" : "Response name",
+    "type" : "V",
+    "length" : "1-25",
+    "mask" : "[UNL_]"
+  }, {
+    "number" : 5,
+    "description" : "Response type",
+    "type" : "A",
+    "length" : "1",
+    "mask" : "[U]"
+  }, {
+    "number" : 6,
+    "description" : "Stage signal input units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 7,
+    "description" : "Stage signal output units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 8,
+    "description" : "AO normalization factor",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 9,
+    "description" : "Normalization frequency (Hz)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 10,
+    "description" : "Number of complex zeros",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 11,
+    "description" : "Real zero",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 12,
+    "description" : "Imaginary zero",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 13,
+    "description" : "Real zero error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 14,
+    "description" : "Imaginary zero error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 15,
+    "description" : "Number of complex poles",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 16,
+    "description" : "Real pole",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 17,
+    "description" : "Imaginary pole",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 18,
+    "description" : "Real pole error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 19,
+    "description" : "Imaginary pole error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  } ]
+}, {
+  "number" : 44,
+  "type" : "Abbreviation Dictionary",
+  "description" : "Response (Coefficients) Dictionary Blockette",
+  "since" : "2.1=13",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 044",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Response lookup key",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 4,
+    "description" : "Response name",
+    "type" : "V",
+    "length" : "1-25",
+    "mask" : "[UN_]"
+  }, {
+    "number" : 5,
+    "description" : "Response type",
+    "type" : "A",
+    "length" : "1",
+    "mask" : "[U]"
+  }, {
+    "number" : 6,
+    "description" : "Signal input units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 7,
+    "description" : "Signal output units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 8,
+    "description" : "Number of numerators",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 9,
+    "description" : "Numerator coefficient",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 10,
+    "description" : "Numerator error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 11,
+    "description" : "Number of denominators",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 12,
+    "description" : "Denominator coefficient",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 13,
+    "description" : "Denominator error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  } ]
+}, {
+  "number" : 45,
+  "type" : "Abbreviation Dictionary",
+  "description" : "Response List Dictionary Blockette",
+  "since" : "2.1=12",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 045",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Response lookup key",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 4,
+    "description" : "Response name",
+    "type" : "V",
+    "length" : "1-25",
+    "mask" : "[UNL_]"
+  }, {
+    "number" : 5,
+    "description" : "Signal input units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 6,
+    "description" : "Signal output units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 7,
+    "description" : "Number of responses listed",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 8,
+    "description" : "Frequency (Hz)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 9,
+    "description" : "Amplitude",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 10,
+    "description" : "Amplitude error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 11,
+    "description" : "Phase angle (degrees)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 12,
+    "description" : "Phase error (degrees)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  } ]
+}, {
+  "number" : 46,
+  "type" : "Abbreviation Dictionary",
+  "description" : "Generic Response Dictionary Blockette",
+  "since" : "2.1=9",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 046",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Response lookup key",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 4,
+    "description" : "Response name",
+    "type" : "V",
+    "length" : "1-25",
+    "mask" : "[UNL_]"
+  }, {
+    "number" : 5,
+    "description" : "Signal input units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 6,
+    "description" : "Signal output units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 7,
+    "description" : "Number of corners listed",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 8,
+    "description" : "Corner frequency (Hz)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 9,
+    "description" : "Corner slope (db/decade)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  } ]
+}, {
+  "number" : 47,
+  "type" : "Abbreviation Dictionary",
+  "description" : "Decimation Dictionary Blockette",
+  "since" : "2.1=9",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 047",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Response lookup key",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 4,
+    "description" : "Response name",
+    "type" : "V",
+    "length" : "1-25",
+    "mask" : "[UNL_]"
+  }, {
+    "number" : 5,
+    "description" : "Input sample rate",
+    "type" : "F",
+    "length" : "10",
+    "mask" : "\"0.0000E00\""
+  }, {
+    "number" : 6,
+    "description" : "Decimation factor",
+    "type" : "D",
+    "length" : "5",
+    "mask" : "\"00000\""
+  }, {
+    "number" : 7,
+    "description" : "Decimation offset",
+    "type" : "D",
+    "length" : "5",
+    "mask" : "\"00000\""
+  }, {
+    "number" : 8,
+    "description" : "Estimated delay (seconds)",
+    "type" : "F",
+    "length" : "11",
+    "mask" : "\"0.0000E00\""
+  }, {
+    "number" : 9,
+    "description" : "Correction applied (seconds)",
+    "type" : "F",
+    "length" : "11",
+    "mask" : "\"0.0000E00\""
+  } ]
+}, {
+  "number" : 48,
+  "type" : "Abbreviation Dictionary",
+  "description" : "Channel Sensitivity/Gain Dictionary Blockette",
+  "since" : "2.1=10",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 048",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Response lookup key",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 4,
+    "description" : "Response name",
+    "type" : "V",
+    "length" : "1-25",
+    "mask" : "[UNL_]"
+  }, {
+    "number" : 5,
+    "description" : "Sensitivity/gain",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 6,
+    "description" : "Frequency (Hz)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 7,
+    "description" : "Number of history values",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 8,
+    "description" : "Sensitivity for calibration",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 9,
+    "description" : "Freq. of calib. sensitivity",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 10,
+    "description" : "Time of above calibration",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  } ]
+}, {
+  "number" : 50,
+  "type" : "Station",
+  "description" : "Station Identifier Blockette",
+  "since" : "2.0=15,2.3=16",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 050",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Station call letters",
+    "type" : "A",
+    "length" : "5",
+    "mask" : "[UN]"
+  }, {
+    "number" : 4,
+    "description" : "Latitude (degrees)",
+    "type" : "D",
+    "length" : "10",
+    "mask" : "\"00.000000\""
+  }, {
+    "number" : 5,
+    "description" : "Longitude (degrees)",
+    "type" : "D",
+    "length" : "11",
+    "mask" : "\"000.000000\""
+  }, {
+    "number" : 6,
+    "description" : "Elevation (m)",
+    "type" : "D",
+    "length" : "7",
+    "mask" : "\"0000.0\""
+  }, {
+    "number" : 7,
+    "description" : "Number of channels",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 8,
+    "description" : "Number of station comments",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 9,
+    "description" : "Site name",
+    "type" : "V",
+    "length" : "1-60",
+    "mask" : "[UNLPS]"
+  }, {
+    "number" : 10,
+    "description" : "Network identifier code",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 11,
+    "description" : "32 bit word order",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 12,
+    "description" : "16 bit word order",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 13,
+    "description" : "Start effective date",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 14,
+    "description" : "End effective date",
+    "type" : "V",
+    "length" : "0-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 15,
+    "description" : "Update flag",
+    "type" : "A",
+    "length" : "1",
+    "mask" : "[]"
+  }, {
+    "number" : 16,
+    "description" : "Network Code",
+    "type" : "A",
+    "length" : "2",
+    "mask" : "[UN]"
+  } ]
+}, {
+  "number" : 51,
+  "type" : "Station",
+  "description" : "Station Comment Blockette",
+  "since" : "2.0=6",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 051",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Beginning effective time",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 4,
+    "description" : "End effective time",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 5,
+    "description" : "Comment code key",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 6,
+    "description" : "Comment level",
+    "type" : "D",
+    "length" : "6",
+    "mask" : "\"000000\""
+  } ]
+}, {
+  "number" : 52,
+  "type" : "Station",
+  "description" : "Channel Identifier Blockette",
+  "since" : "2.0=24",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 052",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Location identifier",
+    "type" : "A",
+    "length" : "2",
+    "mask" : "[UNS]"
+  }, {
+    "number" : 4,
+    "description" : "Channel identifier",
+    "type" : "A",
+    "length" : "3",
+    "mask" : "[UN]"
+  }, {
+    "number" : 5,
+    "description" : "Subchannel identifier",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 6,
+    "description" : "Instrument identifier",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 7,
+    "description" : "Optional comment",
+    "type" : "V",
+    "length" : "0-30",
+    "mask" : "[UNLPS]"
+  }, {
+    "number" : 8,
+    "description" : "Units of signal response",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 9,
+    "description" : "Units of calibration input",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 10,
+    "description" : "Latitude (degrees)",
+    "type" : "D",
+    "length" : "10",
+    "mask" : "\"00.000000\""
+  }, {
+    "number" : 11,
+    "description" : "Longitude (degrees)",
+    "type" : "D",
+    "length" : "11",
+    "mask" : "\"000.000000\""
+  }, {
+    "number" : 12,
+    "description" : "Elevation (m)",
+    "type" : "D",
+    "length" : "7",
+    "mask" : "\"0000.0\""
+  }, {
+    "number" : 13,
+    "description" : "Local depth (m)",
+    "type" : "D",
+    "length" : "5",
+    "mask" : "\"000.0\""
+  }, {
+    "number" : 14,
+    "description" : "Azimuth (degrees)",
+    "type" : "D",
+    "length" : "5",
+    "mask" : "\"000.0\""
+  }, {
+    "number" : 15,
+    "description" : "Dip (degrees)",
+    "type" : "D",
+    "length" : "5",
+    "mask" : "\"00.0\""
+  }, {
+    "number" : 16,
+    "description" : "Data format identifier code",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 17,
+    "description" : "Data record length",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 18,
+    "description" : "Sample rate (Hz)",
+    "type" : "F",
+    "length" : "10",
+    "mask" : "\"0.0000E00\""
+  }, {
+    "number" : 19,
+    "description" : "Max clock drift (seconds)",
+    "type" : "F",
+    "length" : "10",
+    "mask" : "\"0.0000E00\""
+  }, {
+    "number" : 20,
+    "description" : "Number of comments",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 21,
+    "description" : "Channel flags",
+    "type" : "V",
+    "length" : "0-26",
+    "mask" : "[U]"
+  }, {
+    "number" : 22,
+    "description" : "Start date",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 23,
+    "description" : "End date",
+    "type" : "V",
+    "length" : "0-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 24,
+    "description" : "Update flag",
+    "type" : "A",
+    "length" : "1",
+    "mask" : "[]"
+  } ]
+}, {
+  "number" : 53,
+  "type" : "Station",
+  "description" : "Response (Poles & Zeros) Blockette",
+  "since" : "2.0=18",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 053",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Transfer function type",
+    "type" : "A",
+    "length" : "1",
+    "mask" : "[U]"
+  }, {
+    "number" : 4,
+    "description" : "Stage sequence number",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 5,
+    "description" : "Stage signal input units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 6,
+    "description" : "Stage signal output units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 7,
+    "description" : "AO normalization factor",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 8,
+    "description" : "Normalization freq. f(n) (Hz)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 9,
+    "description" : "Number of complex zeros",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 10,
+    "description" : "Real zero",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 11,
+    "description" : "Imaginary zero",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 12,
+    "description" : "Real zero error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 13,
+    "description" : "Imaginary zero error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 14,
+    "description" : "Number of complex poles",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 15,
+    "description" : "Real pole",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 16,
+    "description" : "Imaginary pole",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 17,
+    "description" : "Real pole error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 18,
+    "description" : "Imaginary pole error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  } ]
+}, {
+  "number" : 54,
+  "type" : "Station",
+  "description" : "Response (Coefficients) Blockette",
+  "since" : "2.0=12",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 054",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Response type",
+    "type" : "A",
+    "length" : "1",
+    "mask" : "[U]"
+  }, {
+    "number" : 4,
+    "description" : "Stage sequence number",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 5,
+    "description" : "Signal input units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 6,
+    "description" : "Signal output units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 7,
+    "description" : "Number of numerators",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 8,
+    "description" : "Numerator coefficient",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 9,
+    "description" : "Numerator error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 10,
+    "description" : "Number of denominators",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 11,
+    "description" : "Denominator coefficient",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 12,
+    "description" : "Denominator error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  } ]
+}, {
+  "number" : 55,
+  "type" : "Station",
+  "description" : "Response List Blockette",
+  "since" : "2.0=11",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 055",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Stage sequence number",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 4,
+    "description" : "Signal input units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 5,
+    "description" : "Signal output units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 6,
+    "description" : "Number of responses listed",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 7,
+    "description" : "Frequency (Hz)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 8,
+    "description" : "Amplitude",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 9,
+    "description" : "Amplitude error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 10,
+    "description" : "Phase angle (degrees)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 11,
+    "description" : "Phase error (degrees)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  } ]
+}, {
+  "number" : 56,
+  "type" : "Station",
+  "description" : "Generic Response Blockette",
+  "since" : "2.0=8",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 056",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Stage sequence number",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 4,
+    "description" : "Signal input units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 5,
+    "description" : "Signal output units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 6,
+    "description" : "Number of corners listed",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 7,
+    "description" : "Corner frequency (Hz)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 8,
+    "description" : "Corner slope (db/decade)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  } ]
+}, {
+  "number" : 57,
+  "type" : "Station",
+  "description" : "Decimation Blockette",
+  "since" : "2.1=8",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 057",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Stage sequence number",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 4,
+    "description" : "Input sample rate (Hz)",
+    "type" : "F",
+    "length" : "10",
+    "mask" : "\"0.0000E00\""
+  }, {
+    "number" : 5,
+    "description" : "Decimation factor",
+    "type" : "D",
+    "length" : "5",
+    "mask" : "\"00000\""
+  }, {
+    "number" : 6,
+    "description" : "Decimation offset",
+    "type" : "D",
+    "length" : "5",
+    "mask" : "\"00000\""
+  }, {
+    "number" : 7,
+    "description" : "Estimated delay (seconds)",
+    "type" : "F",
+    "length" : "11",
+    "mask" : "\"0.0000E00\""
+  }, {
+    "number" : 8,
+    "description" : "Correction applied (seconds)",
+    "type" : "F",
+    "length" : "11",
+    "mask" : "\"0.0000E00\""
+  } ]
+}, {
+  "number" : 58,
+  "type" : "Station",
+  "description" : "Channel Sensitivity/Gain Blockette",
+  "since" : "2.0=9",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 058",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Stage sequence number",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 4,
+    "description" : "Sensitivity/gain S(d)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 5,
+    "description" : "Frequency (Hz) f(s)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 6,
+    "description" : "Number of history values",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 7,
+    "description" : "Sensitivity for calibration",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 8,
+    "description" : "Frequency of calibration (Hz)",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 9,
+    "description" : "Time of above calibration",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  } ]
+}, {
+  "number" : 59,
+  "type" : "Station",
+  "description" : "Channel Comment Blockette",
+  "since" : "2.0=6",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 059",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Beginning effective time",
+    "type" : "V",
+    "length" : "1-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 4,
+    "description" : "End effective time",
+    "type" : "V",
+    "length" : "0-22",
+    "mask" : "TIME"
+  }, {
+    "number" : 5,
+    "description" : "Comment code key",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 6,
+    "description" : "Comment level",
+    "type" : "D",
+    "length" : "6",
+    "mask" : "\"000000\""
+  } ]
+}, {
+  "number" : 60,
+  "type" : "Station",
+  "description" : "Response Reference Blockette",
+  "since" : "2.1=6",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 060",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Number of stages",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 4,
+    "description" : "Stage sequence number",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 5,
+    "description" : "Number of responses",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 6,
+    "description" : "Response lookup key",
+    "type" : "L",
+    "length" : "4",
+    "mask" : "/0000/"
+  } ]
+}, {
+  "number" : 61,
+  "type" : "Station",
+  "description" : "FIR Response Blockette",
+  "since" : "2.2=9",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 061",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Stage sequence number",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 4,
+    "description" : "Response Name",
+    "type" : "V",
+    "length" : "1-25",
+    "mask" : "[ULN_]"
+  }, {
+    "number" : 5,
+    "description" : "Symmetry Code",
+    "type" : "A",
+    "length" : "1",
+    "mask" : "[U]"
+  }, {
+    "number" : 6,
+    "description" : "Signal In Units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 7,
+    "description" : "Signal Out Units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 8,
+    "description" : "Number of Coefficients",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 9,
+    "description" : "FIR Coefficient",
+    "type" : "F",
+    "length" : "14",
+    "mask" : "\"0.0000000E00\""
+  } ]
+}, {
+  "number" : 62,
+  "type" : "Station",
+  "description" : "Response Polynomial Blockette",
+  "since" : "2.3=16",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 062",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "length" : "4",
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Transfer Function Type",
+    "type" : "A",
+    "length" : "1",
+    "mask" : "[U]"
+  }, {
+    "number" : 4,
+    "description" : "Stage Sequence Number",
+    "type" : "D",
+    "length" : "2",
+    "mask" : "\"00\""
+  }, {
+    "number" : 5,
+    "description" : "Stage Signal Input Units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 6,
+    "description" : "Stage Signal Output Units",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 7,
+    "description" : "Polynomial Approx'n Type",
+    "type" : "A",
+    "length" : "1",
+    "mask" : "[U]"
+  }, {
+    "number" : 8,
+    "description" : "Valid Frequency Units",
+    "type" : "A",
+    "length" : "1",
+    "mask" : "[U]"
+  }, {
+    "number" : 9,
+    "description" : "Lower Valid Freq Bound",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 10,
+    "description" : "Upper Valid Freq Bound",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 11,
+    "description" : "Lower Bound of Approx'n",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 12,
+    "description" : "Upper Bound of Approx'n",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 13,
+    "description" : "Maximum Absolute Error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 14,
+    "description" : "Number of Polynomial Coeff",
+    "type" : "D",
+    "length" : "3",
+    "mask" : "\"000\""
+  }, {
+    "number" : 15,
+    "description" : "Polynomial Coefficient",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 16,
+    "description" : "Polynomial Coeff Error",
+    "type" : "F",
+    "length" : "12",
+    "mask" : "\"0.00000E00\""
+  } ]
+} ]

@@ -2,38 +2,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>edu.iris.dmc</groupId>
 	<artifactId>java-4-seed</artifactId>
-	<version>1.0.3-SNAPSHOT</version>
-	<packaging>jar</packaging>
-
-	<name>java-seed-2</name>
-	<url>http://maven.apache.org</url>
-	<description>Java API to work with seismic dataless seed</description>
-	<developers>
-		<developer>
-			<name>Yazan</name>
-			<organization>IRIS</organization>
-			<organizationUrl>https://www.iris.edu</organizationUrl>
-		</developer>
-	</developers>
-	<scm>
-		<url>https://github.com/yazan-iris/java-4-seed.git</url>
-		<tag>1.0.0</tag>
-	</scm>
-	<licenses>
-		<license>
-			<name>GNU General Public License (GPL)</name>
-			<url>http://www.gnu.org/licenses/gpl.txt</url>
-		</license>
-	</licenses>
+	<version>1.0.33-SNAPSHOT</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<junit.jupiter.version>5.3.2</junit.jupiter.version>
+		<junit.vintage.version>5.3.2</junit.vintage.version>
+		<logback.version>1.2.3</logback.version>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 	</properties>
-
-
 	<build>
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -84,6 +66,21 @@
 		</plugins>
 	</build>
 	<dependencies>
+
+
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.8</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
@@ -96,27 +93,12 @@
 			<version>5.4.2</version>
 			<scope>test</scope>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
+	<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
 		<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-runner</artifactId>
 			<version>1.4.2</version>
 			<scope>test</scope>
 		</dependency>
-
-
 	</dependencies>
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/releases</url>
-		</repository>
-	</distributionManagement>
-
 </project>
