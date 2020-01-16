@@ -324,10 +324,10 @@ public class B050 extends SeedBlockette implements StationBlockette, Comparable<
 	public List<StationBlockette> getAll() {
 		List<StationBlockette> l = new ArrayList<>();
 		l.addAll(this.b051s);
-		for (B052 s : this.b052s) {
-			l.add(s);
-			l.addAll(s.getB059s());
-			for (Stage stage : s.getStages()) {
+		for (B052 b052 : this.b052s) {
+			l.add(b052);
+			l.addAll(b052.getB059s());
+			for (Stage stage : b052.getStages()) {
 				l.addAll(stage.getAll());
 			}
 		}

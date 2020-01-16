@@ -10,7 +10,7 @@ import edu.iris.seed.station.ResponseDictionaryBlockette;
 
 public class B045 extends AbstractAbbreviationBlockette implements AbbreviationBlockette,ResponseDictionaryBlockette {
 
-	private int lookupKey;
+
 	private String responseName;
 	private int signalInputUnit;
 	private int signalOutputUnit;

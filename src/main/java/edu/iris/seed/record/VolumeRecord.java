@@ -126,6 +126,14 @@ public class VolumeRecord extends SeedRecord<IndexBlockette> {
 		return l;
 	}
 
+	public boolean isEmpty() {
+		return this.getAll().isEmpty();
+	}
+
+	public int size() {
+		return this.getAll().size();
+	}
+
 	public int getNumberOfBlockettes() {
 		int cnt = 0;
 		if (this.b005 != null) {

@@ -15,7 +15,7 @@ public class B041 extends AbstractAbbreviationBlockette implements AbbreviationB
 	private int signalInputUnit;
 	private int signalOutputUnit;
 	// @Size(min = 0, max = 9999)
-	private int lookupKey;
+
 
 	private List<Double> coefficients = new ArrayList<Double>();
 
@@ -57,14 +57,6 @@ public class B041 extends AbstractAbbreviationBlockette implements AbbreviationB
 
 	public List<Double> getCoefficients() {
 		return coefficients;
-	}
-
-	public int getLookupKey() {
-		return lookupKey;
-	}
-
-	public void setLookupKey(int lookupKey) {
-		this.lookupKey = lookupKey;
 	}
 
 	public void addCoefficient(Double c) {

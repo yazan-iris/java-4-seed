@@ -9,7 +9,6 @@ import edu.iris.seed.lang.SeedStrings;
 public class B033 extends AbstractAbbreviationBlockette implements AbbreviationBlockette {
 
 	private String description;
-	private int lookupKey;
 	public B033() {
 		this(null);
 	}
@@ -24,13 +23,6 @@ public class B033 extends AbstractAbbreviationBlockette implements AbbreviationB
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public int getLookupKey() {
-		return lookupKey;
-	}
-
-	public void setLookupKey(int lookupKey) {
-		this.lookupKey = lookupKey;
 	}
 	
 	@Override

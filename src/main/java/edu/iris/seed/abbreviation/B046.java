@@ -6,19 +6,13 @@ import edu.iris.seed.station.ResponseDictionaryBlockette;
 
 public class B046 extends AbstractAbbreviationBlockette implements AbbreviationBlockette,ResponseDictionaryBlockette  {
 
-	private int lookupKey;
+
 	
 	public B046() {
 		super(56, "Generic Response Dictionary Blockette");
 
 	}
-	public int getLookupKey() {
-		return lookupKey;
-	}
 
-	public void setLookupKey(int lookupKey) {
-		this.lookupKey = lookupKey;
-	}
 	@Override
 	public String toSeedString() {
 		// TODO Auto-generated method stub

@@ -13,7 +13,6 @@ import edu.iris.seed.station.ResponseDictionaryBlockette;
 
 public class B048 extends AbstractAbbreviationBlockette implements AbbreviationBlockette, ResponseDictionaryBlockette {
 
-	private int lookupKey;
 	private String responseName;
 	private Double sensitivity;
 	private Double frequency;

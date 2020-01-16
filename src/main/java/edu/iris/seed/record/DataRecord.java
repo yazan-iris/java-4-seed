@@ -2,11 +2,13 @@ package edu.iris.seed.record;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collections;
 import java.util.List;
 
 import edu.iris.seed.SeedException;
 import edu.iris.seed.data.DataBlockette;
 import edu.iris.seed.record.Header.Type;
+import edu.iris.seed.timespan.TimeSpanBlockette;
 
 public class DataRecord extends SeedRecord<DataBlockette> {
 
@@ -40,10 +42,16 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 
 	@Override
 	public List<DataBlockette> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return Collections.emptyList();
 	}
 
+	public boolean isEmpty() {
+		return this.getAll().isEmpty();
+	}
+
+	public int size() {
+		return this.getAll().size();
+	}
 	@Override
 	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException {
 		// TODO Auto-generated method stub
@@ -65,11 +73,5 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 			return record;
 		}
 
-	}
-
-	@Override
-	public int getNumberOfBlockettes() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }

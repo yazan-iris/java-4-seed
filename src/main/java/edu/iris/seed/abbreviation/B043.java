@@ -12,7 +12,6 @@ import edu.iris.seed.station.Zero;
 
 public class B043 extends AbstractAbbreviationBlockette implements AbbreviationBlockette,ResponseDictionaryBlockette {
 
-	private int lookupKey;
 	private String responseName;
 	private char transferFunctionType;
 	private double normalizationFactor = 1;

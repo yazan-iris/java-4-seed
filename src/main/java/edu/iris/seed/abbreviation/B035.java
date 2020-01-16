@@ -9,7 +9,6 @@ import edu.iris.seed.lang.SeedStrings;
 
 public class B035 extends AbstractAbbreviationBlockette implements AbbreviationBlockette {
 
-	private int lookupKey;
 	private List<Component> components = new ArrayList<Component>();
 
 	public B035() {
@@ -28,13 +27,6 @@ public class B035 extends AbstractAbbreviationBlockette implements AbbreviationB
 		this.components.add(comp);
 	}
 
-	public int getLookupKey() {
-		return lookupKey;
-	}
-
-	public void setLookupKey(int lookupKey) {
-		this.lookupKey = lookupKey;
-	}
 
 	@Override
 	public String toSeedString() throws SeedException {

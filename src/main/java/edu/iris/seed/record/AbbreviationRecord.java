@@ -6,23 +6,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedOutputStream;
 import edu.iris.seed.abbreviation.AbbreviationBlockette;
 import edu.iris.seed.record.Header.Type;
-import edu.iris.seed.station.ResponseDictionaryBlockette;
 
 public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 
+	private final List<AbbreviationBlockette> blockettes = new ArrayList<>();
 	private Map<Integer, Dictionary> dictionaries = new HashMap<>();
-	private Map<String, ResponseDictionaryBlockette> responseDictionary = new HashMap<>();
-
-	private int numberOfBlockettes;
 
 	public AbbreviationRecord() {
-		this(0, false);
+		this(1, false);
 	}
 
 	public AbbreviationRecord(int sequence, boolean continuation) {
@@ -87,20 +83,16 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 	}
 
 	public List<AbbreviationBlockette> getAll() {
-		List<AbbreviationBlockette> l = new ArrayList<>();
-		for (Entry<Integer, AbbreviationRecord.Dictionary> e : dictionaries.entrySet()) {
-			Dictionary d = e.getValue();
-			if (d != null) {
-				l.addAll(d.getAll());
-			}
-		}
-		return l;
+		return this.blockettes;
 
 	}
 
-	@Override
-	public int getNumberOfBlockettes() {
-		return this.numberOfBlockettes;
+	public boolean isEmpty() {
+		return this.blockettes.isEmpty();
+	}
+
+	public int size() {
+		return this.blockettes.size();
 	}
 
 	@Override
@@ -137,19 +129,24 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 			counter = new Counter(capacity);
 		}
 
-		AbbreviationBlockette add(AbbreviationBlockette a) throws SeedException {
-			if (map.containsValue(a)) {
+		AbbreviationBlockette add(AbbreviationBlockette b) throws SeedException {
+			if (map.containsValue(b)) {
 				for (AbbreviationBlockette ab : map.values()) {
-					if (ab.equals(a)) {
+					if (ab.equals(b)) {
 						return ab;
 					}
 				}
 			} else {
-				int lookup = counter.increment();
-				a.setLookupKey(lookup);
-				map.put(lookup, a);
+				if(b.getLookupKey()==0) {
+					int lookup = counter.increment();
+					b.setLookupKey(lookup);
+				}
+				//int lookup = counter.increment();
+				//b.setLookupKey(lookup);
+				map.put(b.getLookupKey(), b);
+				blockettes.add(b);
 			}
-			return a;
+			return b;
 		}
 
 		AbbreviationBlockette get(int id) {

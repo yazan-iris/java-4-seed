@@ -10,7 +10,6 @@ public class B034 extends AbstractAbbreviationBlockette implements AbbreviationB
 
 	private String name;
 	private String description;
-	private int lookupKey;
 	public B034() {
 		this(null);
 	}
@@ -34,13 +33,7 @@ public class B034 extends AbstractAbbreviationBlockette implements AbbreviationB
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getLookupKey() {
-		return lookupKey;
-	}
 
-	public void setLookupKey(int lookupKey) {
-		this.lookupKey = lookupKey;
-	}
 	@Override
 	public String toSeedString() {
 

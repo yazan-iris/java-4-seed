@@ -26,8 +26,10 @@ public interface Record<T extends Blockette> {
 	public T get(int... type);
 
 	public List<T> getAll();
-
-	public int getNumberOfBlockettes();
+	
+	public boolean isEmpty();
+	
+	public int size();
 	
 	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException;
 }

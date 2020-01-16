@@ -2,6 +2,7 @@ package edu.iris.seed.record;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collections;
 import java.util.List;
 
 import edu.iris.seed.SeedException;
@@ -58,13 +59,13 @@ public class TimeSpanRecord extends SeedRecord<TimeSpanBlockette> {
 
 	@Override
 	public List<TimeSpanBlockette> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return Collections.emptyList();
+	}
+	public boolean isEmpty() {
+		return this.getAll().isEmpty();
 	}
 
-	@Override
-	public int getNumberOfBlockettes() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int size() {
+		return this.getAll().size();
 	}
 }

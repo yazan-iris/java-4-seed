@@ -16,9 +16,14 @@ import edu.iris.seed.station.StationBlockette;
 public class StationRecord extends SeedRecord<StationBlockette> {
 
 	private B050 b050;
-	private int numberOfBlockettes;
+
 	public StationRecord() {
-		this(0, false);
+		this(1, false);
+	}
+
+	public StationRecord(B050 b050) {
+		this(1, false);
+		this.b050 = b050;
 	}
 
 	public StationRecord(int sequence, boolean continuation) {
@@ -31,7 +36,7 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 
 	@Override
 	public StationBlockette add(StationBlockette t) throws SeedException {
-		if (this.b050 != null) {
+		if (this.b050 == null) {
 			throw new SeedException("No blockette of type 50 available,add it forst.", t.toSeedString());
 		}
 		this.b050.add(t);
@@ -39,12 +44,12 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 
 	}
 
-	public void add(B050 b050) throws SeedException {
-		if (this.b050 != null) {
-			throw new SeedException("Duplicate blockettes, [{}] already exist in this record", b050.toSeedString());
-		}
-		this.b050 = b050;
-	}
+	/*
+	 * public void add(B050 b050) throws SeedException { if (this.b050 != null) {
+	 * throw new
+	 * SeedException("Duplicate blockettes, [{}] already exist in this record",
+	 * b050.toSeedString()); } this.b050 = b050; }
+	 */
 
 	public B050 getB050() {
 		return this.b050;
@@ -80,10 +85,14 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 		return l;
 	}
 
-	@Override
-	public int getNumberOfBlockettes() {
-		return getAll().size();
+	public boolean isEmpty() {
+		return this.b050 == null;
 	}
+
+	public int size() {
+		return this.getAll().size();
+	}
+
 	@Override
 	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException {
 		SeedOutputStream stream = new SeedOutputStream(outputStream, recordLength, sequence,

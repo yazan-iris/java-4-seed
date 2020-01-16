@@ -3,9 +3,13 @@ package edu.iris.seed;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.iris.seed.abbreviation.AbbreviationBlockette;
 import edu.iris.seed.data.DataBlockette;
@@ -17,9 +21,12 @@ import edu.iris.seed.record.AbbreviationRecord;
 import edu.iris.seed.record.StationRecord;
 import edu.iris.seed.record.VolumeRecord;
 import edu.iris.seed.station.B050;
+import edu.iris.seed.station.B051;
 import edu.iris.seed.station.StationBlockette;
 
 public class SeedVolume {
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private final VolumeRecord indexRecord = new VolumeRecord();
 	private final Record<AbbreviationBlockette> abbreviationRecord = new AbbreviationRecord();
@@ -28,87 +35,40 @@ public class SeedVolume {
 
 	private final Set<DataBlockette> dataRecords = new TreeSet<>();
 
-	private int numberOfRecords;
+	private StationRecord currentWorkingStationRecord;
 
-	private B050 b050;
-
-	public AbbreviationBlockette add(AbbreviationBlockette abbreviation) throws SeedException {
-		abbreviationRecord.add(abbreviation);
-		return abbreviation;
-	}
-
-	public void add(IndexBlockette index) throws SeedException {
-		indexRecord.add(index);
-	}
-
-	public void add(B050 blockette) throws SeedException {
-		StationRecord record = new StationRecord();
-		record.add(blockette);
-		stationRecords.add(record);
-		b050 = blockette;
-		// this.indexRecord.getB011().add(b050, 0);
-		numberOfRecords++;
-	}
-
-	int cnt=0;
-	public void add(StationBlockette blockette) throws SeedException {
-		int type = blockette.getType();
-		if (type == 50) {
-			add((B050) blockette);
-		} else {
-			if (b050 == null) {
-				throw new SeedException(
-						"B050 is required to be present when adding blockette of type {}, but none found!",
-						blockette.getType());
-			}
-			/*if (type == 60) {
-				// resolve
-				B060 b060 = (B060) blockette;
-				List<Stage> stages = b060.getStages();
-				if (stages != null && !stages.isEmpty()) {
-					for (Stage stage : stages) {
-						stage.getSequence();
-						List<Integer> list = stage.getResponses();
-						for (int i : list) {
-							AbbreviationBlockette b = this.abbreviationRecord.get(i);
-							if (b.getType() < 40 || b.getType() > 49) {
-								throw new SeedException("Expected a blockette of type [41-49] but was {}", b.getType());
-							}
-							b050.add((ResponseBlockette) b);
-							numberOfBlockettes++;
-						}
-					}
-				}
-			} else {*/
-				b050.add(blockette);
-			//}
-		}
-	}
-
-	public void add(Blockette blockette) throws SeedException {
+	public Blockette add(Blockette blockette) throws SeedException {
 		if (blockette == null) {
 			throw new NullPointerException();
 		}
+		int type = blockette.getType();
+		if (logger.isDebugEnabled()) {
+			// logger.debug("Adding {}", blockette.toSeedString());
+		}
 		if (blockette instanceof IndexBlockette) {
-			add((IndexBlockette) blockette);
+			blockette = indexRecord.add((IndexBlockette) blockette);
 		} else if (blockette instanceof AbbreviationBlockette) {
-			add((AbbreviationBlockette) blockette);
-		} else if (blockette instanceof B050) {
-			add((B050) blockette);
+			blockette = abbreviationRecord.add((AbbreviationBlockette) blockette);
 		} else if (blockette instanceof StationBlockette) {
-			add((StationBlockette) blockette);
+			if (type == 50) {
+				currentWorkingStationRecord = new StationRecord((B050) blockette);
+				stationRecords.add(currentWorkingStationRecord);
+			} else {
+				if (currentWorkingStationRecord == null) {
+					throw new SeedException(
+							"B050 is required to be present when adding blockette of type {}, but none found!",
+							blockette.getType());
+				}
+				blockette = currentWorkingStationRecord.add((StationBlockette) blockette);
+			}
 		} else {
 			throw new SeedException("Unsupported blockette type {}", blockette.toSeedString());
 		}
-
-	}
-
-	public int getNumberOfBlockettes() {
-		return getAll().size();
+		return blockette;
 	}
 
 	public int getNumberOfRecords() {
-		return numberOfRecords + 2;
+		return 2 + this.stationRecords.size() + this.dataRecords.size();
 	}
 
 	public Record<IndexBlockette> getIndexRecord() {
@@ -124,14 +84,14 @@ public class SeedVolume {
 	}
 
 	public boolean isEmpty() {
-		return this.getAll().isEmpty();
+		return getAll().isEmpty();
 	}
 
 	public List<Blockette> getAll() {
 		List<Blockette> list = new ArrayList<>();
 		list.addAll(this.indexRecord.getAll());
 		list.addAll(this.abbreviationRecord.getAll());
-		for (StationRecord r : this.stationRecords) {
+		for (Record<? extends Blockette> r : this.stationRecords) {
 			list.addAll(r.getAll());
 		}
 		return list;

@@ -12,7 +12,6 @@ public class B032 extends AbstractAbbreviationBlockette implements AbbreviationB
 	private String publishedCatalog;
 	private String publisherName;
 
-	private int lookupKey;
 	
 	public B032(String text) {
 		super(32, "Cited Source Dictionary Blockette");
@@ -40,13 +39,6 @@ public class B032 extends AbstractAbbreviationBlockette implements AbbreviationB
 
 	public void setPublisherName(String publisherName) {
 		this.publisherName = publisherName;
-	}
-	public int getLookupKey() {
-		return lookupKey;
-	}
-
-	public void setLookupKey(int lookupKey) {
-		this.lookupKey = lookupKey;
 	}
 	
 	

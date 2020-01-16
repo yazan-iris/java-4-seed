@@ -10,7 +10,6 @@ public class B031 extends AbstractAbbreviationBlockette implements AbbreviationB
 	private char classCode;
 	private String description;
 	private Integer unitsOfCommentLevel = 0;
-	private int lookupKey;
 
 	public B031() {
 		this(null);
@@ -42,14 +41,6 @@ public class B031 extends AbstractAbbreviationBlockette implements AbbreviationB
 
 	public void setUnitsOfCommentLevel(Integer unitsOfCommentLevel) {
 		this.unitsOfCommentLevel = unitsOfCommentLevel;
-	}
-
-	public int getLookupKey() {
-		return lookupKey;
-	}
-
-	public void setLookupKey(int lookupKey) {
-		this.lookupKey = lookupKey;
 	}
 
 	@Override
