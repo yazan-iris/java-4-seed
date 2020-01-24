@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import edu.iris.seed.BTime;
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedBlockette;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
@@ -320,114 +321,130 @@ public class B052 extends SeedBlockette implements StationBlockette, Comparable<
 				+ endTime + ", updateFlag=" + updateFlag + "]";
 	}
 
-	public static B052 build(byte[] bytes) throws SeedException {
-		String dataToParse = new String(bytes);
-		int offset = 7;
-		B052 b = new B052(dataToParse);
+	public BlocketteBuilder<B052> builder() {
+		return new Builder();
+	}
 
-		String location = SeedStrings.readString(bytes, offset, 2);
-		b.setLocationCode(location);
-		offset += 2;
-		String code = SeedStrings.readString(bytes, offset, 3);
-		b.setChannelCode(code);
-		offset += 3;
+	public static class Builder extends BlocketteBuilder<B052> {
 
-		b.setSubChannelCode(SeedStrings.parseInt(bytes, offset, 4));
-		offset = offset + 4;
-		b.setInstrumentIdentifier(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
+		public Builder() {
+			super(52);
+			// TODO Auto-generated constructor stub
+		}
 
-		int i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B052 build() throws SeedException {
+			String dataToParse = new String(bytes);
+			int offset = 7;
+			B052 b = new B052(dataToParse);
+
+			String location = SeedStrings.readString(bytes, offset, 2);
+			b.setLocationCode(location);
+			offset += 2;
+			String code = SeedStrings.readString(bytes, offset, 3);
+			b.setChannelCode(code);
+			offset += 3;
+
+			b.setSubChannelCode(SeedStrings.parseInt(bytes, offset, 4));
+			offset = offset + 4;
+			b.setInstrumentIdentifier(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+
+			int i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
 			}
-		}
-		String channelOptionalComment = dataToParse.substring(i, offset);
-		if (channelOptionalComment != null && channelOptionalComment.trim().length() > 0) {
-			b.setOptionalComment(channelOptionalComment);
-		}
-		// skip ~
-		offset++;
-
-		b.setUnitsOfSignalResponse(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-		b.setUnitsOfCalibrationInput(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-
-		b.setLatitude(SeedStrings.parseDouble(bytes, offset, 10));
-		offset = offset + 10;
-
-		b.setLongitude(SeedStrings.parseDouble(bytes, offset, 11));
-		offset = offset + 11;
-
-		b.setElevation(SeedStrings.parseDouble(bytes, offset, 7));
-		offset = offset + 7;
-
-		b.setLocalDepth(SeedStrings.parseDouble(bytes, offset, 5));
-		offset = offset + 5;
-
-		b.setAzimuth(SeedStrings.parseDouble(bytes, offset, 5));
-		offset = offset + 5;
-
-		b.setDip(SeedStrings.parseDouble(bytes, offset, 5));
-		offset = offset + 5;
-
-		b.setDataFormatIdentifier(SeedStrings.parseInt(bytes, offset, 4));
-		offset = offset + 4;
-		b.setDataRecordLength(SeedStrings.parseInt(bytes, offset, 2));
-		offset = offset + 2;
-
-		b.setSampleRate(SeedStrings.parseDouble(bytes, offset, 10));
-		offset += 10;
-
-		b.setMaxClockDrift(SeedStrings.parseDouble(bytes, offset, 10));
-		offset += 10;
-
-		int numberOfComments = SeedStrings.parseInt(bytes, offset, 4);
-		if (numberOfComments > 0) {
-			b.setNumberOfComments(numberOfComments);
-		}
-		offset += 4;
-
-		// int index = dataToParse.indexOf('~');
-
-		i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
+			String channelOptionalComment = dataToParse.substring(i, offset);
+			if (channelOptionalComment != null && channelOptionalComment.trim().length() > 0) {
+				b.setOptionalComment(channelOptionalComment);
 			}
-		}
+			// skip ~
+			offset++;
 
-		b.setChannelFlags(new String(bytes, i, offset - i));
-		// skip ~
-		offset++;
+			b.setUnitsOfSignalResponse(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+			b.setUnitsOfCalibrationInput(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
 
-		i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
+			b.setLatitude(SeedStrings.parseDouble(bytes, offset, 10));
+			offset = offset + 10;
+
+			b.setLongitude(SeedStrings.parseDouble(bytes, offset, 11));
+			offset = offset + 11;
+
+			b.setElevation(SeedStrings.parseDouble(bytes, offset, 7));
+			offset = offset + 7;
+
+			b.setLocalDepth(SeedStrings.parseDouble(bytes, offset, 5));
+			offset = offset + 5;
+
+			b.setAzimuth(SeedStrings.parseDouble(bytes, offset, 5));
+			offset = offset + 5;
+
+			b.setDip(SeedStrings.parseDouble(bytes, offset, 5));
+			offset = offset + 5;
+
+			b.setDataFormatIdentifier(SeedStrings.parseInt(bytes, offset, 4));
+			offset = offset + 4;
+			b.setDataRecordLength(SeedStrings.parseInt(bytes, offset, 2));
+			offset = offset + 2;
+
+			b.setSampleRate(SeedStrings.parseDouble(bytes, offset, 10));
+			offset += 10;
+
+			b.setMaxClockDrift(SeedStrings.parseDouble(bytes, offset, 10));
+			offset += 10;
+
+			int numberOfComments = SeedStrings.parseInt(bytes, offset, 4);
+			if (numberOfComments > 0) {
+				b.setNumberOfComments(numberOfComments);
 			}
-		}
-		byte[] copy = Arrays.copyOfRange(bytes, i, offset);
-		// String startDate = dataToParse.substring(i, offset);
-		b.setStartTime(BTime.valueOf(copy));
-		// skip ~
-		offset++;
+			offset += 4;
 
-		i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
+			// int index = dataToParse.indexOf('~');
+
+			i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
 			}
+
+			b.setChannelFlags(new String(bytes, i, offset - i));
+			// skip ~
+			offset++;
+
+			i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
+			}
+			byte[] copy = Arrays.copyOfRange(bytes, i, offset);
+			// String startDate = dataToParse.substring(i, offset);
+			b.setStartTime(BTime.valueOf(copy));
+			// skip ~
+			offset++;
+
+			i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
+			}
+			copy = Arrays.copyOfRange(bytes, i, offset);
+			// String endDate = dataToParse.substring(i, offset);
+			b.setEndTime(BTime.valueOf(copy));
+			// skip ~
+			offset++;
+			b.setUpdateFlag((char) bytes[offset]);
+			return b;
 		}
-		copy = Arrays.copyOfRange(bytes, i, offset);
-		// String endDate = dataToParse.substring(i, offset);
-		b.setEndTime(BTime.valueOf(copy));
-		// skip ~
-		offset++;
-		b.setUpdateFlag((char) bytes[offset]);
-		return b;
 	}
 
 	@Override

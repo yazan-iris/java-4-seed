@@ -13,6 +13,10 @@ public class SeedStringBuilder {
 
 	}
 
+	public SeedStringBuilder(int s) {
+		builder.append(s);
+	}
+
 	public SeedStringBuilder(String s) {
 		builder.append(s);
 	}
@@ -267,6 +271,12 @@ public class SeedStringBuilder {
 		return this;
 	}
 
+	public SeedStringBuilder append(float value) {
+		DecimalFormat df = new DecimalFormat("0000.000");
+		String text = df.format(value);
+		builder.append(text);
+		return this;
+	}
 	private String modified(boolean large, String s) {
 		return large ? s.replace("E", "E+") : s;
 	}
@@ -275,7 +285,6 @@ public class SeedStringBuilder {
 		builder.replace(start, end, String.format("%0" + mask.length() + "d", num));
 		return this;
 	}
-
 
 	public int length() {
 		return builder.length();

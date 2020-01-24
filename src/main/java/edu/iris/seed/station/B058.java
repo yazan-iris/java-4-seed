@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.iris.seed.BTime;
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
@@ -72,38 +73,53 @@ public class B058 extends AbstractResponseBlockette {
 		return builder.toString();
 	}
 
-	public static B058 build(byte[] bytes) throws SeedException {
-		int offset = 7;
-		B058 b = new B058();
-
-		b.setStageNumber(SeedStrings.parseInt(bytes, offset, 2));
-		offset = offset + 2;
-
-		double sensitivity = SeedStrings.parseDouble(bytes, offset, 12);
-		b.setSensitivity(sensitivity);
-		offset = offset + 12;
-		double frequency = SeedStrings.parseDouble(bytes, offset, 12);
-		offset = offset + 12;
-		b.setFrequency(frequency);
-
-		int numberOfHistoryValues = SeedStrings.parseInt(bytes, offset, 2);
-		offset = offset + 2;
-
-		for (int i = 0; i < numberOfHistoryValues; i++) {
-			double s = SeedStrings.parseDouble(bytes, offset, 12);
-			offset = offset + 12;
-			double f = SeedStrings.parseDouble(bytes, offset, 12);
-			offset = offset + 12;
-			int x = offset;
-			for (; offset < bytes.length; offset++) {
-				if (bytes[offset] == (byte) '~') {
-					break;
-				}
-			}
-			byte[] copy = Arrays.copyOfRange(bytes, x, offset);
-			b.add(new Calibration(s, f, BTime.valueOf(copy)));
-		}
-		return b;
+	public BlocketteBuilder<B058> builder() {
+		return new Builder();
 	}
 
+	public static class Builder extends BlocketteBuilder<B058> {
+
+		public Builder() {
+			super(58);
+		}
+
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B058 build() throws SeedException {
+
+			int offset = 7;
+			B058 b = new B058();
+
+			b.setStageNumber(SeedStrings.parseInt(bytes, offset, 2));
+			offset = offset + 2;
+
+			double sensitivity = SeedStrings.parseDouble(bytes, offset, 12);
+			b.setSensitivity(sensitivity);
+			offset = offset + 12;
+			double frequency = SeedStrings.parseDouble(bytes, offset, 12);
+			offset = offset + 12;
+			b.setFrequency(frequency);
+
+			int numberOfHistoryValues = SeedStrings.parseInt(bytes, offset, 2);
+			offset = offset + 2;
+
+			for (int i = 0; i < numberOfHistoryValues; i++) {
+				double s = SeedStrings.parseDouble(bytes, offset, 12);
+				offset = offset + 12;
+				double f = SeedStrings.parseDouble(bytes, offset, 12);
+				offset = offset + 12;
+				int x = offset;
+				for (; offset < bytes.length; offset++) {
+					if (bytes[offset] == (byte) '~') {
+						break;
+					}
+				}
+				byte[] copy = Arrays.copyOfRange(bytes, x, offset);
+				b.add(new Calibration(s, f, BTime.valueOf(copy)));
+			}
+			return b;
+		}
+	}
 }

@@ -7,12 +7,13 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import edu.iris.seed.data.DataBlockette;
 import edu.iris.seed.lang.math.SeedNumbers;
 
-public class SeedDataHeader implements SeedHeader {
+public class SeedDataHeader implements SeedHeader, DataBlockette {
 
 	private int sequence;
-	private char quality;
+	private Type quality;
 	private byte reserved;
 
 	private String network;
@@ -30,10 +31,10 @@ public class SeedDataHeader implements SeedHeader {
 	private int numberOfFollowingBlockettes;
 	private int sampleRateFactor;
 	private long timeCorrection;
-	private long beginingOfData;
+	private int beginingOfData;
 	private int firstDataBlockette;
 
-	private SeedDataHeader(int sequence, char quality, byte reserved) {
+	private SeedDataHeader(int sequence, Type quality, byte reserved) {
 		this.sequence = sequence;
 		this.quality = quality;
 		this.reserved = reserved;
@@ -43,11 +44,7 @@ public class SeedDataHeader implements SeedHeader {
 		return sequence;
 	}
 
-	public char getType() {
-		return quality;
-	}
-
-	public char getQuality() {
+	public Type getRecordType() {
 		return quality;
 	}
 
@@ -119,7 +116,7 @@ public class SeedDataHeader implements SeedHeader {
 		return timeCorrection;
 	}
 
-	public long getBeginingOfData() {
+	public int getBeginingOfData() {
 		return beginingOfData;
 	}
 
@@ -127,26 +124,62 @@ public class SeedDataHeader implements SeedHeader {
 		return firstDataBlockette;
 	}
 
+	@Override
+	public int getType() {
+		return 0;
+	}
+	@Override
+	public int getNextBlocketteByteNumber() {
+		return firstDataBlockette;
+	}
+
+	@Override
+	public byte[] toSeedBytes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String toSeedString() throws SeedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public static class Builder {
 
-		private Builder() {
+		private byte[] bytes;
 
+		private SeedDataHeader header;
+
+		private Builder() {
+		}
+
+		private Builder(int sequence, Type type, byte reserved) {
+			header = new SeedDataHeader(sequence, type, reserved);
+		}
+
+		public static Builder newInstance(int sequence, Type type, byte reserved) {
+			return new Builder(sequence, type, reserved);
 		}
 
 		public static Builder newInstance() {
 			return new Builder();
 		}
 
-		public SeedDataHeader build(byte[] bytes) throws SeedException {
+		public Builder bytes(byte[] bytes) {
+			this.bytes = bytes;
+			return this;
+		}
+
+		public SeedDataHeader build() throws SeedException {
 			if (bytes == null) {
 				throw new SeedException("No data to read from buffer, NULL ");
 			}
 
-			if (bytes.length != 48) {
+			if (bytes.length < 48) {
 				throw new SeedException("Invalid bytes size, must be 48 ");
 			}
-			SeedDataHeader header = new SeedDataHeader(Integer.parseInt(new String(bytes, 0, 6)), (char) bytes[7],
-					bytes[6]);
+			SeedDataHeader header = new SeedDataHeader(Integer.parseInt(new String(bytes, 0, 6)),
+					Type.from((char) bytes[6]), bytes[7]);
 			String dataToParse = new String(bytes, 0, 20);
 
 			int offset = 8;
@@ -226,4 +259,7 @@ public class SeedDataHeader implements SeedHeader {
 			return header;
 		}
 	}
+
+
+
 }

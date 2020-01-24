@@ -2,6 +2,7 @@ package edu.iris.seed.abbreviation;
 
 import java.util.Objects;
 
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
@@ -9,6 +10,7 @@ import edu.iris.seed.lang.SeedStrings;
 public class B033 extends AbstractAbbreviationBlockette implements AbbreviationBlockette {
 
 	private String description;
+
 	public B033() {
 		this(null);
 	}
@@ -24,7 +26,7 @@ public class B033 extends AbstractAbbreviationBlockette implements AbbreviationB
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(description);
@@ -55,23 +57,37 @@ public class B033 extends AbstractAbbreviationBlockette implements AbbreviationB
 		builder.replace(3, 7, builder.length(), "####");
 		return builder.toString();
 	}
-	
-	public static B033 build(byte[] bytes) throws SeedException {
-		int offset = 7;
-		B033 b = new B033(new String(bytes));
 
-		Integer lookupCode = SeedStrings.parseInt(bytes, offset, 3);
-		b.setLookupKey(lookupCode);
-		offset += 3;
-		int i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
-			}
-		}
-		b.setDescription(new String(bytes, i, offset - i));
-		return b;
+	public BlocketteBuilder<B033> builder() {
+		return new Builder();
 	}
 
-	
+	public static class Builder extends BlocketteBuilder<B033> {
+
+		public Builder() {
+			super(33);
+		}
+
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B033 build() throws SeedException {
+			int offset = 7;
+			B033 b = new B033(new String(bytes));
+
+			Integer lookupCode = SeedStrings.parseInt(bytes, offset, 3);
+			b.setLookupKey(lookupCode);
+			offset += 3;
+			int i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
+			}
+			b.setDescription(new String(bytes, i, offset - i));
+			return b;
+		}
+	}
+
 }

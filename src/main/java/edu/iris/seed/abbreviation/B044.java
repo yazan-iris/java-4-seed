@@ -3,13 +3,15 @@ package edu.iris.seed.abbreviation;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 import edu.iris.seed.station.Number;
 import edu.iris.seed.station.ResponseDictionaryBlockette;
 
-public class B044 extends AbstractAbbreviationBlockette implements AbbreviationBlockette, ResponseDictionaryBlockette {
+public class B044 extends AbstractAbbreviationBlockette<B044>
+		implements AbbreviationBlockette, ResponseDictionaryBlockette {
 
 	private String responseName;
 	private int signalInputUnit;
@@ -22,7 +24,6 @@ public class B044 extends AbstractAbbreviationBlockette implements AbbreviationB
 		super(44, "Response (Coefficients) Dictionary Blockette");
 
 	}
-
 
 	public String getResponseName() {
 		return responseName;
@@ -113,54 +114,69 @@ public class B044 extends AbstractAbbreviationBlockette implements AbbreviationB
 		return 0;
 	}
 
-	public static B044 build(byte[] bytes) throws SeedException {
-		validate(44, 27, bytes);
-		int offset = 7;
-		B044 b = new B044();
+	public BlocketteBuilder<B044> builder() {
+		return new Builder();
+	}
 
-		b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
-		offset = offset + 4;
+	public static class Builder extends BlocketteBuilder<B044> {
 
-		int i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
+		public Builder() {
+			super(44);
+		}
+
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B044 build() throws SeedException {
+			validate(44, 27, bytes);
+			int offset = 7;
+			B044 b = new B044();
+
+			b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
+			offset = offset + 4;
+
+			int i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
 			}
+			String responseName = new String(bytes, i, offset - i);
+			b.setResponseName(responseName);
+			// skip ~
+			offset++;
+
+			b.setResponseType((char) bytes[offset]);
+			offset++;
+
+			b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+			b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+
+			int numberOfNumerators = SeedStrings.parseInt(bytes, offset, 4);
+			offset = offset + 4;
+
+			for (i = 0; i < numberOfNumerators; i++) {
+				float numerator = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				float error = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				b.addNumerator(new Number(numerator, error));
+			}
+
+			int numberOfDenominators = SeedStrings.parseInt(bytes, offset, 4);
+			offset = offset + 4;
+			for (i = 0; i < numberOfDenominators; i++) {
+				float denominator = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				float error = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				b.addDenominator(new Number(denominator, error));
+			}
+
+			return b;
 		}
-		String responseName = new String(bytes, i, offset - i);
-		b.setResponseName(responseName);
-		// skip ~
-		offset++;
-
-		b.setResponseType((char) bytes[offset]);
-		offset++;
-
-		b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-		b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-
-		int numberOfNumerators = SeedStrings.parseInt(bytes, offset, 4);
-		offset = offset + 4;
-
-		for (i = 0; i < numberOfNumerators; i++) {
-			float numerator = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			float error = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			b.addNumerator(new Number(numerator, error));
-		}
-
-		int numberOfDenominators = SeedStrings.parseInt(bytes, offset, 4);
-		offset = offset + 4;
-		for (i = 0; i < numberOfDenominators; i++) {
-			float denominator = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			float error = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			b.addDenominator(new Number(denominator, error));
-		}
-
-		return b;
 	}
 }

@@ -3,6 +3,7 @@ package edu.iris.seed.station;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
@@ -160,56 +161,71 @@ public class B053 extends AbstractResponseBlockette implements Splittable {
 		return builder.toString();
 	}
 
-	public static B053 build(byte[] bytes) throws SeedException {
-		int offset = 7;
-		B053 b = new B053();
-
-		b.setTransferFunctionType((char) bytes[offset]);
-		offset++;
-
-		b.setStageNumber(SeedStrings.parseInt(bytes, offset, 2));
-		offset = offset + 2;
-		b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-		b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-
-		b.setNormalizationFactor(SeedStrings.parseFloat(bytes, offset, 12));
-		offset = offset + 12;
-
-		b.setNormalizationFrequency(SeedStrings.parseFloat(bytes, offset, 12));
-		offset = offset + 12;
-
-		int numberOfZeros = SeedStrings.parseInt(bytes, offset, 3);
-		offset = offset + 3;
-
-		for (int i = 0; i < numberOfZeros; i++) {
-			float real = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			float imaginary = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			float realError = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			float imaginaryError = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			b.add(new Zero(real, realError, imaginary, imaginaryError));
-		}
-
-		int numberOfPoles = SeedStrings.parseInt(bytes, offset, 3);
-		offset = offset + 3;
-		for (int i = 0; i < numberOfPoles; i++) {
-			float real = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			float imaginary = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			float realError = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			float imaginaryError = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			b.add(new Pole(real, realError, imaginary, imaginaryError));
-		}
-
-		return b;
+	public BlocketteBuilder<B053> builder() {
+		return new Builder();
 	}
 
+	public static class Builder extends BlocketteBuilder<B053> {
+
+		public Builder() {
+			super(53);
+			// TODO Auto-generated constructor stub
+		}
+
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B053 build() throws SeedException {
+			int offset = 7;
+			B053 b = new B053();
+
+			b.setTransferFunctionType((char) bytes[offset]);
+			offset++;
+
+			b.setStageNumber(SeedStrings.parseInt(bytes, offset, 2));
+			offset = offset + 2;
+			b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+			b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+
+			b.setNormalizationFactor(SeedStrings.parseFloat(bytes, offset, 12));
+			offset = offset + 12;
+
+			b.setNormalizationFrequency(SeedStrings.parseFloat(bytes, offset, 12));
+			offset = offset + 12;
+
+			int numberOfZeros = SeedStrings.parseInt(bytes, offset, 3);
+			offset = offset + 3;
+
+			for (int i = 0; i < numberOfZeros; i++) {
+				float real = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				float imaginary = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				float realError = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				float imaginaryError = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				b.add(new Zero(real, realError, imaginary, imaginaryError));
+			}
+
+			int numberOfPoles = SeedStrings.parseInt(bytes, offset, 3);
+			offset = offset + 3;
+			for (int i = 0; i < numberOfPoles; i++) {
+				float real = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				float imaginary = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				float realError = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				float imaginaryError = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				b.add(new Pole(real, realError, imaginary, imaginaryError));
+			}
+
+			return b;
+		}
+	}
 }

@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import edu.iris.seed.index.B011.Row;
+import edu.iris.seed.Identifier.B011;
+import edu.iris.seed.Identifier.B011.Row;
 
 public class B011Test {
 	@Test

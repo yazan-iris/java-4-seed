@@ -3,6 +3,7 @@ package edu.iris.seed.abbreviation;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
@@ -15,7 +16,6 @@ public class B041 extends AbstractAbbreviationBlockette implements AbbreviationB
 	private int signalInputUnit;
 	private int signalOutputUnit;
 	// @Size(min = 0, max = 9999)
-
 
 	private List<Double> coefficients = new ArrayList<Double>();
 
@@ -97,37 +97,51 @@ public class B041 extends AbstractAbbreviationBlockette implements AbbreviationB
 		return 0;
 	}
 
-	public static B041 build(byte[] bytes) throws SeedException {
-		int offset = 7;
-		B041 b = new B041(new String(bytes));
-
-		b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
-		offset = offset + 4;
-
-		int i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
-			}
-		}
-		b.setResponseName(new String(bytes, i, offset - i));
-		offset++;
-
-		b.setSymetryCode((char) bytes[offset]);
-		offset++;
-		b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-		b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-
-		int numberOfCoefficients = SeedStrings.parseInt(bytes, offset, 4);
-		offset = offset + 4;
-
-		for (i = 0; i < numberOfCoefficients; i++) {
-			b.addCoefficient(SeedStrings.parseDouble(bytes, offset, 14));
-			offset = offset + 14;
-		}
-		return b;
+	public BlocketteBuilder<B041> builder() {
+		return new Builder();
 	}
 
+	public static class Builder extends BlocketteBuilder<B041> {
+
+		public Builder() {
+			super(41);
+		}
+
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B041 build() throws SeedException {
+			int offset = 7;
+			B041 b = new B041(new String(bytes));
+
+			b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
+			offset = offset + 4;
+
+			int i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
+			}
+			b.setResponseName(new String(bytes, i, offset - i));
+			offset++;
+
+			b.setSymetryCode((char) bytes[offset]);
+			offset++;
+			b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+			b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+
+			int numberOfCoefficients = SeedStrings.parseInt(bytes, offset, 4);
+			offset = offset + 4;
+
+			for (i = 0; i < numberOfCoefficients; i++) {
+				b.addCoefficient(SeedStrings.parseDouble(bytes, offset, 14));
+				offset = offset + 14;
+			}
+			return b;
+		}
+	}
 }

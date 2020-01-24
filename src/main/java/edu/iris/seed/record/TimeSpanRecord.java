@@ -2,24 +2,28 @@ package edu.iris.seed.record;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.seed.SeedControlHeader;
 import edu.iris.seed.SeedException;
-import edu.iris.seed.record.Header.Type;
+import edu.iris.seed.SeedHeader.Type;
+import edu.iris.seed.SeedRecord;
 import edu.iris.seed.timespan.TimeSpanBlockette;
 
 public class TimeSpanRecord extends SeedRecord<TimeSpanBlockette> {
+
+	private List<TimeSpanBlockette> blockettes = new ArrayList<>();
 
 	public TimeSpanRecord() {
 		this(-1, false);
 	}
 
 	public TimeSpanRecord(int sequence, boolean continuation) {
-		this(ControlHeader.Builder.newInstance().build(sequence, Type.T, continuation));
+		this(SeedControlHeader.Builder.newInstance(sequence, Type.T, continuation).build());
 	}
 
-	public TimeSpanRecord(ControlHeader header) {
+	public TimeSpanRecord(SeedControlHeader header) {
 		super(header);
 	}
 
@@ -35,6 +39,7 @@ public class TimeSpanRecord extends SeedRecord<TimeSpanBlockette> {
 	}
 
 	public static class Builder {
+		private byte[] bytes;
 
 		private Builder() {
 		}
@@ -43,10 +48,13 @@ public class TimeSpanRecord extends SeedRecord<TimeSpanBlockette> {
 			return new Builder();
 		}
 
-		public TimeSpanRecord build(byte[] bytes) throws SeedException {
-			TimeSpanRecord record = new TimeSpanRecord(ControlHeader.Builder.newInstance().build(bytes));
+		public Builder fromBytes(byte[] bytes) throws SeedException {
+			this.bytes = bytes;
+			return this;
+		}
 
-			record.setBytes(bytes);
+		public TimeSpanRecord build(byte[] bytes) throws SeedException {
+			TimeSpanRecord record = new TimeSpanRecord(SeedControlHeader.Builder.newInstance(bytes).build());
 			return record;
 		}
 	}
@@ -58,14 +66,21 @@ public class TimeSpanRecord extends SeedRecord<TimeSpanBlockette> {
 	}
 
 	@Override
-	public List<TimeSpanBlockette> getAll() {
-		return Collections.emptyList();
+	public List<TimeSpanBlockette> blockettes() {
+		return blockettes;
 	}
+
 	public boolean isEmpty() {
-		return this.getAll().isEmpty();
+		return this.blockettes().isEmpty();
 	}
 
 	public int size() {
-		return this.getAll().size();
+		return this.blockettes().size();
+	}
+
+	@Override
+	public void clear() {
+		blockettes.clear();
+
 	}
 }

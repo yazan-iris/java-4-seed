@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import edu.iris.seed.record.Header.Type;
+import edu.iris.seed.SeedHeader.Type;
 
 public class SeedOutputStream {
 	//OutputStream o;

@@ -3,6 +3,7 @@ package edu.iris.seed.station;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
@@ -46,27 +47,44 @@ public class B060 extends AbstractResponseBlockette {
 		return builder.toString();
 	}
 
-	public static B060 build(byte[] bytes) throws SeedException {
-		int offset = 7;
-		B060 b = new B060();
+	public BlocketteBuilder<B060> builder() {
+		return new Builder();
+	}
 
-		int numberOfStages = SeedStrings.parseInt(bytes, offset, 2);
-		offset = offset + 2;
+	public static class Builder extends BlocketteBuilder<B060> {
 
-		for (int i = 0; i < numberOfStages; i++) {
-			int stageSequenceNumber = SeedStrings.parseInt(bytes, offset, 2);
-			offset = offset + 2;
-			Stage stage = b.new Stage();
-			stage.setSequence(stageSequenceNumber);
-			b.add(stage);
-			int numberOfResponses = SeedStrings.parseInt(bytes, offset, 2);
-			offset = offset + 2;
-			for (int x = 0; x < numberOfResponses; x++) {
-				stage.add(SeedStrings.parseInt(bytes, offset, 4));
-				offset = offset + 4;
-			}
+		public Builder() {
+			super(60);
+			// TODO Auto-generated constructor stub
 		}
-		return b;
+
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B060 build() throws SeedException {
+
+			int offset = 7;
+			B060 b = new B060();
+
+			int numberOfStages = SeedStrings.parseInt(bytes, offset, 2);
+			offset = offset + 2;
+
+			for (int i = 0; i < numberOfStages; i++) {
+				int stageSequenceNumber = SeedStrings.parseInt(bytes, offset, 2);
+				offset = offset + 2;
+				Stage stage = b.new Stage();
+				stage.setSequence(stageSequenceNumber);
+				b.add(stage);
+				int numberOfResponses = SeedStrings.parseInt(bytes, offset, 2);
+				offset = offset + 2;
+				for (int x = 0; x < numberOfResponses; x++) {
+					stage.add(SeedStrings.parseInt(bytes, offset, 4));
+					offset = offset + 4;
+				}
+			}
+			return b;
+		}
 	}
 
 	public class Stage {

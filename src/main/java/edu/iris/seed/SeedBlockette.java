@@ -4,6 +4,11 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.iris.seed.Identifier.B005;
+import edu.iris.seed.Identifier.B008;
+import edu.iris.seed.Identifier.B010;
+import edu.iris.seed.Identifier.B011;
+import edu.iris.seed.Identifier.B012;
 import edu.iris.seed.abbreviation.B030;
 import edu.iris.seed.abbreviation.B031;
 import edu.iris.seed.abbreviation.B032;
@@ -19,11 +24,21 @@ import edu.iris.seed.abbreviation.B046;
 import edu.iris.seed.abbreviation.B047;
 import edu.iris.seed.abbreviation.B048;
 import edu.iris.seed.abbreviation.B049;
-import edu.iris.seed.index.B005;
-import edu.iris.seed.index.B008;
-import edu.iris.seed.index.B010;
-import edu.iris.seed.index.B011;
-import edu.iris.seed.index.B012;
+import edu.iris.seed.data.B100;
+import edu.iris.seed.data.B1000;
+import edu.iris.seed.data.B1001;
+import edu.iris.seed.data.B200;
+import edu.iris.seed.data.B2000;
+import edu.iris.seed.data.B201;
+import edu.iris.seed.data.B202;
+import edu.iris.seed.data.B300;
+import edu.iris.seed.data.B310;
+import edu.iris.seed.data.B320;
+import edu.iris.seed.data.B390;
+import edu.iris.seed.data.B395;
+import edu.iris.seed.data.B400;
+import edu.iris.seed.data.B405;
+import edu.iris.seed.data.B500;
 import edu.iris.seed.lang.SeedStrings;
 import edu.iris.seed.station.B050;
 import edu.iris.seed.station.B051;
@@ -38,11 +53,10 @@ import edu.iris.seed.station.B060;
 import edu.iris.seed.station.B061;
 import edu.iris.seed.station.B062;
 
-public abstract class SeedBlockette {
+public abstract class SeedBlockette<T extends Blockette> {
 
 	private final int type;
 	private final String title;
-	// private int length;
 
 	public SeedBlockette(int type, String title) {
 		this.type = type;
@@ -56,10 +70,6 @@ public abstract class SeedBlockette {
 	public String getTitle() {
 		return title;
 	}
-
-	/*
-	 * public int getLength() { return length; }
-	 */
 
 	public static final Map<Integer, Class<? extends Blockette>> controlMap = new HashMap<Integer, Class<? extends Blockette>>();
 	static {
@@ -101,6 +111,23 @@ public abstract class SeedBlockette {
 		controlMap.put(new Integer(61), B061.class);
 		controlMap.put(new Integer(62), B062.class);
 
+		controlMap.put(new Integer(100), B100.class);
+		controlMap.put(new Integer(200), B200.class);
+		controlMap.put(new Integer(201), B201.class);
+		controlMap.put(new Integer(202), B202.class);
+		controlMap.put(new Integer(300), B300.class);
+		controlMap.put(new Integer(310), B310.class);
+		controlMap.put(new Integer(320), B320.class);
+		controlMap.put(new Integer(390), B390.class);
+		controlMap.put(new Integer(395), B395.class);
+		controlMap.put(new Integer(400), B400.class);
+		controlMap.put(new Integer(405), B405.class);
+		controlMap.put(new Integer(500), B500.class);
+
+		controlMap.put(new Integer(1000), B1000.class);
+		controlMap.put(new Integer(1001), B1001.class);
+		controlMap.put(new Integer(2000), B2000.class);
+
 	}
 
 	public static void validate(int type, int minumumLength, byte[] bytes) throws SeedException {
@@ -126,48 +153,22 @@ public abstract class SeedBlockette {
 		}
 	}
 
-	public static class Builder {
+	public abstract BlocketteBuilder<T> builder();
 
-		private Builder() {
+	public static <T extends Blockette> BlocketteBuilder<T> builder(int type) throws SeedException {
+		Class<? extends Blockette> clazz = controlMap.get(type);
 
+		if (clazz == null) {
+			throw new SeedException("Invalid blockette type [{}] ", type);
 		}
+		try {
+			Method method = clazz.getMethod("builder");
+			BlocketteBuilder<T> b = (BlocketteBuilder<T>) method.invoke(clazz.newInstance());
 
-		public static Builder newInstance() {
-			return new Builder();
-		}
-
-		public Blockette build(byte[] bytes) throws SeedException {
-			String s = new String(bytes, 0, 3);
-			int type = Integer.parseInt(s);
-			return build(type, bytes);
-		}
-
-		public Blockette build(int type, byte[] bytes) throws SeedException {
-			Class<? extends Blockette> clazz = controlMap.get(type);
-			if (clazz == null) {
-				throw new SeedException("Invalid blockette type [{}] ", type);
-			}
-			try {
-				Method method = clazz.getMethod("build", new Class[] { byte[].class });
-				return (Blockette) method.invoke(null, bytes);
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new SeedException(e);
-			}
-		}
-
-		public Blockette build(int type, byte[] bytes, int index) throws SeedException {
-			Class<? extends Blockette> clazz = controlMap.get(type);
-			if (clazz == null) {
-				throw new SeedException("Invalid blockette type [{}] ", type);
-			}
-			try {
-				Method method = clazz.getMethod("build", new Class[] { byte[].class });
-				return (Blockette) method.invoke(null, bytes, index);
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new SeedException(e);
-			}
+			return b;//method.invoke(clazz.newInstance());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new SeedException(e);
 		}
 	}
 }

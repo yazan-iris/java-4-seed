@@ -2,9 +2,11 @@ package edu.iris.seed.data;
 
 import java.io.IOException;
 
+import edu.iris.seed.BlocketteBuilder;
+import edu.iris.seed.SeedByteArrayBuilder;
 import edu.iris.seed.SeedException;
 
-public class B1001 extends AbstractDataBlockette{
+public class B1001 extends AbstractDataBlockette {
 
 	private long positionOfNextBlockette;
 	private int timingQuality;
@@ -60,6 +62,18 @@ public class B1001 extends AbstractDataBlockette{
 		return builder.toString();
 	}
 
+	@Override
+	public byte[] toSeedBytes() {
+		SeedByteArrayBuilder builder = new SeedByteArrayBuilder(12).appendU16((short) 1001);
+		this.getNextBlocketteByteNumber();
+		builder.append((byte) this.timingQuality);
+		builder.append((byte) (this.microSeconds));
+		builder.append(this.reserved);
+		builder.append((byte) this.frameCount);
+
+		return builder.toBytes();
+	}
+
 	public static B1001 build(byte[] bytes, boolean swap) throws IOException {
 
 		// validate(bytes, 1001, 8);
@@ -70,4 +84,33 @@ public class B1001 extends AbstractDataBlockette{
 		return b;
 	}
 
+	public BlocketteBuilder<B1001> builder() {
+		return new Builder();
+	}
+
+	public static class Builder extends BlocketteBuilder<B1001> {
+		public Builder() {
+			super(1001);
+		}
+
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B1001 build() throws SeedException {
+			if (bytes == null || bytes.length == 0) {
+				throw new IllegalArgumentException("object null|empty");
+			}
+			int type = ByteUtil.readUnsignedShort(bytes, 0, 2);
+			if (1001 != type) {
+				throw new SeedException("Invalid blockette type {}", type);
+			}
+			B1001 b = new B1001();
+			b.setTimingQuality(bytes[4]);
+			b.setMicroSeconds(bytes[5]);
+			b.setFrameCount(bytes[7]);
+			b.setNextBlocketteByteNumber(ByteUtil.readUnsignedShort(bytes, 2, 2));
+			return b;
+		}
+	}
 }

@@ -3,6 +3,7 @@ package edu.iris.seed.station;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
@@ -119,40 +120,56 @@ public class B054 extends AbstractResponseBlockette implements Splittable {
 		return builder.toString();
 	}
 
-	public static B054 build(byte[] bytes) throws SeedException {
-		int offset = 7;
-		B054 b = new B054();
+	public BlocketteBuilder<B054> builder() {
+		return new Builder();
+	}
 
-		b.setResponseType((char) bytes[offset]);
-		offset++;
-		b.setStageNumber(SeedStrings.parseInt(bytes, offset, 2));
-		offset = offset + 2;
-		b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-		b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
+	public static class Builder extends BlocketteBuilder<B054> {
 
-		int numberOfNumerators = SeedStrings.parseInt(bytes, offset, 4);
-		offset = offset + 4;
-
-		for (int i = 0; i < numberOfNumerators; i++) {
-			Double numerator = (double) SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			Double error = (double) SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			b.addNumerator(new Number(numerator, error));
+		public Builder() {
+			super(54);
+			// TODO Auto-generated constructor stub
 		}
 
-		int numberOfDenominators = SeedStrings.parseInt(bytes, offset, 4);
-		offset = offset + 4;
-		for (int i = 0; i < numberOfDenominators; i++) {
-			Double denominator = (double) SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			Double error = (double) SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			b.addDenominator(new Number(denominator, error));
+		public static Builder newInstance() {
+			return new Builder();
 		}
 
-		return b;
+		public B054 build() throws SeedException {
+			int offset = 7;
+			B054 b = new B054();
+
+			b.setResponseType((char) bytes[offset]);
+			offset++;
+			b.setStageNumber(SeedStrings.parseInt(bytes, offset, 2));
+			offset = offset + 2;
+			b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+			b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+
+			int numberOfNumerators = SeedStrings.parseInt(bytes, offset, 4);
+			offset = offset + 4;
+
+			for (int i = 0; i < numberOfNumerators; i++) {
+				Double numerator = (double) SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				Double error = (double) SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				b.addNumerator(new Number(numerator, error));
+			}
+
+			int numberOfDenominators = SeedStrings.parseInt(bytes, offset, 4);
+			offset = offset + 4;
+			for (int i = 0; i < numberOfDenominators; i++) {
+				Double denominator = (double) SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				Double error = (double) SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				b.addDenominator(new Number(denominator, error));
+			}
+
+			return b;
+		}
 	}
 }

@@ -8,6 +8,7 @@ public class BlocketteDefinition {
 	String type;
 	String description;
 	String since;
+	int minumumLength;
 	List<SeedField> fields = new ArrayList<>();
 
 	public int getNumber() {
@@ -48,6 +49,14 @@ public class BlocketteDefinition {
 
 	public void setFields(List<SeedField> fields) {
 		this.fields = fields;
+	}
+
+	public int getMinumumLength() {
+		int l = 0;
+		for (SeedField f : fields) {
+			l = l + f.getMinumumLength();
+		}
+		return l;
 	}
 
 	@Override

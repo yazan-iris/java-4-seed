@@ -2,6 +2,7 @@ package edu.iris.seed.abbreviation;
 
 import java.util.Objects;
 
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
@@ -10,6 +11,7 @@ public class B034 extends AbstractAbbreviationBlockette implements AbbreviationB
 
 	private String name;
 	private String description;
+
 	public B034() {
 		this(null);
 	}
@@ -51,32 +53,49 @@ public class B034 extends AbstractAbbreviationBlockette implements AbbreviationB
 		builder.replace(3, 7, builder.length(), "####");
 		return builder.toString();
 	}
-	
-	public static B034 build(byte[] bytes) throws SeedException {
-		int offset = 7;
-		B034 b = new B034(new String(bytes));
 
-		b.setLookupKey(SeedStrings.parseInt(bytes, offset, 3));
-		offset += 3;
-		int i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
-			}
+	public BlocketteBuilder<B034> builder() {
+		return new Builder();
+	}
+
+	public static class Builder extends BlocketteBuilder<B034> {
+
+		public Builder() {
+			super(34);
+			// TODO Auto-generated constructor stub
 		}
 
-		b.setName(new String(bytes, i, offset - i));
-		offset++;
-
-		i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
-			}
+		public static Builder newInstance() {
+			return new Builder();
 		}
 
-		b.setDescription(new String(bytes, i, offset - i));
-		return b;
+		public B034 build() throws SeedException {
+
+			int offset = 7;
+			B034 b = new B034(new String(bytes));
+
+			b.setLookupKey(SeedStrings.parseInt(bytes, offset, 3));
+			offset += 3;
+			int i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
+			}
+
+			b.setName(new String(bytes, i, offset - i));
+			offset++;
+
+			i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
+			}
+
+			b.setDescription(new String(bytes, i, offset - i));
+			return b;
+		}
 	}
 
 	@Override
@@ -96,5 +115,4 @@ public class B034 extends AbstractAbbreviationBlockette implements AbbreviationB
 		return Objects.equals(description, other.description) && Objects.equals(name, other.name);
 	}
 
-	
 }

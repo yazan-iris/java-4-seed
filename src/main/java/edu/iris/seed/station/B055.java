@@ -3,9 +3,11 @@ package edu.iris.seed.station;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.seed.BlocketteBuilder;
+import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 
-public class B055 extends AbstractResponseBlockette{
+public class B055 extends AbstractResponseBlockette {
 
 	private List<Response> responses = new ArrayList<Response>();
 
@@ -108,5 +110,25 @@ public class B055 extends AbstractResponseBlockette{
 
 		builder.replace(3, 7, builder.length(), "####");
 		return builder.toString();
+	}
+
+	public BlocketteBuilder<B055> builder() {
+		return new Builder();
+	}
+
+	public static class Builder extends BlocketteBuilder<B055> {
+
+		public Builder() {
+			super(55);
+			// TODO Auto-generated constructor stub
+		}
+
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B055 build() throws SeedException {
+			return null;
+		}
 	}
 }

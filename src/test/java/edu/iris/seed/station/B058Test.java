@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import edu.iris.seed.Blockette;
+import edu.iris.seed.SeedBlockette;
 
 public class B058Test {
 
@@ -12,9 +13,8 @@ public class B058Test {
 
 	@Test
 	public void fromString() throws Exception {
-
-		Blockette b058 = B058.Builder.newInstance().build(text.getBytes());
-		assertEquals(text, b058.toSeedString());
+		Blockette b = SeedBlockette.builder(58).fromBytes(text.getBytes()).build();
+		assertEquals(text, b.toSeedString());
 	}
 
 	@Test

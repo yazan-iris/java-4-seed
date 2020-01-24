@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
@@ -117,36 +118,51 @@ public class B061 extends AbstractResponseBlockette implements Splittable {
 		return builder.toString();
 	}
 
-	public static B061 build(byte[] bytes) throws SeedException {
-		int offset = 7;
-		B061 b = new B061();
+	public BlocketteBuilder<B061> builder() {
+		return new Builder();
+	}
 
-		b.setStageNumber(SeedStrings.parseInt(bytes, offset, 2));
-		offset = offset + 2;
+	public static class Builder extends BlocketteBuilder<B061> {
 
-		int i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
+		public Builder() {
+			super(61);
+		}
+
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B061 build() throws SeedException {
+			int offset = 7;
+			B061 b = new B061();
+
+			b.setStageNumber(SeedStrings.parseInt(bytes, offset, 2));
+			offset = offset + 2;
+
+			int i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
 			}
+			b.setName(new String(bytes, i, offset - i));
+			offset++;
+
+			b.setSymetryCode((char) bytes[offset]);
+			offset++;
+			b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+			b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+
+			int numberOfCoefficients = SeedStrings.parseInt(bytes, offset, 4);
+			offset = offset + 4;
+
+			for (i = 0; i < numberOfCoefficients; i++) {
+				b.addCoefficient(SeedStrings.parseDouble(bytes, offset, 14));
+				offset = offset + 14;
+			}
+			return b;
 		}
-		b.setName(new String(bytes, i, offset - i));
-		offset++;
-
-		b.setSymetryCode((char) bytes[offset]);
-		offset++;
-		b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-		b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-
-		int numberOfCoefficients = SeedStrings.parseInt(bytes, offset, 4);
-		offset = offset + 4;
-
-		for (i = 0; i < numberOfCoefficients; i++) {
-			b.addCoefficient(SeedStrings.parseDouble(bytes, offset, 14));
-			offset = offset + 14;
-		}
-		return b;
 	}
 }

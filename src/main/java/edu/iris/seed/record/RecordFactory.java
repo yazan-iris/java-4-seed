@@ -4,8 +4,9 @@ import java.util.logging.Logger;
 
 import edu.iris.seed.Blockette;
 import edu.iris.seed.Record;
+import edu.iris.seed.SeedDataHeader;
 import edu.iris.seed.SeedException;
-import edu.iris.seed.record.Header.Type;
+import edu.iris.seed.SeedHeader.Type;
 
 public class RecordFactory {
 	private static final Logger LOGGER = Logger.getLogger("RecordFactory");
@@ -21,18 +22,18 @@ public class RecordFactory {
 		char type = (char) bytes[6];
 		switch (type) {
 		case 'V':
-			return VolumeRecord.Builder.newInstance().build(bytes);
+			return IdentifierRecord.Builder.newInstance().fromBytes(bytes).build();
 		case 'A':
-			return AbbreviationRecord.Builder.newInstance().build(bytes);
+			return AbbreviationRecord.Builder.newInstance().fromBytes(bytes).build();
 		case 'S':
-			return StationRecord.Builder.newInstance().build(bytes);
+			return StationRecord.Builder.newInstance().fromBytes(bytes).build();
 		case 'T':
 			return TimeSpanRecord.Builder.newInstance().build(bytes);
 		case 'D':
 		case 'R':
 		case 'M':
 		case 'Q':
-			return DataRecord.Builder.newInstance().build(bytes);
+			return DataRecord.Builder.newInstance().fromBytes(bytes).build();
 		case ' ':
 			return new EmptyRecord();
 		default:
@@ -44,7 +45,7 @@ public class RecordFactory {
 			throws SeedException {
 		Record<? extends Blockette> record = null;
 		if (type == 'V') {
-			record = new VolumeRecord(sequence, continuation);
+			record = new IdentifierRecord(sequence, continuation);
 		} else if (type == 'A') {
 			record = new StationRecord(sequence, continuation);
 		} else if (type == 'S') {
@@ -53,7 +54,7 @@ public class RecordFactory {
 			LOGGER.info("Creating record of type " + type + " sequence: " + sequence);
 			throw new SeedException("Unsupported Record type " + type);
 		} else if (type == 'D' || type == 'R' || type == 'M' || type == 'Q') {
-			record = new DataRecord(sequence, Type.from(type), continuation);
+			record = new DataRecord(SeedDataHeader.Builder.newInstance(sequence, Type.from(type), (byte)0).build());
 		} else if (type == ' ') {
 			record = new EmptyRecord(sequence);
 		} else {

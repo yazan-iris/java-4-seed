@@ -3,6 +3,7 @@ package edu.iris.seed.abbreviation;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
@@ -27,7 +28,6 @@ public class B035 extends AbstractAbbreviationBlockette implements AbbreviationB
 		this.components.add(comp);
 	}
 
-
 	@Override
 	public String toSeedString() throws SeedException {
 
@@ -48,33 +48,48 @@ public class B035 extends AbstractAbbreviationBlockette implements AbbreviationB
 		return builder.toString();
 	}
 
-	public static B035 build(byte[] bytes) throws SeedException {
-		validate(35, 14, bytes);
-		int offset = 7;
-		B035 b = new B035();
+	public BlocketteBuilder<B035> builder() {
+		return new Builder();
+	}
 
-		b.setLookupKey(SeedStrings.parseInt(bytes, offset, 3));
-		offset += 3;
+	public static class Builder extends BlocketteBuilder<B035> {
 
-		int numberOfComponents = SeedStrings.parseInt(bytes, offset, 4);
-		offset += 4;
-
-		for (int i = 0; i < numberOfComponents; i++) {
-			String stationCode = new String(bytes, offset, 5);
-			offset = offset + 5;
-			String locationCode = new String(bytes, offset, 2);
-			offset = offset + 2;
-			String channelCode = new String(bytes, offset, 3);
-			offset = offset + 3;
-
-			int subChannelId = SeedStrings.parseInt(bytes, offset, 4);
-			offset = offset + 4;
-			double weight = SeedStrings.parseDouble(bytes, offset, 5);
-			offset = offset + 5;
-			b.add(b.new Component(stationCode, locationCode, channelCode, subChannelId, weight));
+		public Builder() {
+			super(35);
 		}
 
-		return b;
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B035 build() throws SeedException {
+			validate(35, 14, bytes);
+			int offset = 7;
+			B035 b = new B035();
+
+			b.setLookupKey(SeedStrings.parseInt(bytes, offset, 3));
+			offset += 3;
+
+			int numberOfComponents = SeedStrings.parseInt(bytes, offset, 4);
+			offset += 4;
+
+			for (int i = 0; i < numberOfComponents; i++) {
+				String stationCode = new String(bytes, offset, 5);
+				offset = offset + 5;
+				String locationCode = new String(bytes, offset, 2);
+				offset = offset + 2;
+				String channelCode = new String(bytes, offset, 3);
+				offset = offset + 3;
+
+				int subChannelId = SeedStrings.parseInt(bytes, offset, 4);
+				offset = offset + 4;
+				double weight = SeedStrings.parseDouble(bytes, offset, 5);
+				offset = offset + 5;
+				b.add(b.new Component(stationCode, locationCode, channelCode, subChannelId, weight));
+			}
+
+			return b;
+		}
 	}
 
 	class Component {

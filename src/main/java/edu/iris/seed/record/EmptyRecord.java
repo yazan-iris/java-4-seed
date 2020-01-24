@@ -6,8 +6,10 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.iris.seed.Blockette;
+import edu.iris.seed.SeedControlHeader;
 import edu.iris.seed.SeedException;
-import edu.iris.seed.record.Header.Type;
+import edu.iris.seed.SeedHeader.Type;
+import edu.iris.seed.SeedRecord;
 
 public class EmptyRecord extends SeedRecord<Blockette> {
 
@@ -20,7 +22,7 @@ public class EmptyRecord extends SeedRecord<Blockette> {
 	}
 
 	public EmptyRecord(int sequence, boolean continuation) {
-		super(ControlHeader.Builder.newInstance().build(sequence, Type.E, continuation));
+		super(SeedControlHeader.Builder.newInstance(sequence, Type.E, continuation).build());
 	}
 
 	@Override
@@ -40,17 +42,23 @@ public class EmptyRecord extends SeedRecord<Blockette> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
-	public List<Blockette> getAll() {
+	public List<Blockette> blockettes() {
 		return Collections.emptyList();
 	}
-	
+
 	public boolean isEmpty() {
 		return true;
 	}
 
 	public int size() {
 		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+
 	}
 }

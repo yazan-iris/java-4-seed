@@ -3,13 +3,14 @@ package edu.iris.seed.abbreviation;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 import edu.iris.seed.station.Number;
 import edu.iris.seed.station.ResponseDictionaryBlockette;
 
-public class B049 extends AbstractAbbreviationBlockette implements AbbreviationBlockette, ResponseDictionaryBlockette {
+public class B049 extends AbstractAbbreviationBlockette<B049> implements AbbreviationBlockette, ResponseDictionaryBlockette {
 
 	private String responseName;
 	private char transferFunctionType;
@@ -31,7 +32,6 @@ public class B049 extends AbstractAbbreviationBlockette implements AbbreviationB
 		super(49, "Response [Polynomial] Blockette");
 
 	}
-
 
 	public String getResponseName() {
 		return responseName;
@@ -177,54 +177,69 @@ public class B049 extends AbstractAbbreviationBlockette implements AbbreviationB
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	public static B049 build049(byte[] bytes) throws SeedException {
-		if (bytes == null || bytes.length == 0) {
-			throw new IllegalArgumentException("object null|empty");
+
+	public BlocketteBuilder<B049> builder() {
+		return new Builder();
+	}
+
+	public static class Builder extends BlocketteBuilder<B049> {
+
+		public Builder() {
+			super(49);
 		}
-		int offset = 7;
-		B049 b = new B049();
 
-		b.setTransferFunctionType((char) bytes[offset]);
-		offset++;
-
-		b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
-		offset = offset + 4;
-
-		b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-
-		b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-
-		b.setApproximationType((char) bytes[offset]);
-		offset++;
-
-		b.setFrequencyUnit((char) bytes[offset]);
-		offset++;
-
-		b.setLowerValidFrequencyBound(SeedStrings.parseDouble(bytes, offset, 12));
-		offset = offset + 12;
-		b.setUpperValidFrequencyBound(SeedStrings.parseDouble(bytes, offset, 12));
-		offset = offset + 12;
-
-		b.setLowerBoundOfApproximation(SeedStrings.parseDouble(bytes, offset, 12));
-		offset = offset + 12;
-		b.setUpperBoundOfApproximation(SeedStrings.parseDouble(bytes, offset, 12));
-		offset = offset + 12;
-		b.setMaximumAbsoluteError(SeedStrings.parseDouble(bytes, offset, 12));
-		offset = offset + 12;
-
-		int numberOfCoefficients = SeedStrings.parseInt(bytes, offset, 3);
-		offset = offset + 3;
-
-		for (int i = 0; i < numberOfCoefficients; i++) {
-			Float value = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			Float error = SeedStrings.parseFloat(bytes, offset, 12);
-			offset = offset + 12;
-			b.add(new Number(value, error));
+		public static Builder newInstance() {
+			return new Builder();
 		}
-		return b;
+
+		public B049 build() throws SeedException {
+			if (bytes == null || bytes.length == 0) {
+				throw new IllegalArgumentException("object null|empty");
+			}
+			int offset = 7;
+			B049 b = new B049();
+
+			b.setTransferFunctionType((char) bytes[offset]);
+			offset++;
+
+			b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
+			offset = offset + 4;
+
+			b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+
+			b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+
+			b.setApproximationType((char) bytes[offset]);
+			offset++;
+
+			b.setFrequencyUnit((char) bytes[offset]);
+			offset++;
+
+			b.setLowerValidFrequencyBound(SeedStrings.parseDouble(bytes, offset, 12));
+			offset = offset + 12;
+			b.setUpperValidFrequencyBound(SeedStrings.parseDouble(bytes, offset, 12));
+			offset = offset + 12;
+
+			b.setLowerBoundOfApproximation(SeedStrings.parseDouble(bytes, offset, 12));
+			offset = offset + 12;
+			b.setUpperBoundOfApproximation(SeedStrings.parseDouble(bytes, offset, 12));
+			offset = offset + 12;
+			b.setMaximumAbsoluteError(SeedStrings.parseDouble(bytes, offset, 12));
+			offset = offset + 12;
+
+			int numberOfCoefficients = SeedStrings.parseInt(bytes, offset, 3);
+			offset = offset + 3;
+
+			for (int i = 0; i < numberOfCoefficients; i++) {
+				Float value = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				Float error = SeedStrings.parseFloat(bytes, offset, 12);
+				offset = offset + 12;
+				b.add(new Number(value, error));
+			}
+			return b;
+		}
 	}
 }

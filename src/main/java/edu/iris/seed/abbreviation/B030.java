@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-public class B030 extends AbstractAbbreviationBlockette implements AbbreviationBlockette {
+public class B030 extends AbstractAbbreviationBlockette<B030> implements AbbreviationBlockette {
 
 	private String name;
 	private int dataFamilyType;
@@ -94,36 +95,51 @@ public class B030 extends AbstractAbbreviationBlockette implements AbbreviationB
 		return builder.toString();
 	}
 
-	public static B030 build(byte[] bytes) throws SeedException {
-		B030 b = new B030(new String(bytes));
-
-		int offset = 7;
-
-		int from = offset;
-		for (;; offset++) {
-			if (bytes[offset] == '~') {
-				break;
-			}
-		}
-
-		b.setName(new String(bytes, from, offset - from));
-		offset++;
-		b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
-		offset = offset + 4;
-		b.setDataFamilyType(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-		int numberOfKeys = SeedStrings.parseInt(bytes, offset, 2);
-		offset = offset + 2;
-		int i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == '~') {
-				b.addKey(new String(bytes, i, offset - i));
-				i = offset + 1;
-			}
-		}
-
-		return b;
+	public BlocketteBuilder<B030> builder() {
+		return new Builder();
 	}
 
+	public static class Builder extends BlocketteBuilder<B030> {
+
+		public Builder() {
+			super(30);
+		}
+
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B030 build() throws SeedException {
+
+			B030 b = new B030(new String(bytes));
+
+			int offset = 7;
+
+			int from = offset;
+			for (;; offset++) {
+				if (bytes[offset] == '~') {
+					break;
+				}
+			}
+
+			b.setName(new String(bytes, from, offset - from));
+			offset++;
+			b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
+			offset = offset + 4;
+			b.setDataFamilyType(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+			int numberOfKeys = SeedStrings.parseInt(bytes, offset, 2);
+			offset = offset + 2;
+			int i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == '~') {
+					b.addKey(new String(bytes, i, offset - i));
+					i = offset + 1;
+				}
+			}
+
+			return b;
+		}
+	}
 
 }

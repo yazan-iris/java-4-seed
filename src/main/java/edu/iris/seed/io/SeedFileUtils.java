@@ -8,43 +8,32 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
-import edu.iris.seed.Blockette;
-import edu.iris.seed.Record;
 import edu.iris.seed.SeedException;
+import edu.iris.seed.SeedInputStream;
 import edu.iris.seed.SeedVolume;
 import edu.iris.seed.io.output.StringBuilderOutputStream;
-import edu.iris.seed.record.Header.Type;
+import edu.iris.seed.record.AbbreviationRecord;
 
 public class SeedFileUtils {
 
-	
-	public static String volumeRecordToString(final File file) throws SeedException, IOException {
-		try (SeedRecordIterator it = recordIterator(file)) {
+	public static String volumeToString(final File file, int recordLength) throws SeedException, IOException {
+		checkFile(file);
+		try (InputStream inputStream = new FileInputStream(file);) {
+			SeedVolume v = SeedIOUtils.toSeedVolume(inputStream);
 			StringBuilderOutputStream outputStream = new StringBuilderOutputStream();
-			while (it.hasNext()) {
-				Record<? extends Blockette> record = it.next();
-				if (record.getHeader().getType() == Type.V) {
-					record.writeTo(outputStream, 4096, 1);
-					record.getBytes();
-				}
-			}
+			v.writeTo(outputStream, recordLength);
 			return outputStream.toString();
 		}
 	}
 
-	public static String abbreviationRecordToString(final File file) throws SeedException, IOException {
-		try (SeedRecordIterator it = recordIterator(file)) {
+	public static String abbreviationRecordToString(final File file, int recordLength)
+			throws SeedException, IOException {
+		checkFile(file);
+		try (InputStream inputStream = new FileInputStream(file);) {
+			AbbreviationRecord v = SeedIOUtils.toAbbreviationRecord(inputStream);
 			StringBuilderOutputStream outputStream = new StringBuilderOutputStream();
-			while (it.hasNext()) {
-				Record<? extends Blockette> record = it.next();
-				if (record.getHeader().getType() == Type.A) {
-					record.writeTo(outputStream, 4096, 1);
-					record.getBytes();
-				}
-			}
+			v.writeTo(outputStream, recordLength, 1);
 			return outputStream.toString();
 		}
 	}
@@ -54,7 +43,7 @@ public class SeedFileUtils {
 	}
 
 	public static String readSeedFileToString(final File file) throws SeedException, IOException {
-		validateFile(file);
+		checkFile(file);
 		try (InputStream inputStream = new FileInputStream(file)) {
 			return readSeedFileToString(inputStream);
 		}
@@ -93,7 +82,17 @@ public class SeedFileUtils {
 		}
 	}
 
-	public static void validateFile(final File file) throws IOException {
+	public static SeedInputStream toSeedInputStream(File file) throws SeedException, IOException {
+		checkFile(file);
+		return SeedIOUtils.toSeedInputStream(new FileInputStream(file));
+	}
+
+	public static SeedBlocketteIterator toBlocketteIterator(File file) throws SeedException, IOException{
+		checkFile(file);
+		return SeedIOUtils.blocketteIterator(new FileInputStream(file));
+	}
+
+	public static void checkFile(final File file) throws IOException {
 		if (file.exists()) {
 			if (file.isDirectory()) {
 				throw new IOException("File '" + file + "' exists but is a directory");
@@ -106,23 +105,8 @@ public class SeedFileUtils {
 		}
 	}
 
-	public static SeedRecordIterator recordIterator(final File file) throws SeedException, IOException {
-		validateFile(file);
-		InputStream inputStream = null;
-
-		try {
-			inputStream = new FileInputStream(file);
-			return SeedIOUtils.recordIterator(inputStream);
-		} catch (final IOException | RuntimeException ex) {
-			if (inputStream != null) {
-				inputStream.close();
-			}
-			throw ex;
-		}
-	}
-
 	public static SeedBlocketteIterator blocketteIterator(final File file) throws SeedException, IOException {
-		validateFile(file);
+		checkFile(file);
 		InputStream inputStream = null;
 
 		try {
@@ -133,18 +117,6 @@ public class SeedFileUtils {
 				inputStream.close();
 			}
 			throw ex;
-		}
-	}
-
-	public static List<Record<? extends Blockette>> toSeedRecords(final InputStream inputStream)
-			throws SeedException, IOException {
-
-		List<Record<? extends Blockette>> records = new ArrayList<>();
-		try (SeedRecordIterator it = SeedIOUtils.recordIterator(inputStream);) {
-			while (it.hasNext()) {
-				records.add(it.next());
-			}
-			return records;
 		}
 	}
 

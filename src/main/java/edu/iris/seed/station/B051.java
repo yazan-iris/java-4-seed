@@ -3,13 +3,13 @@ package edu.iris.seed.station;
 import java.util.Arrays;
 
 import edu.iris.seed.BTime;
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedBlockette;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-
-public class B051 extends SeedBlockette implements StationBlockette{
+public class B051 extends SeedBlockette implements StationBlockette {
 	private BTime startTime;
 	private BTime endTime;
 	private int lookupKey;
@@ -71,41 +71,56 @@ public class B051 extends SeedBlockette implements StationBlockette{
 		return builder.toString();
 	}
 
-	public static B051 build(byte[] bytes) throws SeedException {
-		int offset = 7;
-		int i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
-			}
-		}
-		B051 b = new B051(new String(bytes));
-
-		byte[] copy = Arrays.copyOfRange(bytes, i, offset);
-		b.setStartTime(BTime.valueOf(copy));
-
-		offset++;
-		i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
-			}
-		}
-		copy = Arrays.copyOfRange(bytes, i, offset);
-		b.setEndTime(BTime.valueOf(copy));
-
-		offset++;
-		int key = SeedStrings.parseInt(bytes, offset, 4);
-		b.setLookupKey(key);
-		offset = offset + 4;
-
-		if (offset >= bytes.length) {
-			return b;
-		}
-		int level = SeedStrings.parseInt(bytes, offset, 6);
-		b.setLevel(level);
-
-		return b;
+	public BlocketteBuilder<B051> builder() {
+		return new Builder();
 	}
 
+	public static class Builder extends BlocketteBuilder<B051> {
+
+		public Builder() {
+			super(51);
+		}
+
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B051 build() throws SeedException {
+			int offset = 7;
+			int i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
+			}
+			B051 b = new B051(new String(bytes));
+
+			byte[] copy = Arrays.copyOfRange(bytes, i, offset);
+			b.setStartTime(BTime.valueOf(copy));
+
+			offset++;
+			i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
+			}
+			copy = Arrays.copyOfRange(bytes, i, offset);
+			b.setEndTime(BTime.valueOf(copy));
+
+			offset++;
+			int key = SeedStrings.parseInt(bytes, offset, 4);
+			b.setLookupKey(key);
+			offset = offset + 4;
+
+			if (offset >= bytes.length) {
+				return b;
+			}
+			int level = SeedStrings.parseInt(bytes, offset, 6);
+			b.setLevel(level);
+
+			return b;
+		}
+
+	}
 }

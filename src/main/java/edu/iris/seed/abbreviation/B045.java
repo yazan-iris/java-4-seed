@@ -3,13 +3,13 @@ package edu.iris.seed.abbreviation;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 import edu.iris.seed.station.ResponseDictionaryBlockette;
 
-public class B045 extends AbstractAbbreviationBlockette implements AbbreviationBlockette,ResponseDictionaryBlockette {
-
+public class B045 extends AbstractAbbreviationBlockette<B045> implements AbbreviationBlockette, ResponseDictionaryBlockette {
 
 	private String responseName;
 	private int signalInputUnit;
@@ -147,35 +147,50 @@ public class B045 extends AbstractAbbreviationBlockette implements AbbreviationB
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	public static B045 build(byte[] bytes) throws SeedException {
-		int offset = 7;
-		B045 b = new B045();
 
-		b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
-		offset = offset + 4;
-		b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
-		b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
-		offset = offset + 3;
+	public BlocketteBuilder<B045> builder() {
+		return new Builder();
+	}
 
-		int numberOfNumerators = SeedStrings.parseInt(bytes, offset, 4);
-		offset = offset + 4;
+	public static class Builder extends BlocketteBuilder<B045> {
 
-		for (int i = 0; i < numberOfNumerators; i++) {
-			double frequency = SeedStrings.parseDouble(bytes, offset, 12);
-			offset = offset + 12;
-			double amplitude = SeedStrings.parseDouble(bytes, offset, 12);
-			offset = offset + 12;
-			double amplitudeError = SeedStrings.parseDouble(bytes, offset, 12);
-			offset = offset + 12;
-			double phaseAngle = SeedStrings.parseDouble(bytes, offset, 12);
-			offset = offset + 12;
-			double phaseAngleError = SeedStrings.parseDouble(bytes, offset, 12);
-			offset = offset + 12;
-			b.add(b.new Response(frequency, amplitude, amplitudeError, phaseAngle, phaseAngleError));
+		public Builder() {
+			super(45);
 		}
 
-		return b;
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B045 build() throws SeedException {
+			int offset = 7;
+			B045 b = new B045();
+
+			b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
+			offset = offset + 4;
+			b.setSignalInputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+			b.setSignalOutputUnit(SeedStrings.parseInt(bytes, offset, 3));
+			offset = offset + 3;
+
+			int numberOfNumerators = SeedStrings.parseInt(bytes, offset, 4);
+			offset = offset + 4;
+
+			for (int i = 0; i < numberOfNumerators; i++) {
+				double frequency = SeedStrings.parseDouble(bytes, offset, 12);
+				offset = offset + 12;
+				double amplitude = SeedStrings.parseDouble(bytes, offset, 12);
+				offset = offset + 12;
+				double amplitudeError = SeedStrings.parseDouble(bytes, offset, 12);
+				offset = offset + 12;
+				double phaseAngle = SeedStrings.parseDouble(bytes, offset, 12);
+				offset = offset + 12;
+				double phaseAngleError = SeedStrings.parseDouble(bytes, offset, 12);
+				offset = offset + 12;
+				b.add(b.new Response(frequency, amplitude, amplitudeError, phaseAngle, phaseAngleError));
+			}
+
+			return b;
+		}
 	}
 }

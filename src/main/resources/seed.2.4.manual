@@ -1,4 +1,102 @@
 [ {
+  "number" : 320,
+  "type" : "Data Record",
+  "description" : "Pseudo-random Calibration Blockette",
+  "since" : "2.0=13",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 320",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 2,
+    "description" : "Next blockette's byte number",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 3,
+    "description" : "Beginning of calibration time",
+    "type" : "B",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
+    "mask" : "BTIME"
+  }, {
+    "number" : 4,
+    "description" : "Reserved byte",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 5,
+    "description" : "Calibration flags",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 6,
+    "description" : "Calibration duration",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "ULONG"
+  }, {
+    "number" : 7,
+    "description" : "Peak-to-peak amplitude of steps",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
+  }, {
+    "number" : 8,
+    "description" : "Channel with calibration output",
+    "type" : "A",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  }, {
+    "number" : 9,
+    "description" : "Reserved byte",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 10,
+    "description" : "Reference amplitude",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "ULONG"
+  }, {
+    "number" : 11,
+    "description" : "Coupling",
+    "type" : "A",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  }, {
+    "number" : 12,
+    "description" : "Rolloff",
+    "type" : "A",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  }, {
+    "number" : 13,
+    "description" : "Noise type",
+    "type" : "A",
+    "minumumLength" : 8,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  } ],
+  "minumumLength" : 64
+}, {
   "number" : 5,
   "type" : "Volume Index",
   "description" : "Field Volume Identifier Blockette",
@@ -7,159 +105,109 @@
     "number" : 1,
     "description" : "Blockette type - 005",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Version of format",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"00.0\""
   }, {
     "number" : 4,
     "description" : "Logical record length",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 5,
     "description" : "Beginning of volume",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
-  } ]
+  } ],
+  "minumumLength" : 14
 }, {
-  "number" : 70,
-  "type" : "Time Span",
-  "description" : "Time Span Identifier Blockette",
-  "since" : "2.0=5",
+  "number" : 390,
+  "type" : "Data Record",
+  "description" : "Generic Calibration Blockette",
+  "since" : "2.0=9",
   "fields" : [ {
     "number" : 1,
-    "description" : "Blockette type - 070",
-    "type" : "D",
-    "length" : "3",
-    "mask" : "\"000\""
+    "description" : "Blockette type - 390",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
   }, {
     "number" : 2,
-    "description" : "Length of blockette",
-    "type" : "D",
-    "length" : "4",
-    "mask" : "\"0000\""
+    "description" : "Next blockette's byte number",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
   }, {
     "number" : 3,
-    "description" : "Time span flag",
-    "type" : "A",
-    "length" : "1",
-    "mask" : "[U]"
+    "description" : "Beginning of calibration time",
+    "type" : "B",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
+    "mask" : "BTIME"
   }, {
     "number" : 4,
-    "description" : "Beginning time of data span",
-    "type" : "V",
-    "length" : "1-22",
-    "mask" : "TIME"
+    "description" : "Reserved byte",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
   }, {
     "number" : 5,
-    "description" : "End time of data span",
-    "type" : "V",
-    "length" : "1-22",
-    "mask" : "TIME"
-  } ]
-}, {
-  "number" : 71,
-  "type" : "Time Span",
-  "description" : "Hypocenter Information Blockette",
-  "since" : "2.0=11,2.3=14",
-  "fields" : [ {
-    "number" : 1,
-    "description" : "Blockette type - 071",
-    "type" : "D",
-    "length" : "3",
-    "mask" : "\"000\""
-  }, {
-    "number" : 2,
-    "description" : "Length of blockette",
-    "type" : "D",
-    "length" : "4",
-    "mask" : "\"0000\""
-  }, {
-    "number" : 3,
-    "description" : "Origin time of event",
-    "type" : "V",
-    "length" : "1-22",
-    "mask" : "TIME"
-  }, {
-    "number" : 4,
-    "description" : "Hypocenter source identifier",
-    "type" : "D",
-    "length" : "2",
-    "mask" : "\"00\""
-  }, {
-    "number" : 5,
-    "description" : "Latitude of event (degrees)",
-    "type" : "D",
-    "length" : "10",
-    "mask" : "\"00.000000\""
+    "description" : "Calibration flags",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
   }, {
     "number" : 6,
-    "description" : "Longitude of event (degrees)",
-    "type" : "D",
-    "length" : "11",
-    "mask" : "\"000.000000\""
+    "description" : "Calibration duration",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "ULONG"
   }, {
     "number" : 7,
-    "description" : "Depth (Km)",
-    "type" : "D",
-    "length" : "7",
-    "mask" : "\"0000.00\""
+    "description" : "Calibration signal amplitude",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
   }, {
     "number" : 8,
-    "description" : "Number of magnitudes",
-    "type" : "D",
-    "length" : "2",
-    "mask" : "\"00\""
+    "description" : "Channel with calibration input",
+    "type" : "A",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
+    "mask" : "[]"
   }, {
     "number" : 9,
-    "description" : "Magnitude",
-    "type" : "D",
-    "length" : "5",
-    "mask" : "\"00.00\""
-  }, {
-    "number" : 10,
-    "description" : "Magnitude type",
-    "type" : "V",
-    "length" : "1-10",
-    "mask" : "[UNLPS]"
-  }, {
-    "number" : 11,
-    "description" : "Magnitude source",
-    "type" : "D",
-    "length" : "2",
-    "mask" : "\"00\""
-  }, {
-    "number" : 12,
-    "description" : "Seismic region",
-    "type" : "D",
-    "length" : "3",
-    "mask" : "\"000\""
-  }, {
-    "number" : 13,
-    "description" : "Seismic Location",
-    "type" : "D",
-    "length" : "4",
-    "mask" : "\"0000\""
-  }, {
-    "number" : 14,
-    "description" : "Region Name",
-    "type" : "V",
-    "length" : "1-40",
-    "mask" : "[UNLPS]"
-  } ]
+    "description" : "Reserved byte",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  } ],
+  "minumumLength" : 28
 }, {
   "number" : 8,
   "type" : "Volume Index",
@@ -169,213 +217,249 @@
     "number" : 1,
     "description" : "Blockette type - 008",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Version of format",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"00.0\""
   }, {
     "number" : 4,
     "description" : "Logical record length",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 5,
     "description" : "Station identifier",
     "type" : "A",
-    "length" : "5",
+    "minumumLength" : 5,
+    "maximumLength" : 0,
     "mask" : "[UN]"
   }, {
     "number" : 6,
     "description" : "Location identifier",
     "type" : "A",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "[UNS]"
   }, {
     "number" : 7,
     "description" : "Channel identifier",
     "type" : "A",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "[UN]"
   }, {
     "number" : 8,
     "description" : "Beginning of volume",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 9,
     "description" : "End of volume",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 10,
     "description" : "Station info effective date",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 11,
     "description" : "Channel info effective date",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 12,
     "description" : "Network Code",
     "type" : "A",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "[UN]"
-  } ]
+  } ],
+  "minumumLength" : 29
 }, {
-  "number" : 72,
-  "type" : "Time Span",
-  "description" : "Event Phases Blockette",
-  "since" : "2.0=10,2.3=12",
-  "fields" : [ {
-    "number" : 1,
-    "description" : "Blockette type - 072",
-    "type" : "D",
-    "length" : "3",
-    "mask" : "\"000\""
-  }, {
-    "number" : 2,
-    "description" : "Length of blockette",
-    "type" : "D",
-    "length" : "4",
-    "mask" : "\"0000\""
-  }, {
-    "number" : 3,
-    "description" : "Station identifier",
-    "type" : "A",
-    "length" : "5",
-    "mask" : "[UN]"
-  }, {
-    "number" : 4,
-    "description" : "Location identifier",
-    "type" : "A",
-    "length" : "2",
-    "mask" : "[UNS]"
-  }, {
-    "number" : 5,
-    "description" : "Channel identifier",
-    "type" : "A",
-    "length" : "3",
-    "mask" : "[UN]"
-  }, {
-    "number" : 6,
-    "description" : "Arrival time of phase",
-    "type" : "V",
-    "length" : "1-22",
-    "mask" : "TIME"
-  }, {
-    "number" : 7,
-    "description" : "Amplitude of signal",
-    "type" : "F",
-    "length" : "10",
-    "mask" : "\"0.0000E00\""
-  }, {
-    "number" : 8,
-    "description" : "Period of signal (seconds)",
-    "type" : "F",
-    "length" : "10",
-    "mask" : "\"0.0000E00\""
-  }, {
-    "number" : 9,
-    "description" : "Signal-to-noise ratio",
-    "type" : "F",
-    "length" : "10",
-    "mask" : "\"0.0000E00\""
-  }, {
-    "number" : 10,
-    "description" : "Name of phase",
-    "type" : "V",
-    "length" : "1-20",
-    "mask" : "[UNLP]"
-  }, {
-    "number" : 11,
-    "description" : "Source",
-    "type" : "D",
-    "length" : "2",
-    "mask" : "\"00\""
-  }, {
-    "number" : 12,
-    "description" : "Network Code",
-    "type" : "A",
-    "length" : "2",
-    "mask" : "[UN]"
-  } ]
-}, {
-  "number" : 73,
-  "type" : "Time Span",
-  "description" : "Time Span Data Start Index Blockette",
+  "number" : 200,
+  "type" : "Data Record",
+  "description" : "Generic Event Detection Blockette",
   "since" : "2.0=9",
   "fields" : [ {
     "number" : 1,
-    "description" : "Blockette type - 073",
-    "type" : "D",
-    "length" : "3",
-    "mask" : "\"000\""
+    "description" : "Blockette type - 200",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
   }, {
     "number" : 2,
-    "description" : "Length of blockette",
-    "type" : "D",
-    "length" : "4",
-    "mask" : "\"0000\""
+    "description" : "Next blockette's byte number",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
   }, {
     "number" : 3,
-    "description" : "Number of data pieces",
-    "type" : "D",
-    "length" : "4",
-    "mask" : "\"0000\""
+    "description" : "Signal amplitude",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
   }, {
     "number" : 4,
-    "description" : "Station identifier",
-    "type" : "A",
-    "length" : "5",
-    "mask" : "[UN]"
+    "description" : "Signal period",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
   }, {
     "number" : 5,
-    "description" : "Location identifier",
-    "type" : "A",
-    "length" : "2",
-    "mask" : "[UNS]"
+    "description" : "Background estimate",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
   }, {
     "number" : 6,
-    "description" : "Channel identifier",
-    "type" : "A",
-    "length" : "3",
-    "mask" : "[UN]"
+    "description" : "Event detection flags",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
   }, {
     "number" : 7,
-    "description" : "Time of record",
-    "type" : "V",
-    "length" : "1-22",
-    "mask" : "TIME"
+    "description" : "Reserved byte",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
   }, {
     "number" : 8,
-    "description" : "Sequence number of first record",
-    "type" : "D",
-    "length" : "6",
-    "mask" : "\"000000\""
+    "description" : "Signal onset time",
+    "type" : "B",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
+    "mask" : "BTIME"
   }, {
     "number" : 9,
-    "description" : "Sub-sequence number",
-    "type" : "D",
-    "length" : "2",
-    "mask" : "\"00\""
-  } ]
+    "description" : "Detector Name",
+    "type" : "A",
+    "minumumLength" : 24,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  } ],
+  "minumumLength" : 52
+}, {
+  "number" : 201,
+  "type" : "Data Record",
+  "description" : "Murdock Event Detection Blockette",
+  "since" : "2.0=12",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 201",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 2,
+    "description" : "Next blockette's byte number",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 3,
+    "description" : "Signal amplitude",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
+  }, {
+    "number" : 4,
+    "description" : "Signal period",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
+  }, {
+    "number" : 5,
+    "description" : "Background estimate",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
+  }, {
+    "number" : 6,
+    "description" : "Event detection flags",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 7,
+    "description" : "Reserved byte",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 8,
+    "description" : "Signal onset time",
+    "type" : "B",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
+    "mask" : "BTIME"
+  }, {
+    "number" : 9,
+    "description" : "Signal-to-noise ratio values",
+    "type" : "B",
+    "minumumLength" : 6,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 10,
+    "description" : "Lookback value",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 11,
+    "description" : "Pick algorithm",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 12,
+    "description" : "Detector name",
+    "type" : "A",
+    "minumumLength" : 24,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  } ],
+  "minumumLength" : 60
 }, {
   "number" : 10,
   "type" : "Volume Index",
@@ -385,159 +469,67 @@
     "number" : 1,
     "description" : "Blockette type - 010",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Version of format",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"00.0\""
   }, {
     "number" : 4,
     "description" : "Logical record length",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 5,
     "description" : "Beginning time",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 6,
     "description" : "End time",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 7,
     "description" : "Volume Time",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 8,
     "description" : "Originating Organization",
     "type" : "V",
-    "length" : "1-80",
+    "minumumLength" : 1,
+    "maximumLength" : 80,
     "mask" : "[]"
   }, {
     "number" : 9,
     "description" : "Label",
     "type" : "V",
-    "length" : "1-80",
+    "minumumLength" : 1,
+    "maximumLength" : 80,
     "mask" : "[]"
-  } ]
-}, {
-  "number" : 74,
-  "type" : "Time Span",
-  "description" : "Time Series Index Blockette",
-  "since" : "2.1=15,2.3=16",
-  "fields" : [ {
-    "number" : 1,
-    "description" : "Blockette type - 074",
-    "type" : "D",
-    "length" : "3",
-    "mask" : "\"000\""
-  }, {
-    "number" : 2,
-    "description" : "Length of blockette",
-    "type" : "D",
-    "length" : "4",
-    "mask" : "\"0000\""
-  }, {
-    "number" : 3,
-    "description" : "Station identifier",
-    "type" : "A",
-    "length" : "5",
-    "mask" : "[UN]"
-  }, {
-    "number" : 4,
-    "description" : "Location identifier",
-    "type" : "A",
-    "length" : "2",
-    "mask" : "[UNS]"
-  }, {
-    "number" : 5,
-    "description" : "Channel identifier",
-    "type" : "A",
-    "length" : "3",
-    "mask" : "[UN]"
-  }, {
-    "number" : 6,
-    "description" : "Series start time",
-    "type" : "V",
-    "length" : "1-22",
-    "mask" : "TIME"
-  }, {
-    "number" : 7,
-    "description" : "Sequence number of first data",
-    "type" : "D",
-    "length" : "6",
-    "mask" : "\"000000\""
-  }, {
-    "number" : 8,
-    "description" : "Sub-sequence number",
-    "type" : "D",
-    "length" : "2",
-    "mask" : "\"00\""
-  }, {
-    "number" : 9,
-    "description" : "Series end time",
-    "type" : "V",
-    "length" : "1-22",
-    "mask" : "TIME"
-  }, {
-    "number" : 10,
-    "description" : "Sequence number of last record",
-    "type" : "D",
-    "length" : "6",
-    "mask" : "\"000000\""
-  }, {
-    "number" : 11,
-    "description" : "Sub-sequence number",
-    "type" : "D",
-    "length" : "2",
-    "mask" : "\"00\""
-  }, {
-    "number" : 12,
-    "description" : "Number of accelerator repeats",
-    "type" : "D",
-    "length" : "3",
-    "mask" : "\"000\""
-  }, {
-    "number" : 13,
-    "description" : "Record start time",
-    "type" : "V",
-    "length" : "1-22",
-    "mask" : "TIME"
-  }, {
-    "number" : 14,
-    "description" : "Sequence number of record",
-    "type" : "D",
-    "length" : "6",
-    "mask" : "\"000000\""
-  }, {
-    "number" : 15,
-    "description" : "Sub-sequence number",
-    "type" : "D",
-    "length" : "2",
-    "mask" : "\"00\""
-  }, {
-    "number" : 16,
-    "description" : "Network Code",
-    "type" : "A",
-    "length" : "2",
-    "mask" : "[UN]"
-  } ]
+  } ],
+  "minumumLength" : 18
 }, {
   "number" : 11,
   "type" : "Volume Index",
@@ -547,33 +539,74 @@
     "number" : 1,
     "description" : "Blockette type - 011",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Number of stations",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 4,
     "description" : "Station identifier code",
     "type" : "A",
-    "length" : "5",
+    "minumumLength" : 5,
+    "maximumLength" : 0,
     "mask" : "[]"
   }, {
     "number" : 5,
     "description" : "Sequence no. of station header",
     "type" : "D",
-    "length" : "6",
+    "minumumLength" : 6,
+    "maximumLength" : 0,
     "mask" : "\"000000\""
-  } ]
+  } ],
+  "minumumLength" : 21
+}, {
+  "number" : 395,
+  "type" : "Data Record",
+  "description" : "Calibration Abort Blockette",
+  "since" : "2.0=4",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 395",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 2,
+    "description" : "Next blockette's byte number",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 3,
+    "description" : "End of calibration time",
+    "type" : "B",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
+    "mask" : "BTIME"
+  }, {
+    "number" : 4,
+    "description" : "Reserved bytes",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  } ],
+  "minumumLength" : 16
 }, {
   "number" : 12,
   "type" : "Volume Index",
@@ -583,39 +616,123 @@
     "number" : 1,
     "description" : "Blockette type - 012",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Number of spans in table",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 4,
     "description" : "Beginning of span",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 5,
     "description" : "End of span",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 6,
     "description" : "Sequence no. of time span hdr.",
     "type" : "D",
-    "length" : "6",
+    "minumumLength" : 6,
+    "maximumLength" : 0,
     "mask" : "\"000000\""
-  } ]
+  } ],
+  "minumumLength" : 19
+}, {
+  "number" : 400,
+  "type" : "Data Record",
+  "description" : "Beam Blockette",
+  "since" : "2.0=6",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 400",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 2,
+    "description" : "Next blockette's byte number",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 3,
+    "description" : "Beam azimuth (degrees)",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
+  }, {
+    "number" : 4,
+    "description" : "Beam slowness (sec/degree)",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
+  }, {
+    "number" : 5,
+    "description" : "Beam configuration",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 6,
+    "description" : "Reserved bytes",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  } ],
+  "minumumLength" : 16
+}, {
+  "number" : 405,
+  "type" : "Data Record",
+  "description" : "Beam Delay Blockette",
+  "since" : "2.0=3",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 405",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 2,
+    "description" : "Next blockette's byte number",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 3,
+    "description" : "Array of delay values",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  } ],
+  "minumumLength" : 6
 }, {
   "number" : 30,
   "type" : "Abbreviation Dictionary",
@@ -625,45 +742,53 @@
     "number" : 1,
     "description" : "Blockette type - 030",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Short descriptive name",
     "type" : "V",
-    "length" : "1-50",
+    "minumumLength" : 1,
+    "maximumLength" : 50,
     "mask" : "[UNLPS]"
   }, {
     "number" : 4,
     "description" : "Data format identifier code",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 5,
     "description" : "Data family type",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 6,
     "description" : "Number of decoder keys",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 7,
     "description" : "Decoder keys",
     "type" : "V",
-    "length" : "1-9999",
+    "minumumLength" : 1,
+    "maximumLength" : 9999,
     "mask" : "[UNLPS]"
-  } ]
+  } ],
+  "minumumLength" : 18
 }, {
   "number" : 31,
   "type" : "Abbreviation Dictionary",
@@ -673,39 +798,46 @@
     "number" : 1,
     "description" : "Blockette type - 031",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Comment code key",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 4,
     "description" : "Comment class code",
     "type" : "A",
-    "length" : "1",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
     "mask" : "[U]"
   }, {
     "number" : 5,
     "description" : "Description of comment",
     "type" : "V",
-    "length" : "1-70",
+    "minumumLength" : 1,
+    "maximumLength" : 70,
     "mask" : "[UNLPS]"
   }, {
     "number" : 6,
     "description" : "Units of comment level",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
-  } ]
+  } ],
+  "minumumLength" : 16
 }, {
   "number" : 32,
   "type" : "Abbreviation Dictionary",
@@ -715,39 +847,46 @@
     "number" : 1,
     "description" : "Blockette type - 032",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Source lookup code",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 4,
     "description" : "Name of publication/author",
     "type" : "V",
-    "length" : "1-70",
+    "minumumLength" : 1,
+    "maximumLength" : 70,
     "mask" : "[UNLPS]"
   }, {
     "number" : 5,
     "description" : "Date published/catalog",
     "type" : "V",
-    "length" : "1-70",
+    "minumumLength" : 1,
+    "maximumLength" : 70,
     "mask" : "[UNLPS]"
   }, {
     "number" : 6,
     "description" : "Publisher name",
     "type" : "V",
-    "length" : "1-50",
+    "minumumLength" : 1,
+    "maximumLength" : 50,
     "mask" : "[UNLPS]"
-  } ]
+  } ],
+  "minumumLength" : 12
 }, {
   "number" : 33,
   "type" : "Abbreviation Dictionary",
@@ -757,27 +896,32 @@
     "number" : 1,
     "description" : "Blockette type - 033",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Abbreviation lookup code",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 4,
     "description" : "Abbreviation description",
     "type" : "V",
-    "length" : "1-50",
+    "minumumLength" : 1,
+    "maximumLength" : 50,
     "mask" : "[UNLPS]"
-  } ]
+  } ],
+  "minumumLength" : 11
 }, {
   "number" : 34,
   "type" : "Abbreviation Dictionary",
@@ -787,33 +931,39 @@
     "number" : 1,
     "description" : "Blockette type - 034",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Unit lookup code",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 4,
     "description" : "Unit name",
     "type" : "V",
-    "length" : "1-20",
+    "minumumLength" : 1,
+    "maximumLength" : 20,
     "mask" : "[UNP]"
   }, {
     "number" : 5,
     "description" : "Unit description",
     "type" : "V",
-    "length" : "0-50",
+    "minumumLength" : 0,
+    "maximumLength" : 50,
     "mask" : "[UNLPS]"
-  } ]
+  } ],
+  "minumumLength" : 11
 }, {
   "number" : 35,
   "type" : "Abbreviation Dictionary",
@@ -823,57 +973,158 @@
     "number" : 1,
     "description" : "Blockette type - 035",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Unit lookup code",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 4,
     "description" : "Number of components",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 5,
     "description" : "Station identifier",
     "type" : "A",
-    "length" : "5",
+    "minumumLength" : 5,
+    "maximumLength" : 0,
     "mask" : "[UN]"
   }, {
     "number" : 6,
     "description" : "Location identifier",
     "type" : "A",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "[UNS]"
   }, {
     "number" : 7,
     "description" : "Channel identifier",
     "type" : "A",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "[UN]"
   }, {
     "number" : 8,
     "description" : "Sub-channel identifier",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 9,
     "description" : "Component weight",
     "type" : "D",
-    "length" : "5",
+    "minumumLength" : 5,
+    "maximumLength" : 0,
     "mask" : "\"0.000\""
-  } ]
+  } ],
+  "minumumLength" : 33
+}, {
+  "number" : 100,
+  "type" : "Data Record",
+  "description" : "Sample Rate Blockette",
+  "since" : "2.3=5",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 100",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 2,
+    "description" : "Next blockette's byte number",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 3,
+    "description" : "Actual Sample Rate",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
+  }, {
+    "number" : 4,
+    "description" : "Flags (to be defined)",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "BYTE"
+  }, {
+    "number" : 5,
+    "description" : "Reserved byte",
+    "type" : "B",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  } ],
+  "minumumLength" : 12
+}, {
+  "number" : 1000,
+  "type" : "Data Record",
+  "description" : "Data Only SEED Blockette",
+  "since" : "2.3=6",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 1000",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 2,
+    "description" : "Next blockette's byte number",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 3,
+    "description" : "Encoding format",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "BYTE"
+  }, {
+    "number" : 4,
+    "description" : "Word order",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 5,
+    "description" : "Data Record Length",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 6,
+    "description" : "Reserved",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  } ],
+  "minumumLength" : 8
 }, {
   "number" : 41,
   "type" : "Abbreviation Dictionary",
@@ -883,57 +1134,242 @@
     "number" : 1,
     "description" : "Blockette type - 041",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Response Lookup Key",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 4,
     "description" : "Response Name",
     "type" : "V",
-    "length" : "1-25",
+    "minumumLength" : 1,
+    "maximumLength" : 25,
     "mask" : "[UNL_]"
   }, {
     "number" : 5,
     "description" : "Symmetry Code",
     "type" : "A",
-    "length" : "1",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
     "mask" : "[U]"
   }, {
     "number" : 6,
     "description" : "Signal In Units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 7,
     "description" : "Signal Out Units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 8,
     "description" : "Number of Factors",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 9,
     "description" : "FIR Coefficient",
     "type" : "F",
-    "length" : "14",
+    "minumumLength" : 14,
+    "maximumLength" : 0,
     "mask" : "\"0.0000000E00\""
-  } ]
+  } ],
+  "minumumLength" : 37
+}, {
+  "number" : 1001,
+  "type" : "Data Record",
+  "description" : "Data Extension Blockette",
+  "since" : "2.0=6",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 1001",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 2,
+    "description" : "Next blockette's byte number",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 3,
+    "description" : "Timing quality",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 4,
+    "description" : "Microseconds",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 5,
+    "description" : "Reserved",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 6,
+    "description" : "Frame Count",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  } ],
+  "minumumLength" : 8
+}, {
+  "number" : 42,
+  "type" : "Abbreviation Dictionary",
+  "description" : "Response (Polynomial) Dictionary Blockette",
+  "since" : "2.3=17",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 042",
+    "type" : "D",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
+    "mask" : "\"000\""
+  }, {
+    "number" : 2,
+    "description" : "Length of blockette",
+    "type" : "D",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "\"0000\""
+  }, {
+    "number" : 3,
+    "description" : "Response Lookup Key",
+    "type" : "D",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "\"0000\""
+  }, {
+    "number" : 4,
+    "description" : "Response name",
+    "type" : "V",
+    "minumumLength" : 1,
+    "maximumLength" : 25,
+    "mask" : "[UNL_]"
+  }, {
+    "number" : 5,
+    "description" : "Transfer Function Type",
+    "type" : "A",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "[U]"
+  }, {
+    "number" : 6,
+    "description" : "Stage signal input units",
+    "type" : "D",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
+    "mask" : "\"000\""
+  }, {
+    "number" : 7,
+    "description" : "Stage signal output units",
+    "type" : "D",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
+    "mask" : "\"000\""
+  }, {
+    "number" : 8,
+    "description" : "Polynomial Approximation Type",
+    "type" : "A",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "[U]"
+  }, {
+    "number" : 9,
+    "description" : "Valid Frequency Units",
+    "type" : "A",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "[U]"
+  }, {
+    "number" : 10,
+    "description" : "Lower Valid Frequency Bound",
+    "type" : "F",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 11,
+    "description" : "Upper Valid Frequency Bound",
+    "type" : "F",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 12,
+    "description" : "Lower Bound of Approximation",
+    "type" : "F",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 13,
+    "description" : "Upper Bound of Approximation",
+    "type" : "F",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 14,
+    "description" : "Maximum Absolute Error",
+    "type" : "F",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 15,
+    "description" : "Number of Polynomial Coeff.",
+    "type" : "D",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
+    "mask" : "\"000\""
+  }, {
+    "number" : 16,
+    "description" : "Polynomial Coefficient",
+    "type" : "F",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
+    "mask" : "\"0.00000E00\""
+  }, {
+    "number" : 17,
+    "description" : "Polynomial Coefficient Error",
+    "type" : "F",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
+    "mask" : "\"0.00000E00\""
+  } ],
+  "minumumLength" : 108
 }, {
   "number" : 43,
   "type" : "Abbreviation Dictionary",
@@ -943,117 +1379,137 @@
     "number" : 1,
     "description" : "Blockette type - 043",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Response Lookup Key",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 4,
     "description" : "Response name",
     "type" : "V",
-    "length" : "1-25",
+    "minumumLength" : 1,
+    "maximumLength" : 25,
     "mask" : "[UNL_]"
   }, {
     "number" : 5,
     "description" : "Response type",
     "type" : "A",
-    "length" : "1",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
     "mask" : "[U]"
   }, {
     "number" : 6,
     "description" : "Stage signal input units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 7,
     "description" : "Stage signal output units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 8,
     "description" : "AO normalization factor",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 9,
     "description" : "Normalization frequency (Hz)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 10,
     "description" : "Number of complex zeros",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 11,
     "description" : "Real zero",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 12,
     "description" : "Imaginary zero",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 13,
     "description" : "Real zero error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 14,
     "description" : "Imaginary zero error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 15,
     "description" : "Number of complex poles",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 16,
     "description" : "Real pole",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 17,
     "description" : "Imaginary pole",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 18,
     "description" : "Real pole error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 19,
     "description" : "Imaginary pole error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
-  } ]
+  } ],
+  "minumumLength" : 145
 }, {
   "number" : 44,
   "type" : "Abbreviation Dictionary",
@@ -1063,81 +1519,193 @@
     "number" : 1,
     "description" : "Blockette type - 044",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Response lookup key",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 4,
     "description" : "Response name",
     "type" : "V",
-    "length" : "1-25",
+    "minumumLength" : 1,
+    "maximumLength" : 25,
     "mask" : "[UN_]"
   }, {
     "number" : 5,
     "description" : "Response type",
     "type" : "A",
-    "length" : "1",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
     "mask" : "[U]"
   }, {
     "number" : 6,
     "description" : "Signal input units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 7,
     "description" : "Signal output units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 8,
     "description" : "Number of numerators",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 9,
     "description" : "Numerator coefficient",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 10,
     "description" : "Numerator error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 11,
     "description" : "Number of denominators",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 12,
     "description" : "Denominator coefficient",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 13,
     "description" : "Denominator error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
-  } ]
+  } ],
+  "minumumLength" : 75
+}, {
+  "number" : 300,
+  "type" : "Data Record",
+  "description" : "Step Calibration Blockette",
+  "since" : "2.0=13",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 300",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 2,
+    "description" : "Next blockette's byte number",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 3,
+    "description" : "Beginning of calibration time",
+    "type" : "B",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
+    "mask" : "BTIME"
+  }, {
+    "number" : 4,
+    "description" : "Number of step calibrations",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 5,
+    "description" : "Calibration flags",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 6,
+    "description" : "Step duration",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "ULONG"
+  }, {
+    "number" : 7,
+    "description" : "Interval duration",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "ULONG"
+  }, {
+    "number" : 8,
+    "description" : "Calibration signal amplitude",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
+  }, {
+    "number" : 9,
+    "description" : "Channel with calibration input",
+    "type" : "A",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  }, {
+    "number" : 10,
+    "description" : "Reserved byte",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 11,
+    "description" : "Reference amplitude",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "ULONG"
+  }, {
+    "number" : 12,
+    "description" : "Coupling",
+    "type" : "A",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  }, {
+    "number" : 13,
+    "description" : "Rolloff",
+    "type" : "A",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  } ],
+  "minumumLength" : 60
 }, {
   "number" : 45,
   "type" : "Abbreviation Dictionary",
@@ -1147,75 +1715,88 @@
     "number" : 1,
     "description" : "Blockette type - 045",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Response lookup key",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 4,
     "description" : "Response name",
     "type" : "V",
-    "length" : "1-25",
+    "minumumLength" : 1,
+    "maximumLength" : 25,
     "mask" : "[UNL_]"
   }, {
     "number" : 5,
     "description" : "Signal input units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 6,
     "description" : "Signal output units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 7,
     "description" : "Number of responses listed",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 8,
     "description" : "Frequency (Hz)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 9,
     "description" : "Amplitude",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 10,
     "description" : "Amplitude error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 11,
     "description" : "Phase angle (degrees)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 12,
     "description" : "Phase error (degrees)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
-  } ]
+  } ],
+  "minumumLength" : 82
 }, {
   "number" : 46,
   "type" : "Abbreviation Dictionary",
@@ -1225,57 +1806,67 @@
     "number" : 1,
     "description" : "Blockette type - 046",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Response lookup key",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 4,
     "description" : "Response name",
     "type" : "V",
-    "length" : "1-25",
+    "minumumLength" : 1,
+    "maximumLength" : 25,
     "mask" : "[UNL_]"
   }, {
     "number" : 5,
     "description" : "Signal input units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 6,
     "description" : "Signal output units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 7,
     "description" : "Number of corners listed",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 8,
     "description" : "Corner frequency (Hz)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 9,
     "description" : "Corner slope (db/decade)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
-  } ]
+  } ],
+  "minumumLength" : 46
 }, {
   "number" : 47,
   "type" : "Abbreviation Dictionary",
@@ -1285,57 +1876,67 @@
     "number" : 1,
     "description" : "Blockette type - 047",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Response lookup key",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 4,
     "description" : "Response name",
     "type" : "V",
-    "length" : "1-25",
+    "minumumLength" : 1,
+    "maximumLength" : 25,
     "mask" : "[UNL_]"
   }, {
     "number" : 5,
     "description" : "Input sample rate",
     "type" : "F",
-    "length" : "10",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
     "mask" : "\"0.0000E00\""
   }, {
     "number" : 6,
     "description" : "Decimation factor",
     "type" : "D",
-    "length" : "5",
+    "minumumLength" : 5,
+    "maximumLength" : 0,
     "mask" : "\"00000\""
   }, {
     "number" : 7,
     "description" : "Decimation offset",
     "type" : "D",
-    "length" : "5",
+    "minumumLength" : 5,
+    "maximumLength" : 0,
     "mask" : "\"00000\""
   }, {
     "number" : 8,
     "description" : "Estimated delay (seconds)",
     "type" : "F",
-    "length" : "11",
+    "minumumLength" : 11,
+    "maximumLength" : 0,
     "mask" : "\"0.0000E00\""
   }, {
     "number" : 9,
     "description" : "Correction applied (seconds)",
     "type" : "F",
-    "length" : "11",
+    "minumumLength" : 11,
+    "maximumLength" : 0,
     "mask" : "\"0.0000E00\""
-  } ]
+  } ],
+  "minumumLength" : 54
 }, {
   "number" : 48,
   "type" : "Abbreviation Dictionary",
@@ -1345,63 +1946,74 @@
     "number" : 1,
     "description" : "Blockette type - 048",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Response lookup key",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 4,
     "description" : "Response name",
     "type" : "V",
-    "length" : "1-25",
+    "minumumLength" : 1,
+    "maximumLength" : 25,
     "mask" : "[UNL_]"
   }, {
     "number" : 5,
     "description" : "Sensitivity/gain",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 6,
     "description" : "Frequency (Hz)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 7,
     "description" : "Number of history values",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 8,
     "description" : "Sensitivity for calibration",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 9,
     "description" : "Freq. of calib. sensitivity",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 10,
     "description" : "Time of above calibration",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
-  } ]
+  } ],
+  "minumumLength" : 63
 }, {
   "number" : 50,
   "type" : "Station",
@@ -1411,99 +2023,116 @@
     "number" : 1,
     "description" : "Blockette type - 050",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Station call letters",
     "type" : "A",
-    "length" : "5",
+    "minumumLength" : 5,
+    "maximumLength" : 0,
     "mask" : "[UN]"
   }, {
     "number" : 4,
     "description" : "Latitude (degrees)",
     "type" : "D",
-    "length" : "10",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
     "mask" : "\"00.000000\""
   }, {
     "number" : 5,
     "description" : "Longitude (degrees)",
     "type" : "D",
-    "length" : "11",
+    "minumumLength" : 11,
+    "maximumLength" : 0,
     "mask" : "\"000.000000\""
   }, {
     "number" : 6,
     "description" : "Elevation (m)",
     "type" : "D",
-    "length" : "7",
+    "minumumLength" : 7,
+    "maximumLength" : 0,
     "mask" : "\"0000.0\""
   }, {
     "number" : 7,
     "description" : "Number of channels",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 8,
     "description" : "Number of station comments",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 9,
     "description" : "Site name",
     "type" : "V",
-    "length" : "1-60",
+    "minumumLength" : 1,
+    "maximumLength" : 60,
     "mask" : "[UNLPS]"
   }, {
     "number" : 10,
     "description" : "Network identifier code",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 11,
     "description" : "32 bit word order",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 12,
     "description" : "16 bit word order",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 13,
     "description" : "Start effective date",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 14,
     "description" : "End effective date",
     "type" : "V",
-    "length" : "0-22",
+    "minumumLength" : 0,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 15,
     "description" : "Update flag",
     "type" : "A",
-    "length" : "1",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
     "mask" : "[]"
   }, {
     "number" : 16,
     "description" : "Network Code",
     "type" : "A",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "[UN]"
-  } ]
+  } ],
+  "minumumLength" : 61
 }, {
   "number" : 51,
   "type" : "Station",
@@ -1513,39 +2142,46 @@
     "number" : 1,
     "description" : "Blockette type - 051",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Beginning effective time",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 4,
     "description" : "End effective time",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 5,
     "description" : "Comment code key",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 6,
     "description" : "Comment level",
     "type" : "D",
-    "length" : "6",
+    "minumumLength" : 6,
+    "maximumLength" : 0,
     "mask" : "\"000000\""
-  } ]
+  } ],
+  "minumumLength" : 19
 }, {
   "number" : 52,
   "type" : "Station",
@@ -1555,147 +2191,249 @@
     "number" : 1,
     "description" : "Blockette type - 052",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Location identifier",
     "type" : "A",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "[UNS]"
   }, {
     "number" : 4,
     "description" : "Channel identifier",
     "type" : "A",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "[UN]"
   }, {
     "number" : 5,
     "description" : "Subchannel identifier",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 6,
     "description" : "Instrument identifier",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 7,
     "description" : "Optional comment",
     "type" : "V",
-    "length" : "0-30",
+    "minumumLength" : 0,
+    "maximumLength" : 30,
     "mask" : "[UNLPS]"
   }, {
     "number" : 8,
     "description" : "Units of signal response",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 9,
     "description" : "Units of calibration input",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 10,
     "description" : "Latitude (degrees)",
     "type" : "D",
-    "length" : "10",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
     "mask" : "\"00.000000\""
   }, {
     "number" : 11,
     "description" : "Longitude (degrees)",
     "type" : "D",
-    "length" : "11",
+    "minumumLength" : 11,
+    "maximumLength" : 0,
     "mask" : "\"000.000000\""
   }, {
     "number" : 12,
     "description" : "Elevation (m)",
     "type" : "D",
-    "length" : "7",
+    "minumumLength" : 7,
+    "maximumLength" : 0,
     "mask" : "\"0000.0\""
   }, {
     "number" : 13,
     "description" : "Local depth (m)",
     "type" : "D",
-    "length" : "5",
+    "minumumLength" : 5,
+    "maximumLength" : 0,
     "mask" : "\"000.0\""
   }, {
     "number" : 14,
     "description" : "Azimuth (degrees)",
     "type" : "D",
-    "length" : "5",
+    "minumumLength" : 5,
+    "maximumLength" : 0,
     "mask" : "\"000.0\""
   }, {
     "number" : 15,
     "description" : "Dip (degrees)",
     "type" : "D",
-    "length" : "5",
+    "minumumLength" : 5,
+    "maximumLength" : 0,
     "mask" : "\"00.0\""
   }, {
     "number" : 16,
     "description" : "Data format identifier code",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 17,
     "description" : "Data record length",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 18,
     "description" : "Sample rate (Hz)",
     "type" : "F",
-    "length" : "10",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
     "mask" : "\"0.0000E00\""
   }, {
     "number" : 19,
     "description" : "Max clock drift (seconds)",
     "type" : "F",
-    "length" : "10",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
     "mask" : "\"0.0000E00\""
   }, {
     "number" : 20,
     "description" : "Number of comments",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 21,
     "description" : "Channel flags",
     "type" : "V",
-    "length" : "0-26",
+    "minumumLength" : 0,
+    "maximumLength" : 26,
     "mask" : "[U]"
   }, {
     "number" : 22,
     "description" : "Start date",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 23,
     "description" : "End date",
     "type" : "V",
-    "length" : "0-22",
+    "minumumLength" : 0,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 24,
     "description" : "Update flag",
     "type" : "A",
-    "length" : "1",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
     "mask" : "[]"
-  } ]
+  } ],
+  "minumumLength" : 100
+}, {
+  "number" : 500,
+  "type" : "Data Record",
+  "description" : "Timing Blockette",
+  "since" : "2.0=10",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 500",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 2,
+    "description" : "Next blockette's byte number",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 3,
+    "description" : "VCO correction",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
+  }, {
+    "number" : 4,
+    "description" : "Time of exception",
+    "type" : "B",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
+    "mask" : "BTIME"
+  }, {
+    "number" : 5,
+    "description" : "Microseconds",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 6,
+    "description" : "Reception Quality",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 7,
+    "description" : "Exception count",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "ULONG"
+  }, {
+    "number" : 8,
+    "description" : "Exception type",
+    "type" : "A",
+    "minumumLength" : 16,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  }, {
+    "number" : 9,
+    "description" : "Clock model",
+    "type" : "A",
+    "minumumLength" : 32,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  }, {
+    "number" : 10,
+    "description" : "Clock status",
+    "type" : "A",
+    "minumumLength" : 128,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  } ],
+  "minumumLength" : 200
 }, {
   "number" : 53,
   "type" : "Station",
@@ -1705,111 +2443,130 @@
     "number" : 1,
     "description" : "Blockette type - 053",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Transfer function type",
     "type" : "A",
-    "length" : "1",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
     "mask" : "[U]"
   }, {
     "number" : 4,
     "description" : "Stage sequence number",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 5,
     "description" : "Stage signal input units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 6,
     "description" : "Stage signal output units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 7,
     "description" : "AO normalization factor",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 8,
     "description" : "Normalization freq. f(n) (Hz)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 9,
     "description" : "Number of complex zeros",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 10,
     "description" : "Real zero",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 11,
     "description" : "Imaginary zero",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 12,
     "description" : "Real zero error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 13,
     "description" : "Imaginary zero error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 14,
     "description" : "Number of complex poles",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 15,
     "description" : "Real pole",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 16,
     "description" : "Imaginary pole",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 17,
     "description" : "Real pole error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 18,
     "description" : "Imaginary pole error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
-  } ]
+  } ],
+  "minumumLength" : 142
 }, {
   "number" : 54,
   "type" : "Station",
@@ -1819,75 +2576,186 @@
     "number" : 1,
     "description" : "Blockette type - 054",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Response type",
     "type" : "A",
-    "length" : "1",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
     "mask" : "[U]"
   }, {
     "number" : 4,
     "description" : "Stage sequence number",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 5,
     "description" : "Signal input units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 6,
     "description" : "Signal output units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 7,
     "description" : "Number of numerators",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 8,
     "description" : "Numerator coefficient",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 9,
     "description" : "Numerator error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 10,
     "description" : "Number of denominators",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 11,
     "description" : "Denominator coefficient",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 12,
     "description" : "Denominator error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
-  } ]
+  } ],
+  "minumumLength" : 72
+}, {
+  "number" : 310,
+  "type" : "Data Record",
+  "description" : "Sine Calibration Blockette",
+  "since" : "2.0=13",
+  "fields" : [ {
+    "number" : 1,
+    "description" : "Blockette type - 310",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 2,
+    "description" : "Next blockette's byte number",
+    "type" : "B",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
+    "mask" : "UWORD"
+  }, {
+    "number" : 3,
+    "description" : "Beginning of calibration time",
+    "type" : "B",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
+    "mask" : "BTIME"
+  }, {
+    "number" : 4,
+    "description" : "Reserved byte",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 5,
+    "description" : "Calibration flags",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 6,
+    "description" : "Calibration duration",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "ULONG"
+  }, {
+    "number" : 7,
+    "description" : "Period of signal (seconds)",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
+  }, {
+    "number" : 8,
+    "description" : "Amplitude of signal",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "FLOAT"
+  }, {
+    "number" : 9,
+    "description" : "Channel with calibration input",
+    "type" : "A",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  }, {
+    "number" : 10,
+    "description" : "Reserved byte",
+    "type" : "B",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
+    "mask" : "UBYTE"
+  }, {
+    "number" : 11,
+    "description" : "Reference amplitude",
+    "type" : "B",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
+    "mask" : "ULONG"
+  }, {
+    "number" : 12,
+    "description" : "Coupling",
+    "type" : "A",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  }, {
+    "number" : 13,
+    "description" : "Rolloff",
+    "type" : "A",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
+    "mask" : "[]"
+  } ],
+  "minumumLength" : 60
 }, {
   "number" : 55,
   "type" : "Station",
@@ -1897,123 +2765,81 @@
     "number" : 1,
     "description" : "Blockette type - 055",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Stage sequence number",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 4,
     "description" : "Signal input units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 5,
     "description" : "Signal output units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 6,
     "description" : "Number of responses listed",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 7,
     "description" : "Frequency (Hz)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 8,
     "description" : "Amplitude",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 9,
     "description" : "Amplitude error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 10,
     "description" : "Phase angle (degrees)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 11,
     "description" : "Phase error (degrees)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
-  } ]
-}, {
-  "number" : 56,
-  "type" : "Station",
-  "description" : "Generic Response Blockette",
-  "since" : "2.0=8",
-  "fields" : [ {
-    "number" : 1,
-    "description" : "Blockette type - 056",
-    "type" : "D",
-    "length" : "3",
-    "mask" : "\"000\""
-  }, {
-    "number" : 2,
-    "description" : "Length of blockette",
-    "type" : "D",
-    "length" : "4",
-    "mask" : "\"0000\""
-  }, {
-    "number" : 3,
-    "description" : "Stage sequence number",
-    "type" : "D",
-    "length" : "2",
-    "mask" : "\"00\""
-  }, {
-    "number" : 4,
-    "description" : "Signal input units",
-    "type" : "D",
-    "length" : "3",
-    "mask" : "\"000\""
-  }, {
-    "number" : 5,
-    "description" : "Signal output units",
-    "type" : "D",
-    "length" : "3",
-    "mask" : "\"000\""
-  }, {
-    "number" : 6,
-    "description" : "Number of corners listed",
-    "type" : "D",
-    "length" : "4",
-    "mask" : "\"0000\""
-  }, {
-    "number" : 7,
-    "description" : "Corner frequency (Hz)",
-    "type" : "F",
-    "length" : "12",
-    "mask" : "\"0.00000E00\""
-  }, {
-    "number" : 8,
-    "description" : "Corner slope (db/decade)",
-    "type" : "F",
-    "length" : "12",
-    "mask" : "\"0.00000E00\""
-  } ]
+  } ],
+  "minumumLength" : 79
 }, {
   "number" : 57,
   "type" : "Station",
@@ -2023,51 +2849,60 @@
     "number" : 1,
     "description" : "Blockette type - 057",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Stage sequence number",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 4,
     "description" : "Input sample rate (Hz)",
     "type" : "F",
-    "length" : "10",
+    "minumumLength" : 10,
+    "maximumLength" : 0,
     "mask" : "\"0.0000E00\""
   }, {
     "number" : 5,
     "description" : "Decimation factor",
     "type" : "D",
-    "length" : "5",
+    "minumumLength" : 5,
+    "maximumLength" : 0,
     "mask" : "\"00000\""
   }, {
     "number" : 6,
     "description" : "Decimation offset",
     "type" : "D",
-    "length" : "5",
+    "minumumLength" : 5,
+    "maximumLength" : 0,
     "mask" : "\"00000\""
   }, {
     "number" : 7,
     "description" : "Estimated delay (seconds)",
     "type" : "F",
-    "length" : "11",
+    "minumumLength" : 11,
+    "maximumLength" : 0,
     "mask" : "\"0.0000E00\""
   }, {
     "number" : 8,
     "description" : "Correction applied (seconds)",
     "type" : "F",
-    "length" : "11",
+    "minumumLength" : 11,
+    "maximumLength" : 0,
     "mask" : "\"0.0000E00\""
-  } ]
+  } ],
+  "minumumLength" : 51
 }, {
   "number" : 58,
   "type" : "Station",
@@ -2077,57 +2912,67 @@
     "number" : 1,
     "description" : "Blockette type - 058",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Stage sequence number",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 4,
     "description" : "Sensitivity/gain S(d)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 5,
     "description" : "Frequency (Hz) f(s)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 6,
     "description" : "Number of history values",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 7,
     "description" : "Sensitivity for calibration",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 8,
     "description" : "Frequency of calibration (Hz)",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 9,
     "description" : "Time of above calibration",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
-  } ]
+  } ],
+  "minumumLength" : 60
 }, {
   "number" : 59,
   "type" : "Station",
@@ -2137,39 +2982,46 @@
     "number" : 1,
     "description" : "Blockette type - 059",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Beginning effective time",
     "type" : "V",
-    "length" : "1-22",
+    "minumumLength" : 1,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 4,
     "description" : "End effective time",
     "type" : "V",
-    "length" : "0-22",
+    "minumumLength" : 0,
+    "maximumLength" : 22,
     "mask" : "TIME"
   }, {
     "number" : 5,
     "description" : "Comment code key",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 6,
     "description" : "Comment level",
     "type" : "D",
-    "length" : "6",
+    "minumumLength" : 6,
+    "maximumLength" : 0,
     "mask" : "\"000000\""
-  } ]
+  } ],
+  "minumumLength" : 18
 }, {
   "number" : 60,
   "type" : "Station",
@@ -2179,39 +3031,46 @@
     "number" : 1,
     "description" : "Blockette type - 060",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Number of stages",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 4,
     "description" : "Stage sequence number",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 5,
     "description" : "Number of responses",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 6,
     "description" : "Response lookup key",
     "type" : "L",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "/0000/"
-  } ]
+  } ],
+  "minumumLength" : 17
 }, {
   "number" : 61,
   "type" : "Station",
@@ -2221,57 +3080,67 @@
     "number" : 1,
     "description" : "Blockette type - 061",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Stage sequence number",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 4,
     "description" : "Response Name",
     "type" : "V",
-    "length" : "1-25",
+    "minumumLength" : 1,
+    "maximumLength" : 25,
     "mask" : "[ULN_]"
   }, {
     "number" : 5,
     "description" : "Symmetry Code",
     "type" : "A",
-    "length" : "1",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
     "mask" : "[U]"
   }, {
     "number" : 6,
     "description" : "Signal In Units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 7,
     "description" : "Signal Out Units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 8,
     "description" : "Number of Coefficients",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 9,
     "description" : "FIR Coefficient",
     "type" : "F",
-    "length" : "14",
+    "minumumLength" : 14,
+    "maximumLength" : 0,
     "mask" : "\"0.0000000E00\""
-  } ]
+  } ],
+  "minumumLength" : 35
 }, {
   "number" : 62,
   "type" : "Station",
@@ -2281,97 +3150,114 @@
     "number" : 1,
     "description" : "Blockette type - 062",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 2,
     "description" : "Length of blockette",
     "type" : "D",
-    "length" : "4",
+    "minumumLength" : 4,
+    "maximumLength" : 0,
     "mask" : "\"0000\""
   }, {
     "number" : 3,
     "description" : "Transfer Function Type",
     "type" : "A",
-    "length" : "1",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
     "mask" : "[U]"
   }, {
     "number" : 4,
     "description" : "Stage Sequence Number",
     "type" : "D",
-    "length" : "2",
+    "minumumLength" : 2,
+    "maximumLength" : 0,
     "mask" : "\"00\""
   }, {
     "number" : 5,
     "description" : "Stage Signal Input Units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 6,
     "description" : "Stage Signal Output Units",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 7,
     "description" : "Polynomial Approx'n Type",
     "type" : "A",
-    "length" : "1",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
     "mask" : "[U]"
   }, {
     "number" : 8,
     "description" : "Valid Frequency Units",
     "type" : "A",
-    "length" : "1",
+    "minumumLength" : 1,
+    "maximumLength" : 0,
     "mask" : "[U]"
   }, {
     "number" : 9,
     "description" : "Lower Valid Freq Bound",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 10,
     "description" : "Upper Valid Freq Bound",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 11,
     "description" : "Lower Bound of Approx'n",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 12,
     "description" : "Upper Bound of Approx'n",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 13,
     "description" : "Maximum Absolute Error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 14,
     "description" : "Number of Polynomial Coeff",
     "type" : "D",
-    "length" : "3",
+    "minumumLength" : 3,
+    "maximumLength" : 0,
     "mask" : "\"000\""
   }, {
     "number" : 15,
     "description" : "Polynomial Coefficient",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
   }, {
     "number" : 16,
     "description" : "Polynomial Coeff Error",
     "type" : "F",
-    "length" : "12",
+    "minumumLength" : 12,
+    "maximumLength" : 0,
     "mask" : "\"0.00000E00\""
-  } ]
+  } ],
+  "minumumLength" : 105
 } ]

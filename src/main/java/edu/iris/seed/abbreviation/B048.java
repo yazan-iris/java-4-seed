@@ -5,13 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.iris.seed.BTime;
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 import edu.iris.seed.station.Calibration;
 import edu.iris.seed.station.ResponseDictionaryBlockette;
 
-public class B048 extends AbstractAbbreviationBlockette implements AbbreviationBlockette, ResponseDictionaryBlockette {
+public class B048 extends AbstractAbbreviationBlockette<B048> implements AbbreviationBlockette, ResponseDictionaryBlockette {
 
 	private String responseName;
 	private Double sensitivity;
@@ -22,7 +23,6 @@ public class B048 extends AbstractAbbreviationBlockette implements AbbreviationB
 		super(48, "Channel Sensitivity/Gain Dictionary Blockette");
 
 	}
-
 
 	public String getResponseName() {
 		return responseName;
@@ -79,9 +79,9 @@ public class B048 extends AbstractAbbreviationBlockette implements AbbreviationB
 		} else {
 			builder.append(size, 2);
 		}
-		//048  56   5GLBELA2009016HXXXX~ 3.11333E+05 0.00000E+00 0
-		//04800660005GLBELA2009016HXXXX~ 3.11333E++3.11333E+05+0.00000E+0000
-		
+		// 048 56 5GLBELA2009016HXXXX~ 3.11333E+05 0.00000E+00 0
+		// 04800660005GLBELA2009016HXXXX~ 3.11333E++3.11333E+05+0.00000E+0000
+
 		builder.replace(3, 7, builder.length(), "####");
 		return builder.toString();
 	}
@@ -92,48 +92,63 @@ public class B048 extends AbstractAbbreviationBlockette implements AbbreviationB
 		return 0;
 	}
 
-	public static B048 build(byte[] bytes) throws SeedException {
-		int offset = 7;
-		B048 b = new B048();
+	public BlocketteBuilder<B048> builder() {
+		return new Builder();
+	}
 
-		b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
-		offset = offset + 4;
+	public static class Builder extends BlocketteBuilder<B048> {
 
-		int i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
-			}
+		public Builder() {
+			super(48);
 		}
-		String responseName = new String(bytes, i, offset-i);
-		b.setResponseName(responseName);
-		// skip ~
-		offset++;
 
-		double sensitivity = SeedStrings.parseDouble(bytes, offset, 12);
-		b.setSensitivity(sensitivity);
-		offset = offset + 12;
-		double frequency = SeedStrings.parseDouble(bytes, offset, 12);
-		offset = offset + 12;
-		b.setFrequency(frequency);
+		public static Builder newInstance() {
+			return new Builder();
+		}
 
-		int numberOfHistoryValues = SeedStrings.parseInt(bytes, offset, 2);
-		offset = offset + 2;
+		public B048 build() throws SeedException {
+			int offset = 7;
+			B048 b = new B048();
 
-		for (i = 0; i < numberOfHistoryValues; i++) {
-			double s = SeedStrings.parseDouble(bytes, offset, 12);
-			offset = offset + 12;
-			double f = SeedStrings.parseDouble(bytes, offset, 12);
-			offset = offset + 12;
-			int x = offset;
+			b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
+			offset = offset + 4;
+
+			int i = offset;
 			for (; offset < bytes.length; offset++) {
 				if (bytes[offset] == (byte) '~') {
 					break;
 				}
 			}
-			byte[] copy = Arrays.copyOfRange(bytes, x, offset);
-			b.add(new Calibration(s, f, BTime.valueOf(copy)));
+			String responseName = new String(bytes, i, offset - i);
+			b.setResponseName(responseName);
+			// skip ~
+			offset++;
+
+			double sensitivity = SeedStrings.parseDouble(bytes, offset, 12);
+			b.setSensitivity(sensitivity);
+			offset = offset + 12;
+			double frequency = SeedStrings.parseDouble(bytes, offset, 12);
+			offset = offset + 12;
+			b.setFrequency(frequency);
+
+			int numberOfHistoryValues = SeedStrings.parseInt(bytes, offset, 2);
+			offset = offset + 2;
+
+			for (i = 0; i < numberOfHistoryValues; i++) {
+				double s = SeedStrings.parseDouble(bytes, offset, 12);
+				offset = offset + 12;
+				double f = SeedStrings.parseDouble(bytes, offset, 12);
+				offset = offset + 12;
+				int x = offset;
+				for (; offset < bytes.length; offset++) {
+					if (bytes[offset] == (byte) '~') {
+						break;
+					}
+				}
+				byte[] copy = Arrays.copyOfRange(bytes, x, offset);
+				b.add(new Calibration(s, f, BTime.valueOf(copy)));
+			}
+			return b;
 		}
-		return b;
 	}
 }

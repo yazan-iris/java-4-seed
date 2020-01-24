@@ -4,7 +4,8 @@ public class SeedField {
 	private int number;
 	private String description;
 	private String type;
-	private String length;
+	private int minumumLength;
+	private int maximumLength;
 	private String mask;
 
 	public int getNumber() {
@@ -31,12 +32,20 @@ public class SeedField {
 		this.type = type;
 	}
 
-	public String getLength() {
-		return length;
+	public int getMinumumLength() {
+		return minumumLength;
 	}
 
-	public void setLength(String length) {
-		this.length = length;
+	public void setMinumumLength(int minumumLength) {
+		this.minumumLength = minumumLength;
+	}
+
+	public int getMaximumLength() {
+		return maximumLength;
+	}
+
+	public void setMaximumLength(int maximumLength) {
+		this.maximumLength = maximumLength;
 	}
 
 	public String getMask() {
@@ -49,8 +58,8 @@ public class SeedField {
 
 	@Override
 	public String toString() {
-		return "Field [number=" + number + ", description=" + description + ", type=" + type + ", length=" + length
-				+ ", mask=" + mask + "]";
+		return "SeedField [number=" + number + ", description=" + description + ", type=" + type + ", minumumLength="
+				+ minumumLength + ", maximumLength=" + maximumLength + ", mask=" + mask + "]";
 	}
 
 }

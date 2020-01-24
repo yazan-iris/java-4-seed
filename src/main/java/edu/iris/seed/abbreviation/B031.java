@@ -2,11 +2,12 @@ package edu.iris.seed.abbreviation;
 
 import java.util.Objects;
 
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-public class B031 extends AbstractAbbreviationBlockette implements AbbreviationBlockette {
+public class B031 extends AbstractAbbreviationBlockette<B031> implements AbbreviationBlockette {
 	private char classCode;
 	private String description;
 	private Integer unitsOfCommentLevel = 0;
@@ -76,31 +77,41 @@ public class B031 extends AbstractAbbreviationBlockette implements AbbreviationB
 		builder.replace(3, 7, builder.length(), "####");
 		return builder.toString();
 	}
-	
-	public static B031 build(byte[] bytes) throws SeedException {
 
-		B031 b = new B031(new String(bytes));
-
-		int offset = 7;
-
-		b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
-		offset = offset + 4;
-		b.setClassCode((char) bytes[offset]);
-		offset++;
-
-		int i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == '~') {
-				break;
-			}
-		}
-		b.setDescription(new String(bytes, i, offset - i));
-		offset++;
-		b.setUnitsOfCommentLevel(SeedStrings.parseInt(bytes, offset, 3));
-		return b;
+	public BlocketteBuilder<B031> builder() {
+		return new Builder();
 	}
 
+	public static class Builder extends BlocketteBuilder<B031> {
 
+		public Builder() {
+			super(31);
+		}
 
-	
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		public B031 build() throws SeedException {
+			B031 b = new B031(new String(bytes));
+
+			int offset = 7;
+
+			b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
+			offset = offset + 4;
+			b.setClassCode((char) bytes[offset]);
+			offset++;
+
+			int i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == '~') {
+					break;
+				}
+			}
+			b.setDescription(new String(bytes, i, offset - i));
+			offset++;
+			b.setUnitsOfCommentLevel(SeedStrings.parseInt(bytes, offset, 3));
+			return b;
+		}
+	}
 }

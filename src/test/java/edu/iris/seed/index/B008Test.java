@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import edu.iris.seed.Blockette;
+import edu.iris.seed.Identifier.B008;
 
 public class B008Test {
 
@@ -13,7 +14,7 @@ public class B008Test {
 		String oldString = "008011702.112 ANMO  BHZ1992,001,00:00:00.0000~1992,002,00:00:00.0000~1992,002,00:00:00.0000~1993,029,00:00:00.0000~IU";
 		// 008011702.112 ANMO
 		// BHZ1992,001,00:00:00.0000~1992,002,00:00:00.0000~1992,002,00:00:00.0000~1993,029,00:00:00.0000~IU
-		Blockette b = B008.Builder.newInstance().build(oldString.getBytes());
+		Blockette b = B008.Builder.newInstance().fromBytes(oldString.getBytes()).build();
 		String newString = b.toSeedString();
 		assertEquals(oldString, newString);
 	}

@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import edu.iris.seed.BTime;
+import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedBlockette;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
@@ -189,99 +190,115 @@ public class B050 extends SeedBlockette implements StationBlockette, Comparable<
 				+ ", endTime=" + endTime + ", updateFlag=" + updateFlag + ", networkCode=" + networkCode + "]";
 	}
 
-	public static B050 build(byte[] bytes) throws SeedException {
-		int offset = 7;
-		B050 b = new B050();
+	public BlocketteBuilder<StationBlockette> builder() {
+		return new Builder();
+	}
 
-		String stationCode = SeedStrings.readString(bytes, offset, 5);
-		b.setStationCode(stationCode);
-		// offset = offset + 5;
-		offset = SeedStrings.advance(bytes, offset, 5);
-		Double latitude = SeedStrings.parseDouble(bytes, offset, 10);
-		if (latitude != null) {
-			b.setLatitude(latitude);
+	public static class Builder extends BlocketteBuilder<StationBlockette> {
+
+		public Builder() {
+			super(50);
 		}
 
-		offset = offset + 10;
-		Double longitude = SeedStrings.parseDouble(bytes, offset, 11);
-		if (longitude != null) {
-			b.setLongitude(longitude);
+		public static Builder newInstance() {
+			return new Builder();
 		}
-		offset = offset + 11;
-		Double elevation = SeedStrings.parseDouble(bytes, offset, 7);
-		if (elevation != null) {
-			b.setElevation(elevation);
-		}
-		offset = offset + 7;
-		int numberOfChannels = SeedStrings.parseInt(bytes, offset, 4);
-		b.setNumberOfChannels(numberOfChannels);
-		offset = offset + 4;
-		int numberOfComments = SeedStrings.parseInt(bytes, offset, 3);
-		b.setNumberOfComments(numberOfComments);
-		offset = offset + 3;
 
-		int i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
+		public B050 build() throws SeedException {
+
+			int offset = 7;
+			B050 b = new B050();
+
+			String stationCode = SeedStrings.readString(bytes, offset, 5);
+			b.setStationCode(stationCode);
+			// offset = offset + 5;
+			offset = SeedStrings.advance(bytes, offset, 5);
+			Double latitude = SeedStrings.parseDouble(bytes, offset, 10);
+			if (latitude != null) {
+				b.setLatitude(latitude);
 			}
-		}
-		if (offset >= bytes.length) {
-			throw new SeedException("B050: Invalid byte array. Field 09,  missing ~");
-		}
-		String siteName = new String(bytes, i, offset - i);
-		if (siteName != null && !siteName.isEmpty()) {
-			b.setSiteName(SeedStrings.cleanTextContent(siteName));
-		}
-		offset = SeedStrings.advance(bytes, offset, 1);
-		Integer networkIdentifierCode = SeedStrings.parseInt(bytes, offset, 3);
-		b.setNetworkIdentifierCode(networkIdentifierCode);
 
-		// offset = offset + 3;
-		offset = SeedStrings.advance(bytes, offset, 3);
-		int wordOrder32 = SeedStrings.parseInt(bytes, offset, 4);
-		b.setBit32BitOrder(wordOrder32);
-		offset = offset + 4;
-		int wordOrder16 = SeedStrings.parseInt(bytes, offset, 2);
-		b.setBit16BitOrder(wordOrder16);
-		offset = offset + 2;
-
-		i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
+			offset = offset + 10;
+			Double longitude = SeedStrings.parseDouble(bytes, offset, 11);
+			if (longitude != null) {
+				b.setLongitude(longitude);
 			}
-		}
-		if (offset >= bytes.length) {
-			throw new SeedException("B050: Invalid byte array. Field 13,  missing ~");
-		}
-		byte[] copy = Arrays.copyOfRange(bytes, i, offset);
-		b.setStartTime(BTime.valueOf(copy));
-		// skip ~
-		offset = SeedStrings.advance(bytes, offset, 1);
-
-		i = offset;
-		for (; offset < bytes.length; offset++) {
-			if (bytes[offset] == (byte) '~') {
-				break;
+			offset = offset + 11;
+			Double elevation = SeedStrings.parseDouble(bytes, offset, 7);
+			if (elevation != null) {
+				b.setElevation(elevation);
 			}
-		}
-		if (offset >= bytes.length) {
-			throw new SeedException("B050: Invalid byte array. Field 14,  missing ~");
-		}
-		copy = Arrays.copyOfRange(bytes, i, offset);
-		if (copy != null) {
-			b.setEndTime(BTime.valueOf(copy));
-		}
-		offset = SeedStrings.advance(bytes, offset, 1);
-		// offset++;
-		b.setUpdateFlag((char) bytes[offset]);
-		offset = SeedStrings.advance(bytes, offset, 1);
-		// offset++;
-		String networkCode = new String(bytes, offset, 2).trim();
-		b.setNetworkCode(networkCode);
+			offset = offset + 7;
+			int numberOfChannels = SeedStrings.parseInt(bytes, offset, 4);
+			b.setNumberOfChannels(numberOfChannels);
+			offset = offset + 4;
+			int numberOfComments = SeedStrings.parseInt(bytes, offset, 3);
+			b.setNumberOfComments(numberOfComments);
+			offset = offset + 3;
 
-		return b;
+			int i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
+			}
+			if (offset >= bytes.length) {
+				throw new SeedException("B050: Invalid byte array. Field 09,  missing ~");
+			}
+			String siteName = new String(bytes, i, offset - i);
+			if (siteName != null && !siteName.isEmpty()) {
+				b.setSiteName(SeedStrings.cleanTextContent(siteName));
+			}
+			offset = SeedStrings.advance(bytes, offset, 1);
+			Integer networkIdentifierCode = SeedStrings.parseInt(bytes, offset, 3);
+			b.setNetworkIdentifierCode(networkIdentifierCode);
+
+			// offset = offset + 3;
+			offset = SeedStrings.advance(bytes, offset, 3);
+			int wordOrder32 = SeedStrings.parseInt(bytes, offset, 4);
+			b.setBit32BitOrder(wordOrder32);
+			offset = offset + 4;
+			int wordOrder16 = SeedStrings.parseInt(bytes, offset, 2);
+			b.setBit16BitOrder(wordOrder16);
+			offset = offset + 2;
+
+			i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
+			}
+			if (offset >= bytes.length) {
+				throw new SeedException("B050: Invalid byte array. Field 13,  missing ~");
+			}
+			byte[] copy = Arrays.copyOfRange(bytes, i, offset);
+			b.setStartTime(BTime.valueOf(copy));
+			// skip ~
+			offset = SeedStrings.advance(bytes, offset, 1);
+
+			i = offset;
+			for (; offset < bytes.length; offset++) {
+				if (bytes[offset] == (byte) '~') {
+					break;
+				}
+			}
+			if (offset >= bytes.length) {
+				throw new SeedException("B050: Invalid byte array. Field 14,  missing ~");
+			}
+			copy = Arrays.copyOfRange(bytes, i, offset);
+			if (copy != null) {
+				b.setEndTime(BTime.valueOf(copy));
+			}
+			offset = SeedStrings.advance(bytes, offset, 1);
+			// offset++;
+			b.setUpdateFlag((char) bytes[offset]);
+			offset = SeedStrings.advance(bytes, offset, 1);
+			// offset++;
+			String networkCode = new String(bytes, offset, 2).trim();
+			b.setNetworkCode(networkCode);
+
+			return b;
+		}
 	}
 
 	/*

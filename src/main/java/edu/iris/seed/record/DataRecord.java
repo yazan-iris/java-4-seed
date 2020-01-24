@@ -2,34 +2,25 @@ package edu.iris.seed.record;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.seed.SeedDataHeader;
 import edu.iris.seed.SeedException;
+import edu.iris.seed.SeedRecord;
 import edu.iris.seed.data.DataBlockette;
-import edu.iris.seed.record.Header.Type;
-import edu.iris.seed.timespan.TimeSpanBlockette;
 
 public class DataRecord extends SeedRecord<DataBlockette> {
 
-	public DataRecord(Type quality) {
-		this(0, quality);
-	}
+	private List<DataBlockette> blockettes = new ArrayList<>();
 
-	public DataRecord(int sequence, Type quality) {
-		this(0, quality, false);
-	}
-
-	public DataRecord(int sequence, Type quality, boolean continuation) {
-		this(DataHeader.Builder.newInstance().build(sequence, quality, continuation));
-	}
-
-	public DataRecord(DataHeader header) {
+	public DataRecord(SeedDataHeader header) {
 		super(header);
 	}
 
 	@Override
 	public DataBlockette add(DataBlockette t) throws SeedException {
+		blockettes.add(t);
 		return t;
 
 	}
@@ -41,17 +32,23 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 	}
 
 	@Override
-	public List<DataBlockette> getAll() {
-		return Collections.emptyList();
+	public List<DataBlockette> blockettes() {
+		return blockettes;
 	}
 
 	public boolean isEmpty() {
-		return this.getAll().isEmpty();
+		return this.blockettes.isEmpty();
 	}
 
 	public int size() {
-		return this.getAll().size();
+		return this.blockettes().size();
 	}
+
+	@Override
+	public void clear() {
+		blockettes.clear();
+	}
+
 	@Override
 	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException {
 		// TODO Auto-generated method stub
@@ -59,6 +56,8 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 	}
 
 	public static class Builder {
+		private byte[] bytes;
+		private SeedDataHeader header;
 
 		private Builder() {
 		}
@@ -67,11 +66,28 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 			return new Builder();
 		}
 
-		public DataRecord build(byte[] bytes) throws SeedException {
-			DataRecord record = new DataRecord(DataHeader.Builder.newInstance().build(bytes));
-			record.setBytes(bytes);
+		public Builder fromBytes(byte[] bytes) throws SeedException {
+			this.bytes = bytes;
+			return this;
+		}
+
+		public Builder header(SeedDataHeader header) throws SeedException {
+			this.header = header;
+			return this;
+		}
+
+		public DataRecord build() throws SeedException {
+			DataRecord record = null;
+			if (bytes != null) {
+				record = new DataRecord(SeedDataHeader.Builder.newInstance().bytes(bytes).build());
+			} else if (header != null) {
+				record = new DataRecord(header);
+			} else {
+				throw new SeedException("Cannot build DataRecord when bytes and header are null.");
+			}
 			return record;
 		}
 
 	}
+
 }
