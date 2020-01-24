@@ -14,6 +14,7 @@ import edu.iris.seed.Identifier.B011;
 import edu.iris.seed.Identifier.IdentifierBlockette;
 import edu.iris.seed.abbreviation.AbbreviationBlockette;
 import edu.iris.seed.data.DataBlockette;
+import edu.iris.seed.data.DataSection;
 import edu.iris.seed.io.output.NullOutputStream;
 import edu.iris.seed.record.AbbreviationRecord;
 import edu.iris.seed.record.DataRecord;
@@ -67,7 +68,6 @@ public class SeedVolume {
 	 * blockette.toSeedString()); } // return blockette; }
 	 */
 
-	
 	public AbbreviationRecord getAbbreviationRecord() {
 		return this.abbreviationRecord;
 	}
@@ -95,6 +95,8 @@ public class SeedVolume {
 			SeedDataHeader header = (SeedDataHeader) b;
 			dataRecord = DataRecord.Builder.newInstance().header(header).build();
 			dataRecords.add(dataRecord);
+		} else if (b instanceof DataSection) {
+			((DataRecord) dataRecord).setData(((DataSection) b).getData());
 		} else {
 			if (type < 30) {
 				b = identifierRecord.add((IdentifierBlockette) b);

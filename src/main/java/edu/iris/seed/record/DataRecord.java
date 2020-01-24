@@ -14,6 +14,7 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 
 	private List<DataBlockette> blockettes = new ArrayList<>();
 
+	private byte[]data;
 	public DataRecord(SeedDataHeader header) {
 		super(header);
 	}
@@ -29,6 +30,15 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 	public DataBlockette get(int... type) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	
+	public byte[] getData() {
+		return data;
+	}
+
+	public void setData(byte[] data) {
+		this.data = data;
 	}
 
 	@Override

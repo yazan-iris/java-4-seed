@@ -93,6 +93,7 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 		System.arraycopy(this.bytes, this.beginingOfData, data, 0, data.length);
 		DataSection dataSection = new DataSection();
 		dataSection.setData(data);
+		finished = true;
 		return dataSection;
 	}
 
@@ -102,7 +103,6 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 		}
 		if (index == 0) {
 			DataSection dataSection = readData();
-			index = 0;
 			return dataSection;
 		}
 
