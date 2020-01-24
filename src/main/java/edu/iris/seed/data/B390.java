@@ -64,7 +64,7 @@ public class B390 extends AbstractDataBlockette {
 			return new Builder();
 		}
 
-		public B390 build() throws SeedException {
+		public B390 build(boolean relax) throws SeedException {
 			if (bytes == null || bytes.length == 0) {
 				throw new IllegalArgumentException("object null|empty");
 			}

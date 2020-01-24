@@ -127,7 +127,7 @@ public class B055 extends AbstractResponseBlockette {
 			return new Builder();
 		}
 
-		public B055 build() throws SeedException {
+		public B055 build(boolean relax) throws SeedException {
 			return null;
 		}
 	}

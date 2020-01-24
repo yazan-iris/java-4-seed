@@ -132,7 +132,7 @@ public class B061 extends AbstractResponseBlockette implements Splittable {
 			return new Builder();
 		}
 
-		public B061 build() throws SeedException {
+		public B061 build(boolean relax) throws SeedException {
 			int offset = 7;
 			B061 b = new B061();
 

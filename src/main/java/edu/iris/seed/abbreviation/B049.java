@@ -192,7 +192,7 @@ public class B049 extends AbstractAbbreviationBlockette<B049> implements Abbrevi
 			return new Builder();
 		}
 
-		public B049 build() throws SeedException {
+		public B049 build(boolean relax) throws SeedException {
 			if (bytes == null || bytes.length == 0) {
 				throw new IllegalArgumentException("object null|empty");
 			}

@@ -43,7 +43,7 @@ public class B046 extends AbstractAbbreviationBlockette<B046> implements Abbrevi
 			return new Builder();
 		}
 
-		public B046 build() throws SeedException {
+		public B046 build(boolean relax) throws SeedException {
 			return new B046();
 		}
 	}

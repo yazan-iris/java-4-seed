@@ -30,7 +30,7 @@ public class B056 extends AbstractResponseBlockette {
 			return new Builder();
 		}
 
-		public B056 build() throws SeedException {
+		public B056 build(boolean relax) throws SeedException {
 			return null;
 		}
 	}

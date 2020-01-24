@@ -111,7 +111,7 @@ public class B041 extends AbstractAbbreviationBlockette implements AbbreviationB
 			return new Builder();
 		}
 
-		public B041 build() throws SeedException {
+		public B041 build(boolean relax) throws SeedException {
 			int offset = 7;
 			B041 b = new B041(new String(bytes));
 

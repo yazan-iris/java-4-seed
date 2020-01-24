@@ -79,7 +79,7 @@ public class B012 extends SeedBlockette<B012> implements IdentifierBlockette {
 			return new Builder();
 		}
 
-		public B012 build() throws SeedException {
+		public B012 build(boolean relax) throws SeedException {
 
 			validate(12, 11, bytes);
 			B012 b = new B012();

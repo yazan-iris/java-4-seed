@@ -336,7 +336,7 @@ public class B052 extends SeedBlockette implements StationBlockette, Comparable<
 			return new Builder();
 		}
 
-		public B052 build() throws SeedException {
+		public B052 build(boolean relax) throws SeedException {
 			String dataToParse = new String(bytes);
 			int offset = 7;
 			B052 b = new B052(dataToParse);

@@ -14,7 +14,11 @@ public abstract class BlocketteBuilder<T extends Blockette> {
 		this.type = type;
 	}
 
-	public abstract T build() throws SeedException;
+	public abstract T build(boolean relax) throws SeedException;
+
+	public T build() throws SeedException {
+		return build(false);
+	}
 
 	public BlocketteBuilder<T> fromString(String s) throws SeedException {
 		return fromBytes(0, s.getBytes(StandardCharsets.US_ASCII));
@@ -39,8 +43,8 @@ public abstract class BlocketteBuilder<T extends Blockette> {
 			}
 			int length = Integer.parseInt(new String(bytes, index + 3, 4).trim());
 			if (bytes.length - index < length) {
-				throw new SeedException("Building {}, byte array is too short, expected {} but received {}",
-						type, length,bytes.length - index);
+				throw new SeedException("Building {}, byte array is too short, expected {} but received {}", type,
+						length, bytes.length - index);
 			}
 		} else {
 			if (bytes.length < 2) {

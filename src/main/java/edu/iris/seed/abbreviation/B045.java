@@ -162,7 +162,7 @@ public class B045 extends AbstractAbbreviationBlockette<B045> implements Abbrevi
 			return new Builder();
 		}
 
-		public B045 build() throws SeedException {
+		public B045 build(boolean relax) throws SeedException {
 			int offset = 7;
 			B045 b = new B045();
 

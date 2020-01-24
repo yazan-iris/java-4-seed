@@ -93,7 +93,7 @@ public class SeedVolume {
 
 		if (b instanceof SeedDataHeader) {
 			SeedDataHeader header = (SeedDataHeader) b;
-			dataRecord = DataRecord.Builder.newInstance().header(header).build();
+			dataRecord = DataRecord.Builder.newInstance().header(header).build(false);
 			dataRecords.add(dataRecord);
 		} else if (b instanceof DataSection) {
 			((DataRecord) dataRecord).setData(((DataSection) b).getData());

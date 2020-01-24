@@ -128,7 +128,7 @@ public class B044 extends AbstractAbbreviationBlockette<B044>
 			return new Builder();
 		}
 
-		public B044 build() throws SeedException {
+		public B044 build(boolean relax) throws SeedException {
 			validate(44, 27, bytes);
 			int offset = 7;
 			B044 b = new B044();

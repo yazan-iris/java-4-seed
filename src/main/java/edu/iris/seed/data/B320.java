@@ -68,7 +68,7 @@ public class B320 extends AbstractDataBlockette {
 			return new Builder();
 		}
 
-		public B320 build() throws SeedException {
+		public B320 build(boolean relax) throws SeedException {
 			if (bytes == null || bytes.length == 0) {
 				throw new IllegalArgumentException("object null|empty");
 			}

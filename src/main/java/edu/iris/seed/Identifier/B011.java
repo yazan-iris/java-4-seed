@@ -115,7 +115,7 @@ public class B011 extends SeedBlockette<B011> implements IdentifierBlockette {
 			return new Builder();
 		}
 
-		public B011 build() throws SeedException {
+		public B011 build(boolean relax) throws SeedException {
 			validate(11, 21, bytes);
 			B011 b = new B011();
 

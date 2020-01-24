@@ -18,7 +18,6 @@ import edu.iris.seed.data.DataSection;
 
 public class DataBlocketteIterator implements Iterator<DataBlockette> {
 	private static final Logger logger = LoggerFactory.getLogger(DataBlocketteIterator.class);
-	// private Record<? extends Blockette> record;
 	private DataBlockette cachedBlockette;
 	private boolean finished;
 
@@ -37,7 +36,7 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 		this.index = index;
 		this.bytes = bytes;
 
-		SeedDataHeader header = SeedDataHeader.Builder.newInstance().bytes(bytes).build();
+		SeedDataHeader header = SeedDataHeader.Builder.newInstance().bytes(bytes).build(false);
 		beginingOfData = header.getBeginingOfData();
 		cachedBlockette = header;
 		index = cachedBlockette.getNextBlocketteByteNumber();

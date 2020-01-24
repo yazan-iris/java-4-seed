@@ -44,7 +44,7 @@ public class B405 extends AbstractDataBlockette {
 			return new Builder();
 		}
 
-		public B405 build() throws SeedException {
+		public B405 build(boolean relax) throws SeedException {
 			if (bytes == null || bytes.length == 0) {
 				throw new IllegalArgumentException("object null|empty");
 			}

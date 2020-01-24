@@ -170,7 +170,7 @@ public class SeedDataHeader implements SeedHeader, DataBlockette {
 			return this;
 		}
 
-		public SeedDataHeader build() throws SeedException {
+		public SeedDataHeader build(boolean relax) throws SeedException {
 			if (bytes == null) {
 				throw new SeedException("No data to read from buffer, NULL ");
 			}

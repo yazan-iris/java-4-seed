@@ -73,7 +73,7 @@ public class B005 extends SeedBlockette<B005> implements IdentifierBlockette {
 			return new Builder();
 		}
 
-		public B005 build() throws SeedException {
+		public B005 build(boolean relax) throws SeedException {
 			if (bytes.length < 7) {
 				throw new SeedException("Expected at least 7 bytes but was {}", bytes.length);
 			}

@@ -86,10 +86,10 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 			return this;
 		}
 
-		public DataRecord build() throws SeedException {
+		public DataRecord build(boolean relax) throws SeedException {
 			DataRecord record = null;
 			if (bytes != null) {
-				record = new DataRecord(SeedDataHeader.Builder.newInstance().bytes(bytes).build());
+				record = new DataRecord(SeedDataHeader.Builder.newInstance().bytes(bytes).build(false));
 			} else if (header != null) {
 				record = new DataRecord(header);
 			} else {

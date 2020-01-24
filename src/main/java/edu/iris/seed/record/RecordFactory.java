@@ -14,7 +14,7 @@ public class RecordFactory {
 	private RecordFactory() {
 	}
 
-	public static Record<? extends Blockette> create(byte[] bytes) throws SeedException {
+	public static Record<? extends Blockette> create(byte[] bytes,boolean relax) throws SeedException {
 		// make sure we have at least 7 bytes
 		if (bytes.length < 7) {
 			throw new SeedException("byte array is too short, expected at least 7 but received {}", bytes.length);
@@ -22,18 +22,18 @@ public class RecordFactory {
 		char type = (char) bytes[6];
 		switch (type) {
 		case 'V':
-			return IdentifierRecord.Builder.newInstance().fromBytes(bytes).build();
+			return IdentifierRecord.Builder.newInstance().fromBytes(bytes).build(false);
 		case 'A':
-			return AbbreviationRecord.Builder.newInstance().fromBytes(bytes).build();
+			return AbbreviationRecord.Builder.newInstance().fromBytes(bytes).build(relax);
 		case 'S':
-			return StationRecord.Builder.newInstance().fromBytes(bytes).build();
+			return StationRecord.Builder.newInstance().fromBytes(bytes).build(relax);
 		case 'T':
 			return TimeSpanRecord.Builder.newInstance().build(bytes);
 		case 'D':
 		case 'R':
 		case 'M':
 		case 'Q':
-			return DataRecord.Builder.newInstance().fromBytes(bytes).build();
+			return DataRecord.Builder.newInstance().fromBytes(bytes).build(false);
 		case ' ':
 			return new EmptyRecord();
 		default:
@@ -54,7 +54,7 @@ public class RecordFactory {
 			LOGGER.info("Creating record of type " + type + " sequence: " + sequence);
 			throw new SeedException("Unsupported Record type " + type);
 		} else if (type == 'D' || type == 'R' || type == 'M' || type == 'Q') {
-			record = new DataRecord(SeedDataHeader.Builder.newInstance(sequence, Type.from(type), (byte)0).build());
+			record = new DataRecord(SeedDataHeader.Builder.newInstance(sequence, Type.from(type), (byte)0).build(false));
 		} else if (type == ' ') {
 			record = new EmptyRecord(sequence);
 		} else {

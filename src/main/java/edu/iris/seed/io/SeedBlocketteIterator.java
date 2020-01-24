@@ -20,9 +20,15 @@ public class SeedBlocketteIterator implements Iterator<Blockette>, AutoCloseable
 	private Iterator<? extends Blockette> sbi;
 	private Blockette cachedBlockette;
 	private boolean finished;
+	private boolean relax;
 
 	public SeedBlocketteIterator(SeedInputStream inputStream) {
+		this(inputStream, false);
+	}
+
+	public SeedBlocketteIterator(SeedInputStream inputStream, boolean relax) {
 		this.sri = inputStream;
+		this.relax = relax;
 	}
 
 	private int index = 0;
@@ -52,7 +58,7 @@ public class SeedBlocketteIterator implements Iterator<Blockette>, AutoCloseable
 							return false;
 						} else {
 							index += bytes.length;
-							sbi = create(0, bytes);
+							sbi = create(0, bytes, relax);
 							return hasNext();
 						}
 					} else {
@@ -80,7 +86,7 @@ public class SeedBlocketteIterator implements Iterator<Blockette>, AutoCloseable
 									System.arraycopy(bytes, 8, required, 0, numberOfRequiredBytes);
 									incompleteBlockette.append(required);
 									if (numberOfRequiredBytes + 8 < bytes.length) {
-										sbi = create(numberOfRequiredBytes + 8, bytes);
+										sbi = create(numberOfRequiredBytes + 8, bytes, relax);
 									}
 								}
 							}
@@ -100,7 +106,7 @@ public class SeedBlocketteIterator implements Iterator<Blockette>, AutoCloseable
 						finished = true;
 						return false;
 					} else {
-						sbi = create(0, bytes);
+						sbi = create(0, bytes, relax);
 						return hasNext();
 					}
 				}
@@ -128,7 +134,7 @@ public class SeedBlocketteIterator implements Iterator<Blockette>, AutoCloseable
 		if (bytes == null) {
 			return null;
 		}
-		return create(0, bytes);
+		return create(0, bytes, relax);
 	}
 
 	private boolean isContinuation(byte[] bytes) {
@@ -147,19 +153,19 @@ public class SeedBlocketteIterator implements Iterator<Blockette>, AutoCloseable
 		}
 	}
 
-	private Iterator<? extends Blockette> create(int i, byte[] bytes) throws SeedException {
+	private Iterator<? extends Blockette> create(int i, byte[] bytes, boolean relax) throws SeedException {
 		char type = (char) bytes[6];
 		int index = i > 8 ? i : 8;
 
 		switch (type) {
 		case 'V':
-			return new BlocketteIterator<IdentifierBlockette>(index, bytes);
+			return new BlocketteIterator<IdentifierBlockette>(index, bytes, false);
 		case 'A':
-			return new BlocketteIterator<AbbreviationBlockette>(index, bytes);
+			return new BlocketteIterator<AbbreviationBlockette>(index, bytes, relax);
 		case 'S':
-			return new BlocketteIterator<StationBlockette>(index, bytes);
+			return new BlocketteIterator<StationBlockette>(index, bytes, relax);
 		case 'T':
-			return new BlocketteIterator<TimeSpanBlockette>(index, bytes);
+			return new BlocketteIterator<TimeSpanBlockette>(index, bytes, false);
 		case 'D':
 		case 'R':
 		case 'M':

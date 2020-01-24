@@ -156,7 +156,7 @@ public class B008 extends SeedBlockette<B008> implements IdentifierBlockette {
 			return new Builder();
 		}
 
-		public B008 build() throws SeedException {
+		public B008 build(boolean relax) throws SeedException {
 
 			validate(TYPE, MINUMUM_LENGTH, bytes);
 			B008 b = new B008();

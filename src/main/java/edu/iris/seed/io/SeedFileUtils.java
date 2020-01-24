@@ -89,7 +89,7 @@ public class SeedFileUtils {
 
 	public static SeedBlocketteIterator toBlocketteIterator(File file) throws SeedException, IOException{
 		checkFile(file);
-		return SeedIOUtils.blocketteIterator(new FileInputStream(file));
+		return SeedIOUtils.toBlocketteIterator(new FileInputStream(file));
 	}
 
 	public static void checkFile(final File file) throws IOException {
@@ -111,7 +111,7 @@ public class SeedFileUtils {
 
 		try {
 			inputStream = new FileInputStream(file);
-			return SeedIOUtils.blocketteIterator(inputStream);
+			return SeedIOUtils.toBlocketteIterator(inputStream);
 		} catch (final IOException | RuntimeException ex) {
 			if (inputStream != null) {
 				inputStream.close();

@@ -20,7 +20,7 @@ public class SeedIOUtils {
 
 		SeedVolume volume = new SeedVolume();
 
-		try (SeedBlocketteIterator it = new SeedBlocketteIterator(new SeedInputStream(inputStream));) {
+		try (SeedBlocketteIterator it = toBlocketteIterator(inputStream);) {
 			while (it.hasNext()) {
 				volume.add(it.next());
 			}
@@ -29,10 +29,19 @@ public class SeedIOUtils {
 	}
 
 	public static SeedBlocketteIterator toBlocketteIterator(final InputStream inputStream) {
-		return new SeedBlocketteIterator(new SeedInputStream(inputStream));
+		return toBlocketteIterator(inputStream, false);
+	}
+
+	public static SeedBlocketteIterator toBlocketteIterator(final InputStream inputStream, boolean relax) {
+		return new SeedBlocketteIterator(new SeedInputStream(inputStream), relax);
 	}
 
 	public static AbbreviationRecord toAbbreviationRecord(final InputStream inputStream)
+			throws SeedException, IOException {
+		return toAbbreviationRecord(inputStream, false);
+	}
+
+	public static AbbreviationRecord toAbbreviationRecord(final InputStream inputStream, boolean relax)
 			throws SeedException, IOException
 
 	{
@@ -49,10 +58,6 @@ public class SeedIOUtils {
 			}
 		}
 		return r;
-	}
-
-	public static SeedBlocketteIterator blocketteIterator(final InputStream InputStream) throws IOException {
-		return new SeedBlocketteIterator(new SeedInputStream(InputStream));
 	}
 
 }

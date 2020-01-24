@@ -72,7 +72,7 @@ public class B033 extends AbstractAbbreviationBlockette implements AbbreviationB
 			return new Builder();
 		}
 
-		public B033 build() throws SeedException {
+		public B033 build(boolean relax) throws SeedException {
 			int offset = 7;
 			B033 b = new B033(new String(bytes));
 

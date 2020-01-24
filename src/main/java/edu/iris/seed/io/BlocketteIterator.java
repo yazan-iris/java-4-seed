@@ -16,23 +16,24 @@ import edu.iris.seed.lang.SeedStrings;
 
 public class BlocketteIterator<T extends Blockette> implements Iterator<T> {
 	private static final Logger logger = LoggerFactory.getLogger(BlocketteIterator.class);
-	// private Record<? extends Blockette> record;
 	private T cachedBlockette;
 	private boolean finished;
 
 	private int index;
 	private byte[] bytes;
+	private boolean relax;
 
-	public BlocketteIterator(byte[] bytes) throws SeedException {
-		this(0, bytes);
+	public BlocketteIterator(byte[] bytes, boolean relax) throws SeedException {
+		this(0, bytes, relax);
 	}
 
-	public BlocketteIterator(int index, byte[] bytes) throws SeedException {
+	public BlocketteIterator(int index, byte[] bytes, boolean relax) throws SeedException {
 		if (bytes.length < 7) {
 			throw new SeedException("byte array is too short, expected at least 7 but received {}", bytes.length);
 		}
 		this.index = index;
 		this.bytes = bytes;
+		this.relax=relax;
 	}
 
 	@Override
@@ -72,7 +73,6 @@ public class BlocketteIterator<T extends Blockette> implements Iterator<T> {
 		cachedBlockette = null;
 		return currentBlockette;
 	}
-
 
 	private T read() throws SeedException {
 		if (this.bytes == null) {
