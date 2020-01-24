@@ -14,11 +14,7 @@ public abstract class BlocketteBuilder<T extends Blockette> {
 		this.type = type;
 	}
 
-	public abstract T build(boolean relax) throws SeedException;
-
-	public T build() throws SeedException {
-		return build(false);
-	}
+	public abstract T build() throws SeedException;
 
 	public BlocketteBuilder<T> fromString(String s) throws SeedException {
 		return fromBytes(0, s.getBytes(StandardCharsets.US_ASCII));

@@ -109,7 +109,7 @@ public class B030 extends AbstractAbbreviationBlockette<B030> implements Abbrevi
 			return new Builder();
 		}
 
-		public B030 build(boolean relax) throws SeedException {
+		public B030 build() throws SeedException { 
 
 			B030 b = new B030(new String(bytes));
 

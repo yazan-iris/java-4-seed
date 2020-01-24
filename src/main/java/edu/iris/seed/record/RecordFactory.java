@@ -22,18 +22,18 @@ public class RecordFactory {
 		char type = (char) bytes[6];
 		switch (type) {
 		case 'V':
-			return IdentifierRecord.Builder.newInstance().fromBytes(bytes).build(false);
+			return IdentifierRecord.Builder.newInstance().fromBytes(bytes).build();
 		case 'A':
-			return AbbreviationRecord.Builder.newInstance().fromBytes(bytes).build(relax);
+			return AbbreviationRecord.Builder.newInstance().fromBytes(bytes).build();
 		case 'S':
-			return StationRecord.Builder.newInstance().fromBytes(bytes).build(relax);
+			return StationRecord.Builder.newInstance().fromBytes(bytes).build();
 		case 'T':
 			return TimeSpanRecord.Builder.newInstance().build(bytes);
 		case 'D':
 		case 'R':
 		case 'M':
 		case 'Q':
-			return DataRecord.Builder.newInstance().fromBytes(bytes).build(false);
+			return DataRecord.Builder.newInstance().fromBytes(bytes).build();
 		case ' ':
 			return new EmptyRecord();
 		default:
@@ -54,7 +54,7 @@ public class RecordFactory {
 			LOGGER.info("Creating record of type " + type + " sequence: " + sequence);
 			throw new SeedException("Unsupported Record type " + type);
 		} else if (type == 'D' || type == 'R' || type == 'M' || type == 'Q') {
-			record = new DataRecord(SeedDataHeader.Builder.newInstance(sequence, Type.from(type), (byte)0).build(false));
+			record = new DataRecord(SeedDataHeader.Builder.newInstance(sequence, Type.from(type), (byte)0).build());
 		} else if (type == ' ') {
 			record = new EmptyRecord(sequence);
 		} else {

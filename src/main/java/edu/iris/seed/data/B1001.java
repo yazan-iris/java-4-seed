@@ -97,7 +97,7 @@ public class B1001 extends AbstractDataBlockette {
 			return new Builder();
 		}
 
-		public B1001 build(boolean relax) throws SeedException {
+		public B1001 build() throws SeedException { 
 			if (bytes == null || bytes.length == 0) {
 				throw new IllegalArgumentException("object null|empty");
 			}

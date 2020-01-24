@@ -179,10 +179,10 @@ public class IdentifierRecord extends SeedRecord<IdentifierBlockette> {
 			return this;
 		}
 
-		public IdentifierRecord build(boolean relax) throws SeedException {
+		public IdentifierRecord build() throws SeedException { 
 			IdentifierRecord record = new IdentifierRecord(SeedControlHeader.Builder.newInstance(bytes).build());
 
-			BlocketteIterator<IdentifierBlockette> it = new BlocketteIterator<IdentifierBlockette>(8, bytes,relax);
+			BlocketteIterator<IdentifierBlockette> it = new BlocketteIterator<IdentifierBlockette>(8, bytes);
 			while (it.hasNext()) {
 				IdentifierBlockette b = it.next();
 				record.add(b);

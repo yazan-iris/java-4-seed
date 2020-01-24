@@ -106,7 +106,7 @@ public class B048 extends AbstractAbbreviationBlockette<B048> implements Abbrevi
 			return new Builder();
 		}
 
-		public B048 build(boolean relax) throws SeedException {
+		public B048 build() throws SeedException { 
 			int offset = 7;
 			B048 b = new B048();
 

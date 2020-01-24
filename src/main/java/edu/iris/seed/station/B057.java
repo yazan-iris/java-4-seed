@@ -87,7 +87,7 @@ public class B057 extends AbstractResponseBlockette {
 			return new Builder();
 		}
 
-		public B057 build(boolean relax) throws SeedException {
+		public B057 build() throws SeedException { 
 			int offset = 7;
 			B057 b = new B057();
 			b.setStageNumber(SeedStrings.parseInt(bytes, offset, 2));

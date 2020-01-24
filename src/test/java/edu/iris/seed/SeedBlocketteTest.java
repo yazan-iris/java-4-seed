@@ -23,12 +23,12 @@ public class SeedBlocketteTest {
 
 		assertEquals(seedString, b.toSeedString());
 	}
-
+	
 	@Test
-	public void relaxNonAscii() throws Exception {
+	public void relaxNonAsciiRelax() throws Exception {
 		String seedString = new String(
 				"0500144ESCA +43.831000+007.374000+0550.00000000Chapelle Saint Pancrace à l'Escarène~0013210102003,302,12:30:00.0000~2500,365,12:00:00.0000~NFR");
-		Blockette b = SeedBlockette.builder(50).fromString(seedString).build();
+		Blockette b = SeedBlockette.builder(50).fromBytes(seedString.getBytes()).build();
 		assertEquals("Chapelle Saint Pancrace  l'Escarne", ((B050) b).getSiteName());
 
 		assertEquals(

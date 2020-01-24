@@ -157,9 +157,9 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 			return this;
 		}
 
-		public AbbreviationRecord build(boolean relax) throws SeedException {
+		public AbbreviationRecord build() throws SeedException { 
 			AbbreviationRecord record = new AbbreviationRecord(SeedControlHeader.Builder.newInstance(bytes).build());
-			BlocketteIterator<AbbreviationBlockette> it = new BlocketteIterator<AbbreviationBlockette>(8, bytes,relax);
+			BlocketteIterator<AbbreviationBlockette> it = new BlocketteIterator<AbbreviationBlockette>(8, bytes);
 			while (it.hasNext()) {
 				AbbreviationBlockette b = it.next();
 				record.add(b);

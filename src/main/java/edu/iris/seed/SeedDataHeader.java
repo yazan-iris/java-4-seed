@@ -128,6 +128,7 @@ public class SeedDataHeader implements SeedHeader, DataBlockette {
 	public int getType() {
 		return 0;
 	}
+
 	@Override
 	public int getNextBlocketteByteNumber() {
 		return firstDataBlockette;
@@ -138,6 +139,7 @@ public class SeedDataHeader implements SeedHeader, DataBlockette {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public String toSeedString() throws SeedException {
 		// TODO Auto-generated method stub
@@ -170,96 +172,97 @@ public class SeedDataHeader implements SeedHeader, DataBlockette {
 			return this;
 		}
 
-		public SeedDataHeader build(boolean relax) throws SeedException {
-			if (bytes == null) {
-				throw new SeedException("No data to read from buffer, NULL ");
-			}
+		public SeedDataHeader build() throws SeedException {
+			{
+				if (bytes == null) {
+					throw new SeedException("No data to read from buffer, NULL ");
+				}
 
-			if (bytes.length < 48) {
-				throw new SeedException("Invalid bytes size, must be 48 ");
-			}
-			SeedDataHeader header = new SeedDataHeader(Integer.parseInt(new String(bytes, 0, 6)),
-					Type.from((char) bytes[6]), bytes[7]);
-			String dataToParse = new String(bytes, 0, 20);
+				if (bytes.length < 48) {
+					throw new SeedException("Invalid bytes size, must be 48 ");
+				}
+				SeedDataHeader header = new SeedDataHeader(Integer.parseInt(new String(bytes, 0, 6)),
+						Type.from((char) bytes[6]), bytes[7]);
+				String dataToParse = new String(bytes, 0, 20);
 
-			int offset = 8;
+				int offset = 8;
 
-			try {
-				header.station = new String(bytes, offset, 5, "us-ascii");
+				try {
+					header.station = new String(bytes, offset, 5, "us-ascii");
 
-				offset += 5;
-				header.location = new String(bytes, offset, 2, "us-ascii");
+					offset += 5;
+					header.location = new String(bytes, offset, 2, "us-ascii");
+					offset += 2;
+					header.channel = new String(bytes, offset, 3, "us-ascii");
+					offset += 3;
+					header.network = new String(bytes, offset, 2, "us-ascii");
+					offset += 2;
+				} catch (UnsupportedEncodingException e) {
+					throw new SeedException(e);
+				}
+				ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4);
+				// by choosing big endian, high order bytes must be put
+				// to the buffer before low order bytes
+				byteBuffer.order(ByteOrder.BIG_ENDIAN);
+				// since ints are 4 bytes (32 bit), you need to put all 4, so put 0
+				// for the high order bytes
+				byteBuffer.put((byte) 0x00);
+				byteBuffer.put((byte) 0x00);
+				byteBuffer.put(bytes[offset]);
+				byteBuffer.put(bytes[offset + 1]);
+
+				byteBuffer.flip();
+				int result = byteBuffer.getInt();
+				header.swap = (result < 1900 || result > 2050);
+
+				int year = SeedNumbers.readUnsignedShort(bytes, offset);
 				offset += 2;
-				header.channel = new String(bytes, offset, 3, "us-ascii");
-				offset += 3;
-				header.network = new String(bytes, offset, 2, "us-ascii");
+				int day = SeedNumbers.readUnsignedShort(bytes, offset);
 				offset += 2;
-			} catch (UnsupportedEncodingException e) {
-				throw new SeedException(e);
+
+				int hour = Byte.toUnsignedInt(bytes[offset++]);
+				int minute = Byte.toUnsignedInt(bytes[offset++]);
+				int second = Byte.toUnsignedInt(bytes[offset++]);
+				// 27 unused
+				offset++;
+				int tenthSecond = SeedNumbers.readUnsignedShort(bytes, offset);
+				offset += 2;
+
+				Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
+				cal.set(Calendar.MILLISECOND, tenthSecond / 10); // loose precision
+																	// here
+				cal.set(Calendar.SECOND, second);
+				cal.set(Calendar.MINUTE, minute);
+				cal.set(Calendar.HOUR_OF_DAY, hour);
+				cal.set(Calendar.DAY_OF_YEAR, day);
+				cal.set(Calendar.YEAR, year);
+				new BTime(year, day, hour, minute, second, tenthSecond);
+
+				header.numberOfSamples = SeedNumbers.readUnsignedShort(bytes, offset);
+				offset += 2;
+
+				header.sampleRateFactor = SeedNumbers.readUnsignedShort(bytes, offset);
+				offset += 2;
+
+				header.sampleRateMultiplier = SeedNumbers.readUnsignedShort(bytes, offset);
+				offset += 2;
+
+				header.activityFlag = bytes[offset++];
+				header.ioClockFlag = bytes[offset++];
+				header.dataQualityFlag = bytes[offset++];
+
+				header.numberOfFollowingBlockettes = Byte.toUnsignedInt(bytes[offset++]);
+
+				header.timeCorrection = SeedNumbers.readInt(bytes, offset, 4);
+				offset += 4;
+
+				header.beginingOfData = SeedNumbers.readUnsignedShort(bytes, offset);
+				offset += 2;
+				header.firstDataBlockette = SeedNumbers.readUnsignedShort(bytes, offset);
+				return header;
 			}
-			ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4);
-			// by choosing big endian, high order bytes must be put
-			// to the buffer before low order bytes
-			byteBuffer.order(ByteOrder.BIG_ENDIAN);
-			// since ints are 4 bytes (32 bit), you need to put all 4, so put 0
-			// for the high order bytes
-			byteBuffer.put((byte) 0x00);
-			byteBuffer.put((byte) 0x00);
-			byteBuffer.put(bytes[offset]);
-			byteBuffer.put(bytes[offset + 1]);
-
-			byteBuffer.flip();
-			int result = byteBuffer.getInt();
-			header.swap = (result < 1900 || result > 2050);
-
-			int year = SeedNumbers.readUnsignedShort(bytes, offset);
-			offset += 2;
-			int day = SeedNumbers.readUnsignedShort(bytes, offset);
-			offset += 2;
-
-			int hour = Byte.toUnsignedInt(bytes[offset++]);
-			int minute = Byte.toUnsignedInt(bytes[offset++]);
-			int second = Byte.toUnsignedInt(bytes[offset++]);
-			// 27 unused
-			offset++;
-			int tenthSecond = SeedNumbers.readUnsignedShort(bytes, offset);
-			offset += 2;
-
-			Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
-			cal.set(Calendar.MILLISECOND, tenthSecond / 10); // loose precision
-																// here
-			cal.set(Calendar.SECOND, second);
-			cal.set(Calendar.MINUTE, minute);
-			cal.set(Calendar.HOUR_OF_DAY, hour);
-			cal.set(Calendar.DAY_OF_YEAR, day);
-			cal.set(Calendar.YEAR, year);
-			new BTime(year, day, hour, minute, second, tenthSecond);
-
-			header.numberOfSamples = SeedNumbers.readUnsignedShort(bytes, offset);
-			offset += 2;
-
-			header.sampleRateFactor = SeedNumbers.readUnsignedShort(bytes, offset);
-			offset += 2;
-
-			header.sampleRateMultiplier = SeedNumbers.readUnsignedShort(bytes, offset);
-			offset += 2;
-
-			header.activityFlag = bytes[offset++];
-			header.ioClockFlag = bytes[offset++];
-			header.dataQualityFlag = bytes[offset++];
-
-			header.numberOfFollowingBlockettes = Byte.toUnsignedInt(bytes[offset++]);
-
-			header.timeCorrection = SeedNumbers.readInt(bytes, offset, 4);
-			offset += 4;
-
-			header.beginingOfData = SeedNumbers.readUnsignedShort(bytes, offset);
-			offset += 2;
-			header.firstDataBlockette = SeedNumbers.readUnsignedShort(bytes, offset);
-			return header;
 		}
+
 	}
-
-
 
 }

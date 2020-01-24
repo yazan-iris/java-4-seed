@@ -204,7 +204,7 @@ public class B050 extends SeedBlockette implements StationBlockette, Comparable<
 			return new Builder();
 		}
 
-		public B050 build(boolean relax) throws SeedException {
+		public B050 build() throws SeedException { 
 
 			int offset = 7;
 			B050 b = new B050();

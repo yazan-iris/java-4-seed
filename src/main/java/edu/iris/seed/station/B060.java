@@ -62,7 +62,7 @@ public class B060 extends AbstractResponseBlockette {
 			return new Builder();
 		}
 
-		public B060 build(boolean relax) throws SeedException {
+		public B060 build() throws SeedException { 
 
 			int offset = 7;
 			B060 b = new B060();

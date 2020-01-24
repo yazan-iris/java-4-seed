@@ -155,7 +155,7 @@ public class B062 extends AbstractResponseBlockette {
 			return new Builder();
 		}
 
-		public B062 build(boolean relax) throws SeedException {
+		public B062 build() throws SeedException { 
 			if (bytes == null || bytes.length == 0) {
 				throw new IllegalArgumentException("object null|empty");
 			}

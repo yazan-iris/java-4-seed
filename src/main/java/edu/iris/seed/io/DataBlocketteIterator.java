@@ -36,7 +36,7 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 		this.index = index;
 		this.bytes = bytes;
 
-		SeedDataHeader header = SeedDataHeader.Builder.newInstance().bytes(bytes).build(false);
+		SeedDataHeader header = SeedDataHeader.Builder.newInstance().bytes(bytes).build();
 		beginingOfData = header.getBeginingOfData();
 		cachedBlockette = header;
 		index = cachedBlockette.getNextBlocketteByteNumber();

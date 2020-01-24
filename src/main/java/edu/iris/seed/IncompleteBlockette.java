@@ -89,9 +89,10 @@ public class IncompleteBlockette implements IdentifierBlockette, AbbreviationBlo
 			return new Builder();
 		}
 
-		public IncompleteBlockette build(boolean relax) throws SeedException {
-			return null;
+		public IncompleteBlockette build() throws SeedException {
+			{
+				return null;
+			}
 		}
 	}
-
 }

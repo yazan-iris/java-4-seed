@@ -80,7 +80,7 @@ public class B059 extends SeedBlockette implements StationBlockette {
 			return new Builder();
 		}
 
-		public B059 build(boolean relax) throws SeedException {
+		public B059 build() throws SeedException { 
 
 			int offset = 7;
 			int i = offset;

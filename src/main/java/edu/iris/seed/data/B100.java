@@ -85,7 +85,7 @@ public class B100 extends AbstractDataBlockette {
 			return new Builder(actualSampleRate);
 		}
 
-		public B100 build(boolean relax) throws SeedException {
+		public B100 build() throws SeedException { 
 			B100 b = null;
 			if (bytes != null) {
 				b = new B100(ByteUtil.fourBytesToFloat(bytes, 4, 4));

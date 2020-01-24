@@ -118,14 +118,14 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 			return this;
 		}
 
-		public StationRecord build(boolean relax) throws SeedException {
+		public StationRecord build() throws SeedException { 
 			logger.debug("Building station record");
 			SeedControlHeader header = SeedControlHeader.Builder.newInstance(bytes).build();
 			StationRecord record = new StationRecord(header);
 			if (header.isContinuation()) {
 
 			}
-			BlocketteIterator<StationBlockette> it = new BlocketteIterator<StationBlockette>(8, bytes,relax);
+			BlocketteIterator<StationBlockette> it = new BlocketteIterator<StationBlockette>(8, bytes);
 			while (it.hasNext()) {
 				StationBlockette b = it.next();
 				record.add(b);

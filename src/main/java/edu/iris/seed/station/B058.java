@@ -87,7 +87,7 @@ public class B058 extends AbstractResponseBlockette {
 			return new Builder();
 		}
 
-		public B058 build(boolean relax) throws SeedException {
+		public B058 build() throws SeedException { 
 
 			int offset = 7;
 			B058 b = new B058();

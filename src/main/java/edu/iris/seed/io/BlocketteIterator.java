@@ -21,19 +21,13 @@ public class BlocketteIterator<T extends Blockette> implements Iterator<T> {
 
 	private int index;
 	private byte[] bytes;
-	private boolean relax;
 
-	public BlocketteIterator(byte[] bytes, boolean relax) throws SeedException {
-		this(0, bytes, relax);
-	}
-
-	public BlocketteIterator(int index, byte[] bytes, boolean relax) throws SeedException {
+	public BlocketteIterator(int index, byte[] bytes) throws SeedException {
 		if (bytes.length < 7) {
 			throw new SeedException("byte array is too short, expected at least 7 but received {}", bytes.length);
 		}
 		this.index = index;
 		this.bytes = bytes;
-		this.relax=relax;
 	}
 
 	@Override
