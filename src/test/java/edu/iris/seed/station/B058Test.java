@@ -13,7 +13,7 @@ public class B058Test {
 
 	@Test
 	public void fromString() throws Exception {
-		Blockette b = SeedBlockette.builder(58).fromBytes(text.getBytes()).build();
+		B058 b = B058.Builder.newInstance().fromBytes(text.getBytes()).build();
 		assertEquals(text, b.toSeedString());
 	}
 

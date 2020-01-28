@@ -1,5 +1,7 @@
 package edu.iris.seed.data;
 
+import java.nio.ByteOrder;
+
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
 import edu.iris.seed.SeedException;
@@ -13,15 +15,7 @@ public class B405 extends AbstractDataBlockette {
 	}
 
 	@Override
-	public String toSeedString() throws SeedException {
-		StringBuilder builder = new StringBuilder(this.getType());
-		builder.append("####");
-
-		return builder.toString();
-	}
-
-	@Override
-	public byte[] toSeedBytes() {
+	public byte[] toSeedBytes()throws SeedException{
 		SeedByteArrayBuilder builder = new SeedByteArrayBuilder(6).appendU16((short) 405);
 		this.getNextBlocketteByteNumber();
 

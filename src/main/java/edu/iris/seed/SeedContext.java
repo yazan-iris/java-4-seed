@@ -35,9 +35,4 @@ public class SeedContext {
 	public BlocketteDefinition get(int blocketteNumber) {
 		return map.get(blocketteNumber);
 	}
-
-	public static void main(String[] args) {
-		SeedContext manual = new SeedContext();
-		System.out.println(manual.get(71));
-	}
 }

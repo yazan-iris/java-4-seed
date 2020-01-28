@@ -3,13 +3,14 @@ package edu.iris.seed;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import edu.iris.seed.SeedHeader.Type;
 
 public class SeedOutputStream {
-	//OutputStream o;
+	// OutputStream o;
 	BufferedOutputStream o;
 	// int sequence;
 	int count;
@@ -27,26 +28,51 @@ public class SeedOutputStream {
 			throw new SeedException("Invalid record length {}, should be a power of 2", length);
 		}
 		this.o = new BufferedOutputStream(o);
-		//this.o = o;
+		// this.o = o;
 		this.recordLength = length;
 		this.sequence = sequence;
 		this.typeIdentifier = typeIdentifier;
 	}
 
-	public SeedOutputStream write(List<? extends Blockette> list) throws IOException {
+	public SeedOutputStream writeData(List<? extends DataBlockette> list) throws IOException {
 		if (list == null || list.isEmpty()) {
 			return this;
 		}
-		for (Blockette b : list) {
+		for (DataBlockette b : list) {
 			write(b);
 		}
 		return this;
 	}
 
-	public SeedOutputStream write(Blockette b) throws IOException {
+	public SeedOutputStream writeControl(List<? extends ControlBlockette> list) throws IOException {
+		if (list == null || list.isEmpty()) {
+			return this;
+		}
+		for (ControlBlockette b : list) {
+			write(b);
+		}
+		return this;
+	}
+
+	public SeedOutputStream write(ControlBlockette b) throws IOException {
 		if (b != null) {
 			try {
 				write(b.toSeedString().getBytes(StandardCharsets.US_ASCII));
+				o.flush();
+			} catch (SeedException e) {
+				throw new IOException(e);
+			}
+		} else {
+			// do something
+		}
+
+		return this;
+	}
+
+	public SeedOutputStream write(DataBlockette b) throws IOException {
+		if (b != null) {
+			try {
+				write(b.toSeedBytes());
 				o.flush();
 			} catch (SeedException e) {
 				throw new IOException(e);

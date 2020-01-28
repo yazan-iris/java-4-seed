@@ -8,12 +8,13 @@ import org.slf4j.LoggerFactory;
 
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.BlocketteDefinition;
+import edu.iris.seed.DataBlockette;
 import edu.iris.seed.SeedBlockette;
 import edu.iris.seed.SeedContext;
 import edu.iris.seed.SeedDataHeader;
 import edu.iris.seed.SeedException;
+import edu.iris.seed.data.B1000;
 import edu.iris.seed.data.ByteUtil;
-import edu.iris.seed.data.DataBlockette;
 import edu.iris.seed.data.DataSection;
 
 public class DataBlocketteIterator implements Iterator<DataBlockette> {
@@ -23,6 +24,7 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 
 	private int index;
 	private int beginingOfData;
+	private int numberOfSamples;
 	private byte[] bytes;
 
 	public DataBlocketteIterator(byte[] bytes) throws SeedException {
@@ -38,6 +40,7 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 
 		SeedDataHeader header = SeedDataHeader.Builder.newInstance().bytes(bytes).build();
 		beginingOfData = header.getBeginingOfData();
+		numberOfSamples = header.getNumberOfSamples();
 		cachedBlockette = header;
 		index = cachedBlockette.getNextBlocketteByteNumber();
 	}
@@ -88,6 +91,7 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 					"Byte array is too short, expected begining of dat at {} but byte array length is {}",
 					this.beginingOfData, bytes.length);
 		}
+		
 		byte[] data = new byte[this.bytes.length - this.beginingOfData];
 		System.arraycopy(this.bytes, this.beginingOfData, data, 0, data.length);
 		DataSection dataSection = new DataSection();
@@ -120,7 +124,7 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 			throw new SeedException("Error looking up blockette of type {} at index {}, invalid blockette type.", type,
 					index);
 		}
-		logger.info("processing {} {}", type, index);
+		//logger.info("processing {} {}", type, index);
 		BlocketteDefinition def = SeedContext.get().get(type);
 
 		length = def.getMinumumLength();

@@ -21,10 +21,11 @@ import edu.iris.seed.station.B050;
 import edu.iris.seed.station.StationBlockette;
 
 public class StationRecord extends SeedRecord<StationBlockette> {
+
 	private static final Logger logger = LoggerFactory.getLogger(StationRecord.class);
 	private B050 b050;
 
-	private List<StationBlockette> blockettes = new ArrayList<>();
+	private int size;
 
 	public StationRecord() {
 		this(1, false);
@@ -39,27 +40,40 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 	}
 
 	public StationBlockette add(StationBlockette t) throws SeedException {
-		blockettes.add(t);
+		if (t instanceof B050) {
+			if (this.b050 == null) {
+				this.b050 = (B050) t;
+				size++;
+			}
+		} else {
+			if (this.b050 == null) {
+
+			} else {
+				this.b050.add(t);
+				size++;
+			}
+		}
 		return t;
 
 	}
 
+	public B050 getB050() {
+		return this.b050;
+	}
+
 	public List<StationBlockette> blockettes() {
+		List<StationBlockette> blockettes = new ArrayList<>();
+		if (this.b050 == null) {
+			return Collections.emptyList();
+		}
+		blockettes.add(this.b050);
+		blockettes.addAll(this.b050.getAll());
 		return blockettes;
 	}
 
 	public void clear() {
-		this.blockettes.clear();
-	}
-	/*
-	 * public void add(B050 b050) throws SeedException { if (this.b050 != null) {
-	 * throw new
-	 * SeedException("Duplicate blockettes, [{}] already exist in this record",
-	 * b050.toSeedString()); } this.b050 = b050; }
-	 */
-
-	public B050 getB050() {
-		return this.b050;
+		this.b050 = null;
+		this.size = 0;
 	}
 
 	public List<StationBlockette> get(int type) {
@@ -75,6 +89,9 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 		if (type == null || type.length == 0) {
 			return null;
 		}
+		if (type[0] != 50) {
+			return null;
+		}
 		List<StationBlockette> blockettes = get(type[0]);
 		if (blockettes == null || blockettes.isEmpty()) {
 			return null;
@@ -88,14 +105,14 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 
 	@Override
 	public int size() {
-		return blockettes.size();
+		return size;
 	}
 
 	@Override
 	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException {
 		SeedOutputStream stream = new SeedOutputStream(outputStream, recordLength, sequence,
 				this.getHeader().getRecordType());
-		stream.write(blockettes());
+		stream.writeControl(blockettes());
 		return stream.flush();
 	}
 
@@ -118,7 +135,7 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 			return this;
 		}
 
-		public StationRecord build() throws SeedException { 
+		public StationRecord build() throws SeedException {
 			logger.debug("Building station record");
 			SeedControlHeader header = SeedControlHeader.Builder.newInstance(bytes).build();
 			StationRecord record = new StationRecord(header);
@@ -131,7 +148,6 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 				record.add(b);
 				if (b instanceof IncompleteBlockette) {
 					IncompleteBlockette i = (IncompleteBlockette) b;
-					System.out.println("yes" + i.numberOfRequiredBytesToComplete());
 				}
 			}
 			return record;

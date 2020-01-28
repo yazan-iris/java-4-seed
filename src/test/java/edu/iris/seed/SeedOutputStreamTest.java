@@ -16,7 +16,7 @@ public class SeedOutputStreamTest {
 			SeedOutputStream out = new SeedOutputStream(o, 4096, 1, Type.S);
 
 			String text = "0520149  BDF0000004~001002+28.209718-177.381430+0004.6000.0000.0+00.00001122.0000E+010.0000E+000000CG~2013,315,00:00:00.0000~2017,045,00:00:00.0000~N";
-			Blockette b052 = B052.Builder.newInstance().fromString(text).build();
+			B052 b052 = B052.Builder.newInstance().fromString(text).build();
 
 			out.write(b052);
 			out.write(b052);

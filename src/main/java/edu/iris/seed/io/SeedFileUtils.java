@@ -8,12 +8,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Path;
+import java.util.List;
 
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedInputStream;
 import edu.iris.seed.SeedVolume;
 import edu.iris.seed.io.output.StringBuilderOutputStream;
 import edu.iris.seed.record.AbbreviationRecord;
+import edu.iris.seed.timeseries.Timeseries;
 
 public class SeedFileUtils {
 
@@ -61,6 +63,17 @@ public class SeedFileUtils {
 		return outputStream.toString();
 	}
 
+	public static List<Timeseries> toTimeseries(final File file) throws SeedException, IOException {
+		return toTimeseries(file, false);
+	}
+
+	public static List<Timeseries> toTimeseries(final File file, boolean reduce) throws SeedException, IOException {
+		checkFile(file);
+		try (InputStream inputStream = new FileInputStream(file)) {
+			return SeedIOUtils.toTimeseries(inputStream, reduce);
+		}
+	}
+
 	public static SeedVolume toSeedVolume(final Path path) throws SeedException, IOException {
 		return toSeedVolume(path.toFile());
 	}
@@ -87,7 +100,7 @@ public class SeedFileUtils {
 		return SeedIOUtils.toSeedInputStream(new FileInputStream(file));
 	}
 
-	public static SeedBlocketteIterator toBlocketteIterator(File file) throws SeedException, IOException{
+	public static SeedBlocketteIterator toBlocketteIterator(File file) throws SeedException, IOException {
 		checkFile(file);
 		return SeedIOUtils.toBlocketteIterator(new FileInputStream(file));
 	}

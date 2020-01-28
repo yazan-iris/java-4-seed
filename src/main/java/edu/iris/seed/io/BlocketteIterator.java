@@ -8,10 +8,10 @@ import org.slf4j.LoggerFactory;
 
 import edu.iris.seed.Blockette;
 import edu.iris.seed.BlocketteBuilder;
+import edu.iris.seed.DataBlockette;
 import edu.iris.seed.IncompleteBlockette;
 import edu.iris.seed.SeedBlockette;
 import edu.iris.seed.SeedException;
-import edu.iris.seed.data.DataBlockette;
 import edu.iris.seed.lang.SeedStrings;
 
 public class BlocketteIterator<T extends Blockette> implements Iterator<T> {

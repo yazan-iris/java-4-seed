@@ -5,9 +5,10 @@ import java.util.Map;
 
 public enum EncodingFormat {
 
-	STEIM_1(10, ""), STEIM_2(11, "");
+
+	ASCII(0), SHORT(1), INT24(2), INTEGER(3), FLOAT(4), DOUBLE(5), STEIM_1(10), STEIM_2(11), CDSN(16), SRO(30), DWWSSN(
+			32);
 	private int value;
-	private String description;
 
 	private static Map<Integer, EncodingFormat> map = new HashMap<Integer, EncodingFormat>();
 	static {
@@ -16,9 +17,8 @@ public enum EncodingFormat {
 		}
 	}
 
-	EncodingFormat(int value, String description) {
+	EncodingFormat(int value) {
 		this.value = value;
-		this.description = description;
 	}
 
 	public static EncodingFormat valueOf(int format) {
@@ -31,14 +31,6 @@ public enum EncodingFormat {
 
 	public void setValue(int value) {
 		this.value = value;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 }

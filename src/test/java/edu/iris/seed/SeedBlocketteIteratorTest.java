@@ -15,15 +15,17 @@ public class SeedBlocketteIteratorTest {
 		try (InputStream stream = SeedBlocketteIteratorTest.class.getClassLoader()
 				.getResourceAsStream("AU.MILA.dataless.fromHughGlanville.20181018");
 				SeedBlocketteIterator it = new SeedBlocketteIterator(new SeedInputStream(stream));) {
-System.out.println("//////");
+			System.out.println("//////");
 			while (it.hasNext()) {
 				Blockette b = it.next();
-				System.out.println(b.toSeedString());
+				if (b instanceof ControlBlockette) {
+					System.out.println(((ControlBlockette)b).toSeedString());
+				}
 			}
 		}
 
 	}
-	
+
 	@Test
 	public void getAll1() throws Exception {
 		try (InputStream stream = SeedBlocketteIteratorTest.class.getClassLoader()
@@ -32,7 +34,9 @@ System.out.println("//////");
 
 			while (it.hasNext()) {
 				Blockette b = it.next();
-				System.out.println(b.toSeedString());
+				if (b instanceof ControlBlockette) {
+					System.out.println(((ControlBlockette)b).toSeedString());
+				}
 			}
 		}
 

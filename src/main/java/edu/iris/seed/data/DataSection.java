@@ -1,5 +1,8 @@
 package edu.iris.seed.data;
 
+import java.nio.ByteOrder;
+
+import edu.iris.seed.DataBlockette;
 import edu.iris.seed.SeedException;
 
 public class DataSection implements DataBlockette {
@@ -20,19 +23,12 @@ public class DataSection implements DataBlockette {
 	}
 
 	@Override
-	public String toSeedString() throws SeedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getNextBlocketteByteNumber() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public byte[] toSeedBytes() {
+	public byte[] toSeedBytes()throws SeedException{
 		// TODO Auto-generated method stub
 		return null;
 	}

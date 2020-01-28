@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.iris.seed.BTime;
 import edu.iris.seed.Blockette;
+import edu.iris.seed.ControlBlockette;
 import edu.iris.seed.SeedException;
 
 
@@ -17,7 +18,7 @@ public class B052Test {
 	public void b052() throws Exception {
 		             //0520149  BDF0000000~000000+28.209718-177.381430+1,00000.0000.0000.0+00.00000000.0000E+000.0000E+000000~2013,315,00:00:00.0000~2017,045,00:00:00.0000~N
 		String text = "0520149  BDF0000004~001002+28.209718-177.381430+0004.6000.0000.0+00.00001122.0000E+010.0000E+000000CG~2013,315,00:00:00.0000~2017,045,00:00:00.0000~N";
-		Blockette b = B052.Builder.newInstance().fromString(text).build();
+		ControlBlockette b = B052.Builder.newInstance().fromString(text).build();
 		assertEquals(text, b.toSeedString());
 	}
 	

@@ -1,5 +1,7 @@
 package edu.iris.seed.data;
 
+import java.nio.ByteOrder;
+
 import edu.iris.seed.BTime;
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
@@ -29,27 +31,19 @@ public class B300 extends AbstractDataBlockette {
 	}
 
 	@Override
-	public String toSeedString() throws SeedException {
-		StringBuilder builder = new StringBuilder(this.getType());
-		builder.append("####");
-
-		return builder.toString();
-	}
-
-	@Override
-	public byte[] toSeedBytes() {
+	public byte[] toSeedBytes()throws SeedException{
 		SeedByteArrayBuilder builder = new SeedByteArrayBuilder(60).appendU16((short) 300);
 		this.getNextBlocketteByteNumber();
 
-		builder.append(this.beginningOfCalibrationTime).appendU((byte) this.numberOfStepCalibrationsInSequence);
-		builder.appendU((byte) this.calibrationFlags);
-		builder.appendU(this.stepDuration);
+		builder.append(this.beginningOfCalibrationTime).appendU8((byte) this.numberOfStepCalibrationsInSequence);
+		builder.appendU8((byte) this.calibrationFlags);
+		builder.appendLong(this.stepDuration);
 
-		builder.append(this.intervalDuration);
-		builder.append(this.calibrationSignalAmplitude);
-		builder.appendU((byte) this.reserved);
+		builder.appendFloat(this.intervalDuration);
+		builder.appendFloat(this.calibrationSignalAmplitude);
+		builder.appendU8((byte) this.reserved);
 		builder.append(this.channelWithCalibrationInput, 3);
-		builder.appendU(this.referenceAmplitude).append(this.coupling, 12).append(this.rolloff, 12);
+		builder.appendLong(this.referenceAmplitude).append(this.coupling, 12).append(this.rolloff, 12);
 
 		return builder.toBytes();
 	}

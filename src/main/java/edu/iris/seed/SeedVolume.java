@@ -2,6 +2,7 @@ package edu.iris.seed;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,7 +14,7 @@ import edu.iris.seed.Identifier.B010;
 import edu.iris.seed.Identifier.B011;
 import edu.iris.seed.Identifier.IdentifierBlockette;
 import edu.iris.seed.abbreviation.AbbreviationBlockette;
-import edu.iris.seed.data.DataBlockette;
+import edu.iris.seed.data.B1000;
 import edu.iris.seed.data.DataSection;
 import edu.iris.seed.io.output.NullOutputStream;
 import edu.iris.seed.record.AbbreviationRecord;
@@ -32,10 +33,10 @@ public class SeedVolume {
 
 	private List<StationRecord> stationRecords = new ArrayList<>();
 
-	private List<Record<? extends Blockette>> dataRecords = new ArrayList<>();
+	private List<DataRecord> dataRecords = new ArrayList<>();
 
 	private StationRecord stationRecord;
-	private Record<DataBlockette> dataRecord;
+	private DataRecord dataRecord;
 
 	// private List<? extends Blockette> blockettes = new ArrayList<>();
 
@@ -79,11 +80,42 @@ public class SeedVolume {
 	public List<StationRecord> getStationRecords() {
 		return this.stationRecords;
 	}
+	
+	public List<DataRecord> getDataRecords() {
+		return this.dataRecords;
+	}
 
 	public List<? extends Blockette> blockettes() {
 		List<Blockette> list = new ArrayList<>();
+
+		list.addAll(this.identifierRecord.blockettes());
+		list.addAll(this.abbreviationRecord.blockettes());
+
 		for (Record<StationBlockette> r : stationRecords) {
 			list.addAll(r.blockettes());
+		}
+		for (Record<DataBlockette> r : dataRecords) {
+			list.addAll(r.blockettes());
+		}
+		return list;
+	}
+
+	public List<Record<? extends Blockette>> records() {
+		List<Record<? extends Blockette>> list = new ArrayList<>();
+
+		if (identifierRecord != null) {
+			list.add(this.identifierRecord);
+		}
+
+		if (abbreviationRecord != null) {
+			list.add(this.abbreviationRecord);
+		}
+
+		if (stationRecords != null && !stationRecords.isEmpty()) {
+			list.addAll(stationRecords);
+		}
+		if (dataRecords != null) {
+			list.addAll(dataRecords);
 		}
 		return list;
 	}
@@ -160,6 +192,19 @@ public class SeedVolume {
 		sequence = this.abbreviationRecord.writeTo(outputStream, recordLength, sequence) + 1;
 		for (Record<? extends Blockette> r : this.stationRecords) {
 			sequence = r.writeTo(outputStream, recordLength, sequence) + 1;
+		}
+
+		for (DataRecord r : this.dataRecords) {
+			SeedDataHeader header = (SeedDataHeader) r.getHeader();
+			ByteOrder byteOrder = header.getByteOrder();
+
+			B1000 b1000 = (B1000) r.get(1000);
+			
+			b1000.getByteOrder();
+			
+			
+			b1000.getEncodingFormat();
+			
 		}
 		/*
 		 * if (this.indexRecord != null) { sequence =

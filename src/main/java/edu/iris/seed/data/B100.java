@@ -1,5 +1,7 @@
 package edu.iris.seed.data;
 
+import java.nio.ByteOrder;
+
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
 import edu.iris.seed.SeedException;
@@ -41,21 +43,11 @@ public class B100 extends AbstractDataBlockette {
 	}
 
 	@Override
-	public String toSeedString() throws SeedException {
-
-		SeedStringBuilder builder = new SeedStringBuilder(this.getType());
-		System.out.println("actualSampleRate" + actualSampleRate);
-		builder.append(this.actualSampleRate);
-		builder.append((char) this.flags);
-		return builder.toString();
-	}
-
-	@Override
-	public byte[] toSeedBytes() {
+	public byte[] toSeedBytes()throws SeedException {
 		SeedByteArrayBuilder builder = new SeedByteArrayBuilder(12).appendU16((short) 100);
-		this.getNextBlocketteByteNumber();
-		builder.append(4, this.actualSampleRate);
-		builder.appendU(this.flags);
+		builder.appendU16((short) this.getNextBlocketteByteNumber());
+		builder.appendFloat(this.actualSampleRate);
+		builder.appendU8(this.flags);
 		builder.appendU(new byte[3]);
 		return builder.toBytes();
 	}
@@ -85,7 +77,7 @@ public class B100 extends AbstractDataBlockette {
 			return new Builder(actualSampleRate);
 		}
 
-		public B100 build() throws SeedException { 
+		public B100 build() throws SeedException {
 			B100 b = null;
 			if (bytes != null) {
 				b = new B100(ByteUtil.fourBytesToFloat(bytes, 4, 4));

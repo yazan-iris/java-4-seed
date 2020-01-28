@@ -54,7 +54,7 @@ public class RecordFactory {
 			LOGGER.info("Creating record of type " + type + " sequence: " + sequence);
 			throw new SeedException("Unsupported Record type " + type);
 		} else if (type == 'D' || type == 'R' || type == 'M' || type == 'Q') {
-			record = new DataRecord(SeedDataHeader.Builder.newInstance(sequence, Type.from(type), (byte)0).build());
+			record = new DataRecord(SeedDataHeader.Builder.newInstance(sequence, Type.from(type), ' ').build());
 		} else if (type == ' ') {
 			record = new EmptyRecord(sequence);
 		} else {

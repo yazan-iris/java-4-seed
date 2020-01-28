@@ -10,8 +10,8 @@ import edu.iris.seed.SeedException;
 
 public class SeedNumbers {
 
-	public static int readUnsignedShort(byte[] bytes, int offset) {
-		return ((bytes[offset] << 8) & 0x0000ff00) | (bytes[offset + 1] & 0x000000ff);
+	public static short readUnsignedShort(byte[] bytes, int offset) {
+		return (short) (((bytes[offset] << 8) & 0x0000ff00) | (bytes[offset + 1] & 0x000000ff));
 	}
 
 	public static int readInt(byte[] buf, int begin, int length) throws SeedException {

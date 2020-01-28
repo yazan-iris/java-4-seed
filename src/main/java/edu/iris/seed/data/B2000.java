@@ -1,5 +1,6 @@
 package edu.iris.seed.data;
 
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,20 +37,12 @@ public class B2000 extends AbstractDataBlockette {
 	}
 
 	@Override
-	public String toSeedString() throws SeedException {
-		StringBuilder builder = new StringBuilder(this.getType());
-		builder.append("####");
-
-		return builder.toString();
-	}
-
-	@Override
-	public byte[] toSeedBytes() {
+	public byte[] toSeedBytes()throws SeedException{
 		SeedByteArrayBuilder builder = new SeedByteArrayBuilder(12).appendU16((short) 2000);
 		this.getNextBlocketteByteNumber();
 		builder.appendU16(totalBlocketteLengthInBytes).appendU16(offsetToOpaqueData);
-		builder.append(this.recordNumber).appendU(this.dataWordOrder).appendU(opaqueDataFlags)
-				.appendU((byte) opaqueDataHeaders.size());
+		builder.appendFloat(this.recordNumber).appendU8(this.dataWordOrder).appendU8(opaqueDataFlags)
+				.appendU8((byte) opaqueDataHeaders.size());
 
 		for (OpaqueDataHeader h : opaqueDataHeaders) {
 

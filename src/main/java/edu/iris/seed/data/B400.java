@@ -1,9 +1,19 @@
 package edu.iris.seed.data;
 
+
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
 import edu.iris.seed.SeedException;
 
+/**
+ * This blockette is used to specify how the beam indicated by the corresponding 
+ * Beam Configuration Blockette [35] was formed for this data record. 
+ * For beams formed by non-plane waves, the Beam Delay Blockette [405] 
+ * should be used to determine the beam delay for each component referred 
+ * to in the Beam Configuration Blockette [35].
+ * @author Suleiman
+ *
+ */
 public class B400 extends AbstractDataBlockette {
 
 	private float beamAzimuthInDegrees;
@@ -16,19 +26,11 @@ public class B400 extends AbstractDataBlockette {
 	}
 
 	@Override
-	public String toSeedString() throws SeedException {
-		StringBuilder builder = new StringBuilder(this.getType());
-		builder.append("####");
-
-		return builder.toString();
-	}
-
-	@Override
-	public byte[] toSeedBytes() {
+	public byte[] toSeedBytes()throws SeedException{
 		SeedByteArrayBuilder builder = new SeedByteArrayBuilder(16).appendU16((short) 400);
 		this.getNextBlocketteByteNumber();
 
-		builder.append(this.beamAzimuthInDegrees).append(this.beamSlownessInSecDegree).appendU16(this.beamConfiguration)
+		builder.appendFloat(this.beamAzimuthInDegrees).appendFloat(this.beamSlownessInSecDegree).appendU16(this.beamConfiguration)
 				.appendU16(this.reserved);
 
 		return builder.toBytes();

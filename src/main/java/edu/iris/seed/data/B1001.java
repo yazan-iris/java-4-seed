@@ -1,6 +1,7 @@
 package edu.iris.seed.data;
 
 import java.io.IOException;
+import java.nio.ByteOrder;
 
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
@@ -50,22 +51,11 @@ public class B1001 extends AbstractDataBlockette {
 		this.frameCount = frameCount;
 	}
 
-	@Override
-	public String toSeedString() throws SeedException {
-		StringBuilder builder = new StringBuilder(this.getType());
-		builder.append("####");
-		builder.append(this.timingQuality);
-		builder.append(this.microSeconds);
-		builder.append(this.reserved);
-		builder.append(this.frameCount);
-
-		return builder.toString();
-	}
 
 	@Override
-	public byte[] toSeedBytes() {
+	public byte[] toSeedBytes()throws SeedException{
 		SeedByteArrayBuilder builder = new SeedByteArrayBuilder(12).appendU16((short) 1001);
-		this.getNextBlocketteByteNumber();
+		builder.appendU16((this.getNextBlocketteByteNumber()));
 		builder.append((byte) this.timingQuality);
 		builder.append((byte) (this.microSeconds));
 		builder.append(this.reserved);

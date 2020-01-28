@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import edu.iris.seed.Blockette;
+import edu.iris.seed.ControlBlockette;
 
 public class B050Test {
 
@@ -12,7 +13,7 @@ public class B050Test {
 	public void b050() throws Exception {
 		String oldString = "0500107MSIA +54.099602-116.864700+1086.60003000Z~0013210102014,001,00:00:00.0000~2024,366,23:59:59.0000~N2K";
 		String expected = "0500107MSIA +54.099602-116.864700+1086.60000000Z~0013210102014,001,00:00:00.0000~2024,366,23:59:59.0000~N2K";
-		Blockette b = B050.Builder.newInstance().fromString(oldString).build();
+		ControlBlockette b = B050.Builder.newInstance().fromString(oldString).build();
 
 		long old=System.currentTimeMillis();
 		String newString = b.toSeedString();
@@ -31,7 +32,7 @@ public class B050Test {
 		String oldString = "0500107MSIA +54.099602-116.864700+1086.60003000Z~0013210102014,001,00:00:00.0000~2024,366,23:59:59.0000~N2K";
 		String expected = "0500107MSIA +54.099602-116.864700+1086.60000000Z~0013210102014,001,00:00:00.0000~2024,366,23:59:59.0000~N2K";
 		
-		Blockette b = B050.Builder.newInstance().fromString(oldString).build();
+		ControlBlockette b = B050.Builder.newInstance().fromString(oldString).build();
 		long old=System.currentTimeMillis();
 		String newString = b.toSeedString();
 		System.out.println(System.currentTimeMillis()-old);

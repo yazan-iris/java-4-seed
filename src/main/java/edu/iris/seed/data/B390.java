@@ -1,5 +1,7 @@
 package edu.iris.seed.data;
 
+import java.nio.ByteOrder;
+
 import edu.iris.seed.BTime;
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
@@ -28,25 +30,17 @@ public class B390 extends AbstractDataBlockette {
 	}
 
 	@Override
-	public String toSeedString() throws SeedException {
-		StringBuilder builder = new StringBuilder(this.getType());
-		builder.append("####");
-
-		return builder.toString();
-	}
-
-	@Override
-	public byte[] toSeedBytes() {
+	public byte[] toSeedBytes()throws SeedException{
 		SeedByteArrayBuilder builder = new SeedByteArrayBuilder(28).appendU16((short) 390);
 		this.getNextBlocketteByteNumber();
 
-		builder.append(this.beginningOfCalibrationTime).appendU((byte) this.reserved1);
-		builder.appendU((byte) this.calibrationFlags);
-		builder.appendU(this.calibrationDuration);
+		builder.append(this.beginningOfCalibrationTime).appendU8((byte) this.reserved1);
+		builder.appendU8((byte) this.calibrationFlags);
+		builder.appendLong(this.calibrationDuration);
 
-		builder.append(calibrationSignalAmplitude);
+		builder.appendFloat(calibrationSignalAmplitude);
 		builder.append(this.channelWithCalibrationInput, 3);
-		builder.appendU((byte) this.reserved2);
+		builder.appendU8((byte) this.reserved2);
 
 		return builder.toBytes();
 	}

@@ -13,7 +13,7 @@ import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 import edu.iris.seed.station.B052.Stage;
 
-public class B050 extends SeedBlockette implements StationBlockette, Comparable<B050> {
+public class B050 extends SeedBlockette<B050> implements StationBlockette, Comparable<B050> {
 
 	private String stationCode;
 	private double latitude;
@@ -190,11 +190,11 @@ public class B050 extends SeedBlockette implements StationBlockette, Comparable<
 				+ ", endTime=" + endTime + ", updateFlag=" + updateFlag + ", networkCode=" + networkCode + "]";
 	}
 
-	public BlocketteBuilder<StationBlockette> builder() {
+	public BlocketteBuilder<B050> builder() {
 		return new Builder();
 	}
 
-	public static class Builder extends BlocketteBuilder<StationBlockette> {
+	public static class Builder extends BlocketteBuilder<B050> {
 
 		public Builder() {
 			super(50);

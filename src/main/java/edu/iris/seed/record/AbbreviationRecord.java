@@ -35,9 +35,35 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 
 	@Override
 	public AbbreviationBlockette get(int... type) {
-		// TODO Auto-generated method stub
+		if (type == null || type.length == 0) {
+			return null;
+		}
+		int bType = type[0];
+		if (bType > 40 && bType < 50) {
+			bType = 60;
+		}
+		Dictionary d = dictionaries.get(bType);
+		if (d == null) {
+			return null;
+		}
+		if (type.length > 1) {
+			return d.get(type[1]);
+		}
 		return null;
 	}
+/*
+	public AbbreviationBlockette get(int type, int lookup) {
+		int bType = type;
+		if (bType > 40 && bType < 50) {
+			bType = 60;
+		}
+
+		Dictionary d = dictionaries.get(bType);
+		if (d == null || d.isEmpty()) {
+			return null;
+		}
+		return d.get(lookup);
+	}*/
 
 	public AbbreviationBlockette add(AbbreviationBlockette a) throws SeedException {
 		int type = a.getType();
@@ -59,13 +85,11 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 		return d.add(a);
 	}
 
-	public boolean addAll(Collection<AbbreviationBlockette> c) throws SeedException {
-		int size = size();
-		for (AbbreviationBlockette a : c) {
-			add(a);
-		}
-		return size != size();
-	}
+	/*
+	 * public boolean addAll(Collection<AbbreviationBlockette> c) throws
+	 * SeedException { int size = size(); for (AbbreviationBlockette a : c) {
+	 * add(a); } return size != size(); }
+	 */
 
 	public AbbreviationBlockette get(int type, int lookup) {
 		int bType = type;
@@ -138,7 +162,7 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException {
 		SeedOutputStream stream = new SeedOutputStream(outputStream, recordLength, sequence,
 				this.getHeader().getRecordType());
-		stream.write(this.blockettes());
+		stream.writeControl(this.blockettes());
 		return stream.flush();
 	}
 
@@ -157,7 +181,7 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 			return this;
 		}
 
-		public AbbreviationRecord build() throws SeedException { 
+		public AbbreviationRecord build() throws SeedException {
 			AbbreviationRecord record = new AbbreviationRecord(SeedControlHeader.Builder.newInstance(bytes).build());
 			BlocketteIterator<AbbreviationBlockette> it = new BlocketteIterator<AbbreviationBlockette>(8, bytes);
 			while (it.hasNext()) {

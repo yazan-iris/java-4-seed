@@ -160,7 +160,7 @@ public class IdentifierRecord extends SeedRecord<IdentifierBlockette> {
 	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException {
 		SeedOutputStream stream = new SeedOutputStream(outputStream, recordLength, sequence,
 				this.getHeader().getRecordType());
-		stream.write(blockettes());
+		stream.writeControl(blockettes());
 		return stream.flush();
 	}
 

@@ -62,18 +62,7 @@ public class B1000 extends AbstractDataBlockette {
 	}
 
 	@Override
-	public String toSeedString() throws SeedException {
-		StringBuilder builder = new StringBuilder(this.getType());
-		builder.append("####");
-		builder.append(this.encodingFormat.getValue());
-		builder.append(this.byteOrder);
-		builder.append(this.recordLengthExponent);
-		builder.append(this.reserved);
-		return builder.toString();
-	}
-
-	@Override
-	public byte[] toSeedBytes() {
+	public byte[] toSeedBytes()throws SeedException{
 		SeedByteArrayBuilder builder = new SeedByteArrayBuilder(12).appendU16((short) 1000);
 		this.getNextBlocketteByteNumber();
 		builder.append((byte) this.encodingFormat.getValue());

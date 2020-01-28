@@ -1,5 +1,6 @@
 package edu.iris.seed.data;
 
+import edu.iris.seed.DataBlockette;
 import edu.iris.seed.SeedBlockette;
 
 public abstract class AbstractDataBlockette extends SeedBlockette implements DataBlockette {

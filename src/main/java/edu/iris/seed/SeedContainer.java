@@ -8,9 +8,9 @@ public interface SeedContainer<E extends SeedObject> {
 
 	public List<E> blockettes();
 
-	public E add(E e)throws SeedException;
+	public E add(E e) throws SeedException;
 
-	public boolean addAll(Collection<E> c)throws SeedException;
+	public boolean addAll(Collection<E> c) throws SeedException;
 
 	public boolean isEmpty();
 
@@ -24,7 +24,4 @@ public interface SeedContainer<E extends SeedObject> {
 
 	public ListIterator<E> listIterator(int index);
 
-	// default Spliterator<E> spliterator() {
-	// return Spliterators.spliterator(this, Spliterator.ORDERED);
-	// }
 }

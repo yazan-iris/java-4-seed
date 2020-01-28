@@ -1,5 +1,7 @@
 package edu.iris.seed.data;
 
+import java.nio.ByteOrder;
+
 import edu.iris.seed.BTime;
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
@@ -24,28 +26,20 @@ public class B201 extends AbstractDataBlockette {
 	}
 
 	@Override
-	public String toSeedString() throws SeedException {
-		StringBuilder builder = new StringBuilder(this.getType());
-		builder.append("####");
-
-		return builder.toString();
-	}
-
-	@Override
-	public byte[] toSeedBytes() {
+	public byte[] toSeedBytes()throws SeedException{
 		SeedByteArrayBuilder builder = new SeedByteArrayBuilder(60).appendU16((short) 201);
-		this.getNextBlocketteByteNumber();
-		builder.append(4, this.signalAmplitude);
-		builder.append(8, this.signalPeriod);
-		builder.append(12, this.backgroundEstimate);
-		builder.appendU(this.eventDetectionFlags);
+		builder.appendU16(this.getNextBlocketteByteNumber());
+		builder.appendFloat(this.signalAmplitude);
+		builder.appendFloat(this.signalPeriod);
+		builder.appendFloat(this.backgroundEstimate);
+		builder.appendU8(this.eventDetectionFlags);
 
-		builder.appendU(this.reserved);
+		builder.appendU8(this.reserved);
 		builder.append(this.signalOnsetTime);
 
 		builder.append(this.signalToNoiseRatioValues);
-		builder.appendU(this.lookbackValue);
-		builder.appendU(this.pickAlgorithm);
+		builder.appendU8(this.lookbackValue);
+		builder.appendU8(this.pickAlgorithm);
 
 		builder.append(this.detectorName, 24);
 

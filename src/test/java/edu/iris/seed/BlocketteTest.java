@@ -48,7 +48,9 @@ public class BlocketteTest {
 
 			for (String expected : list) {
 				Blockette blockette = SeedBlockette.builder(e.getKey()).fromBytes(expected.getBytes()).build();
-				assertEquals(expected, blockette.toSeedString());
+				if (blockette instanceof ControlBlockette) {
+					assertEquals(expected, ((ControlBlockette) blockette).toSeedString());
+				}
 			}
 		}
 	}

@@ -1,5 +1,7 @@
 package edu.iris.seed.data;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Arrays;
 
 public class ByteUtil {
@@ -37,5 +39,27 @@ public class ByteUtil {
 
 		int i = b[0] << 24 | (b[1] & 0xFF) << 16 | (b[2] & 0xFF) << 8 | (b[3] & 0xFF);
 		return i;
+	}
+
+	public static short readShort(ByteOrder byteOrder, byte[] array, int offset, int length) {
+		ByteBuffer buffer = ByteBuffer.wrap(array, offset, length);
+		buffer.order(byteOrder);
+		return buffer.getShort();
+	}
+
+	public static short readUnsignedShort(ByteOrder byteOrder, byte[] array, int offset) {
+		return (short)(readShort(byteOrder, array, offset, 2) & 0xFFFF);
+	}
+
+	public static float readInt(ByteOrder byteOrder, byte[] array, int offset, int length) {
+		ByteBuffer buffer = ByteBuffer.wrap(array, offset, length);
+		buffer.order(byteOrder);
+		return buffer.getInt();
+	}
+
+	public static float readFloat(ByteOrder byteOrder, byte[] array, int offset, int length) {
+		ByteBuffer buffer = ByteBuffer.wrap(array, offset, length);
+		buffer.order(byteOrder);
+		return buffer.getFloat();
 	}
 }

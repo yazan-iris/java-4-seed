@@ -13,11 +13,11 @@ public class MiniSeedTest {
 	@Test
 	void read(@TempDir Path tempDir) throws Exception {
 
-		SeedVolume v = SeedFileUtils.toSeedVolume(
-				new File(getClass().getClassLoader().getResource("mseed/ADK.IU.2020.001").getFile()));
-		for(Blockette b:v.blockettes()) {
-			System.out.println(b.getType());
+		SeedVolume v = SeedFileUtils
+				.toSeedVolume(new File(getClass().getClassLoader().getResource("mseed/ADK.IU.2020.001").getFile()));
+
+		for (Record<? extends Blockette> r : v.records()) {
+			System.out.println(r.getHeader().toString());
 		}
 	}
 }
-
