@@ -1,6 +1,5 @@
-package edu.iris.seed.timeseries;
+package edu.iris.timeseries;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 

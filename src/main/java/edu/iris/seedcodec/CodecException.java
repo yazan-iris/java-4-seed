@@ -1,9 +1,5 @@
 package edu.iris.seedcodec;
 
-import java.lang.Exception;
-
-
-
 /**
  * CodecException.java
  *

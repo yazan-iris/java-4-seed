@@ -1,18 +1,16 @@
-package edu.iris.seed.timeseries;
+package edu.iris.timeseries;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-
-import edu.iris.seedcodec.CodecException;
 import edu.iris.seed.SeedDataHeader;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.data.B1000;
 import edu.iris.seed.data.EncodingFormat;
 import edu.iris.seed.record.DataRecord;
+import edu.iris.seedcodec.CodecException;
 import edu.iris.seedcodec.UnsupportedCompressionType;
 
 public class Timeseries implements Serializable {

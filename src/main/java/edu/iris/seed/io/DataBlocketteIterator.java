@@ -13,7 +13,6 @@ import edu.iris.seed.SeedBlockette;
 import edu.iris.seed.SeedContext;
 import edu.iris.seed.SeedDataHeader;
 import edu.iris.seed.SeedException;
-import edu.iris.seed.data.B1000;
 import edu.iris.seed.data.ByteUtil;
 import edu.iris.seed.data.DataSection;
 

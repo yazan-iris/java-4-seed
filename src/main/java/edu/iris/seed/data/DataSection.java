@@ -1,7 +1,5 @@
 package edu.iris.seed.data;
 
-import java.nio.ByteOrder;
-
 import edu.iris.seed.DataBlockette;
 import edu.iris.seed.SeedException;
 

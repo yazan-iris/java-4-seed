@@ -15,7 +15,7 @@ import edu.iris.seed.SeedInputStream;
 import edu.iris.seed.SeedVolume;
 import edu.iris.seed.io.output.StringBuilderOutputStream;
 import edu.iris.seed.record.AbbreviationRecord;
-import edu.iris.seed.timeseries.Timeseries;
+import edu.iris.timeseries.Timeseries;
 
 public class SeedFileUtils {
 

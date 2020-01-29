@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import edu.iris.seed.io.SeedFileUtils;
+import edu.iris.timeseries.Timeseries;
 
 public class TimeseriesTest {
 

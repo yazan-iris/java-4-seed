@@ -3,19 +3,15 @@ package edu.iris.seed.record;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import edu.iris.seed.DataBlockette;
-import edu.iris.seed.SeedContext;
 import edu.iris.seed.SeedDataHeader;
 import edu.iris.seed.SeedDataOutputStream;
 import edu.iris.seed.SeedException;
-import edu.iris.seed.SeedHeader;
-import edu.iris.seed.SeedOutputStream;
 import edu.iris.seed.SeedRecord;
 import edu.iris.seed.data.DataSection;
 

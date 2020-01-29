@@ -1,11 +1,8 @@
 package edu.iris.seed.data;
 
-import java.nio.ByteOrder;
-
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
 import edu.iris.seed.SeedException;
-import edu.iris.seed.SeedStringBuilder;
 
 public class B100 extends AbstractDataBlockette {
 

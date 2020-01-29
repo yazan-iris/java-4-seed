@@ -215,6 +215,15 @@ public class BTime implements Comparable<BTime> {
 		return stringBuilder.toString();
 	}
 
+	public static BTime from(int year, int dayOfYear, int hour, int minute, int second, int milli) {
+		return new BTime(year, dayOfYear, hour, minute, second, milli);
+	}
+
+	public static BTime from(ZonedDateTime zonedDateTime) {
+		return new BTime(zonedDateTime.getYear(), zonedDateTime.getDayOfYear(), zonedDateTime.getHour(),
+				zonedDateTime.getMinute(), zonedDateTime.getSecond(), zonedDateTime.getNano());
+	}
+
 	public static XMLGregorianCalendar toCalendar(BTime bTime) throws DatatypeConfigurationException {
 		GregorianCalendar c = new GregorianCalendar();
 		c.setTimeZone(TimeZone.getTimeZone("GMT"));

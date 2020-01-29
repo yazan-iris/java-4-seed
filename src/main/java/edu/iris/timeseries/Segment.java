@@ -1,11 +1,10 @@
-package edu.iris.seed.timeseries;
+package edu.iris.timeseries;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
 import edu.iris.seed.data.EncodingFormat;
-import edu.iris.seedcodec.Type;
 
 public class Segment implements Serializable, Comparable<Segment> {
 

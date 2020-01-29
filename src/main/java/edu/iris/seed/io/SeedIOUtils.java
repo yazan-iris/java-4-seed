@@ -14,11 +14,10 @@ import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedInputStream;
 import edu.iris.seed.SeedVolume;
 import edu.iris.seed.abbreviation.AbbreviationBlockette;
-import edu.iris.seed.data.DataSection;
 import edu.iris.seed.record.AbbreviationRecord;
 import edu.iris.seed.record.DataRecord;
-import edu.iris.seed.timeseries.Timeseries;
 import edu.iris.seedcodec.CodecException;
+import edu.iris.timeseries.Timeseries;
 
 public class SeedIOUtils {
 
