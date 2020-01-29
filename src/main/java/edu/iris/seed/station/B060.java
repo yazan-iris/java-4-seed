@@ -8,7 +8,7 @@ import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-public class B060 extends AbstractResponseBlockette {
+public class B060 extends AbstractResponseBlockette<B060> {
 
 	private List<Stage> stages = new ArrayList<Stage>();
 

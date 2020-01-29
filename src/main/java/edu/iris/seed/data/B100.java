@@ -4,7 +4,7 @@ import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
 import edu.iris.seed.SeedException;
 
-public class B100 extends AbstractDataBlockette {
+public class B100 extends AbstractDataBlockette<B100> {
 
 	private float actualSampleRate;
 	private byte flags;

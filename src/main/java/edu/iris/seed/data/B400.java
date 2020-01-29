@@ -14,7 +14,7 @@ import edu.iris.seed.SeedException;
  * @author Suleiman
  *
  */
-public class B400 extends AbstractDataBlockette {
+public class B400 extends AbstractDataBlockette<B400> {
 
 	private float beamAzimuthInDegrees;
 	private float beamSlownessInSecDegree;

@@ -7,7 +7,7 @@ import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-public class B034 extends AbstractAbbreviationBlockette implements AbbreviationBlockette {
+public class B034 extends AbstractAbbreviationBlockette<B034> implements AbbreviationBlockette {
 
 	private String name;
 	private String description;

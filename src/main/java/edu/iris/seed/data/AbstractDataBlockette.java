@@ -3,7 +3,7 @@ package edu.iris.seed.data;
 import edu.iris.seed.DataBlockette;
 import edu.iris.seed.SeedBlockette;
 
-public abstract class AbstractDataBlockette extends SeedBlockette implements DataBlockette {
+public abstract class AbstractDataBlockette<T extends DataBlockette> extends SeedBlockette<T> implements DataBlockette {
 
 	/*
 	 * UWORD: Byte number of next blockette. (Calculate this as the byte offset from

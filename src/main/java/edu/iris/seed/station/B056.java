@@ -3,7 +3,7 @@ package edu.iris.seed.station;
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 
-public class B056 extends AbstractResponseBlockette {
+public class B056 extends AbstractResponseBlockette<B056> {
 
 	public B056() {
 		super(56, "Generic Response Blockette");

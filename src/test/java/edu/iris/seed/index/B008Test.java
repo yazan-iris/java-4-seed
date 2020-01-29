@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import edu.iris.seed.Blockette;
 import edu.iris.seed.Identifier.B008;
 
 public class B008Test {

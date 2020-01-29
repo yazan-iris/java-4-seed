@@ -8,7 +8,7 @@ import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-public class B054 extends AbstractResponseBlockette implements Splittable {
+public class B054 extends AbstractResponseBlockette<B054> implements Splittable {
 
 	private char responseType;
 	private List<Number> numerators = new ArrayList<Number>();

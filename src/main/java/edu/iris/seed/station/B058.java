@@ -10,7 +10,7 @@ import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-public class B058 extends AbstractResponseBlockette {
+public class B058 extends AbstractResponseBlockette<B058> {
 
 	private double sensitivity;
 	private double frequency;

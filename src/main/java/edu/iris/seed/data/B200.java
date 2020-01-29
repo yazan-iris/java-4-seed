@@ -4,7 +4,7 @@ import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
 import edu.iris.seed.SeedException;
 
-public class B200 extends AbstractDataBlockette {
+public class B200 extends AbstractDataBlockette<B200> {
 
 	private float signalAmplitude;
 	private float signalPeriod;

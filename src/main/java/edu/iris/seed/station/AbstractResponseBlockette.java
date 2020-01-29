@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import edu.iris.seed.SeedBlockette;
 import edu.iris.seed.SeedException;
 
-public abstract class AbstractResponseBlockette extends SeedBlockette implements ResponseBlockette {
+public abstract class AbstractResponseBlockette<T extends ResponseBlockette> extends SeedBlockette<T> implements ResponseBlockette {
 
 	private int stageNumber;
 	private int signalInputUnit;

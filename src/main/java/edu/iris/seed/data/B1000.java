@@ -6,7 +6,7 @@ import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
 import edu.iris.seed.SeedException;
 
-public class B1000 extends AbstractDataBlockette {
+public class B1000 extends AbstractDataBlockette<B1000> {
 
 	private EncodingFormat encodingFormat;
 	private int recordLengthExponent;

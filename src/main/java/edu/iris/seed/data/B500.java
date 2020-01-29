@@ -5,7 +5,7 @@ import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
 import edu.iris.seed.SeedException;
 
-public class B500 extends AbstractDataBlockette {
+public class B500 extends AbstractDataBlockette<B500> {
 
 	private float vocCorrection;
 	private BTime timeOfException;

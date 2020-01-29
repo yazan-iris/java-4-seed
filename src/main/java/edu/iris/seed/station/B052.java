@@ -14,7 +14,7 @@ import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-public class B052 extends SeedBlockette implements StationBlockette, Comparable<B052> {
+public class B052 extends SeedBlockette<B052> implements StationBlockette, Comparable<B052> {
 
 	private String locationCode;
 

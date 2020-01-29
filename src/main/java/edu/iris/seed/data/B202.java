@@ -3,7 +3,7 @@ package edu.iris.seed.data;
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 
-public class B202 extends AbstractDataBlockette {
+public class B202 extends AbstractDataBlockette<B202> {
 
 	public B202() {
 		super(202, "Log-Z Event Detection Blockette");

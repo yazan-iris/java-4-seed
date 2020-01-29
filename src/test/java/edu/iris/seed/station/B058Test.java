@@ -4,9 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import edu.iris.seed.Blockette;
-import edu.iris.seed.SeedBlockette;
-
 public class B058Test {
 
 	String text = "058003500+1.00700E+09+2.00000E-0200";

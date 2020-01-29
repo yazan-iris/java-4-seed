@@ -6,9 +6,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import edu.iris.seed.Blockette;
-import edu.iris.seed.SeedBlockette;
-
 public class B061Test {
 
 	@Test

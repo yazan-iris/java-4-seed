@@ -7,7 +7,7 @@ import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 
-public class B055 extends AbstractResponseBlockette {
+public class B055 extends AbstractResponseBlockette<B055> {
 
 	private List<Response> responses = new ArrayList<Response>();
 

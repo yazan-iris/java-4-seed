@@ -5,7 +5,7 @@ import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-public class B057 extends AbstractResponseBlockette {
+public class B057 extends AbstractResponseBlockette<B057> {
 
 	private double sampleRate;
 	private int decimationFactor;

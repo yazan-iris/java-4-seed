@@ -1,11 +1,9 @@
 package edu.iris.seed;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
 
-import edu.iris.seed.io.output.StringBuilderOutputStream;
 import edu.iris.seed.SeedHeader.Type;
+import edu.iris.seed.io.output.StringBuilderOutputStream;
 import edu.iris.seed.station.B052;
 
 public class SeedOutputStreamTest {

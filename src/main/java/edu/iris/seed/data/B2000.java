@@ -7,7 +7,7 @@ import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
 import edu.iris.seed.SeedException;
 
-public class B2000 extends AbstractDataBlockette {
+public class B2000 extends AbstractDataBlockette<B2000> {
 
 	private class OpaqueDataHeader {
 		String recordType;

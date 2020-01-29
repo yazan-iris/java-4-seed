@@ -8,7 +8,7 @@ import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-public class B062 extends AbstractResponseBlockette {
+public class B062 extends AbstractResponseBlockette<B062> {
 
 	private char transferFunctionType;
 	private char approximationType;

@@ -1,7 +1,5 @@
 package edu.iris.seed.data;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 

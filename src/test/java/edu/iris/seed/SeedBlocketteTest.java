@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import edu.iris.seed.station.B050;
 import edu.iris.seed.station.B053;
 import edu.iris.seed.station.B054;
 

@@ -9,7 +9,7 @@ import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-public class B061 extends AbstractResponseBlockette implements Splittable {
+public class B061 extends AbstractResponseBlockette<B061> implements Splittable {
 
 	private String name;
 	private char symetryCode;

@@ -1,16 +1,14 @@
 package edu.iris.seed;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.File;
 import java.nio.file.Path;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import edu.iris.seed.abbreviation.AbbreviationBlockette;
 import edu.iris.seed.io.SeedFileUtils;
-import edu.iris.seed.station.StationBlockette;
 
 public class SeedVolumeWithBlockette60Test {
 

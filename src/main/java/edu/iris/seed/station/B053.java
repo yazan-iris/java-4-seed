@@ -8,7 +8,7 @@ import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-public class B053 extends AbstractResponseBlockette implements Splittable {
+public class B053 extends AbstractResponseBlockette<B053> implements Splittable {
 
 	private char transferFunctionType;
 	private double normalizationFactor = 1;

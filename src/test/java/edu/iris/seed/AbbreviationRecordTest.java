@@ -1,11 +1,12 @@
 package edu.iris.seed;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
+import edu.iris.seed.SeedHeader.Type;
 import edu.iris.seed.abbreviation.AbbreviationBlockette;
 import edu.iris.seed.record.AbbreviationRecord;
-import edu.iris.seed.SeedHeader.Type;
 
 public class AbbreviationRecordTest {
 

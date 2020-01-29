@@ -4,8 +4,6 @@ import java.io.InputStream;
 
 import org.junit.jupiter.api.Test;
 
-import edu.iris.seed.Blockette;
-import edu.iris.seed.SeedInputStream;
 import edu.iris.seed.io.SeedBlocketteIterator;
 
 public class SeedBlocketteIteratorTest {

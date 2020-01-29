@@ -9,7 +9,7 @@ import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-public class B059 extends SeedBlockette implements StationBlockette {
+public class B059 extends SeedBlockette<B059> implements StationBlockette {
 	private BTime startTime;
 	private BTime endTime;
 	private int lookupKey;

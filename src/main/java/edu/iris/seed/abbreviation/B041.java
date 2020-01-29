@@ -9,7 +9,7 @@ import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 import edu.iris.seed.station.ResponseDictionaryBlockette;
 
-public class B041 extends AbstractAbbreviationBlockette implements AbbreviationBlockette, ResponseDictionaryBlockette {
+public class B041 extends AbstractAbbreviationBlockette<B041> implements AbbreviationBlockette, ResponseDictionaryBlockette {
 
 	private String name;
 	private char symetryCode;

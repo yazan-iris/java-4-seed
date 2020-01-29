@@ -5,7 +5,7 @@ import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
 import edu.iris.seed.SeedException;
 
-public class B310 extends AbstractDataBlockette {
+public class B310 extends AbstractDataBlockette<B310> {
 
 	private BTime beginningOfCalibrationTime;
 	private byte reserved1;
