@@ -119,6 +119,14 @@ public class SeedBlocketteIterator implements Iterator<Blockette>, AutoCloseable
 		cachedBlockette = null;
 		return currentBlockette;
 	}
+	
+	public Blockette peek() {
+		if (!hasNext()) {
+			throw new NoSuchElementException("No more records");
+		}
+		final Blockette currentBlockette = cachedBlockette;
+		return currentBlockette;
+	}
 
 	private Iterator<? extends Blockette> nextBlocketteIterator() throws SeedException, IOException {
 		if (this.sri == null) {
