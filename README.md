@@ -6,7 +6,7 @@ SEED Format Version 2.4, August, 2012.
 File source=new File("");
 File target=new File("");
 try (FileInputStream fileInputStream = new FileInputStream(source);
-    OutputStream fileOutputStream = target == null ? System.out : new FileOutputStream(target)) {
+    OutputStream fileOutputStream = new FileOutputStream(target)) {
 			SeedVolume volume = SeedIOUtils.toSeedVolume(fileInputStream);
 			
 			for(Blockette b:volume.blockettes()) {
@@ -20,7 +20,7 @@ try (FileInputStream fileInputStream = new FileInputStream(source);
 File source = new File("");
 File target = new File("");
 try (FileInputStream fileInputStream = new FileInputStream(source);
-  OutputStream fileOutputStream = target == null ? System.out : new FileOutputStream(target)) {
+  OutputStream fileOutputStream = new FileOutputStream(target)) {
     SeedBlocketteIterator it = SeedIOUtils.toBlocketteIterator(fileInputStream);
     while (it.hasNext()) {
       Blockette b = it.next();
@@ -34,7 +34,7 @@ try (FileInputStream fileInputStream = new FileInputStream(source);
 File source=new File("");
 File target=new File("");
 try (FileInputStream fileInputStream = new FileInputStream(source);
-  OutputStream fileOutputStream = target == null ? System.out : new FileOutputStream(target)) {
+  OutputStream fileOutputStream = new FileOutputStream(target)) {
     List<Timeseries> list = SeedIOUtils.toTimeseries(fileInputStream, false);
 			
 		for(Timeseries ts:list) {
