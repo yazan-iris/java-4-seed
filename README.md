@@ -16,6 +16,19 @@ try (FileInputStream fileInputStream = new FileInputStream(source);
 
 }
 ```
+```java
+File source = new File("");
+File target = new File("");
+try (FileInputStream fileInputStream = new FileInputStream(source);
+  OutputStream fileOutputStream = target == null ? System.out : new FileOutputStream(target)) {
+    SeedBlocketteIterator it = SeedIOUtils.toBlocketteIterator(fileInputStream);
+    while (it.hasNext()) {
+      Blockette b = it.next();
+				// do Something
+      }
+    }
+}
+```
 
 ```java
 File source=new File("");
