@@ -9,7 +9,8 @@ import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 import edu.iris.seed.station.ResponseDictionaryBlockette;
 
-public class B041 extends AbstractAbbreviationBlockette<B041> implements AbbreviationBlockette, ResponseDictionaryBlockette {
+public class B041 extends AbstractAbbreviationBlockette<B041>
+		implements AbbreviationBlockette, ResponseDictionaryBlockette {
 
 	private String name;
 	private char symetryCode;
@@ -19,7 +20,7 @@ public class B041 extends AbstractAbbreviationBlockette<B041> implements Abbrevi
 
 	private List<Double> coefficients = new ArrayList<Double>();
 
-	public B041(String text) {
+	public B041() {
 		super(41, "FIR Dictionary Blockette");
 	}
 
@@ -71,7 +72,10 @@ public class B041 extends AbstractAbbreviationBlockette<B041> implements Abbrevi
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
 
 		builder.append(this.getLookupKey(), 4);
-		builder.append(builder.append(this.name.substring(0, Math.min(this.name.length(), 25))).toString()).append("~");
+		builder.append(this.name.substring(0, Math.min(this.name.length(), 25))).append("~");
+
+		System.out.println(this.name);
+		System.out.println(this.symetryCode);
 		builder.append(this.symetryCode);
 		builder.append(this.getSignalInputUnit(), 3);
 		builder.append(this.getSignalOutputUnit(), 3);
@@ -111,9 +115,14 @@ public class B041 extends AbstractAbbreviationBlockette<B041> implements Abbrevi
 			return new Builder();
 		}
 
-		public B041 build() throws SeedException { 
+		private B041 buildFromValues() throws SeedException {
+			B041 b = new B041();
+			return b;
+		}
+
+		private B041 buildFromBytes() throws SeedException {
 			int offset = 7;
-			B041 b = new B041(new String(bytes));
+			B041 b = new B041();
 
 			b.setLookupKey(SeedStrings.parseInt(bytes, offset, 4));
 			offset = offset + 4;
@@ -142,6 +151,14 @@ public class B041 extends AbstractAbbreviationBlockette<B041> implements Abbrevi
 				offset = offset + 14;
 			}
 			return b;
+		}
+
+		public B041 build() throws SeedException {
+			if (bytes != null) {
+				return buildFromBytes();
+			} else {
+				return buildFromValues();
+			}
 		}
 	}
 }

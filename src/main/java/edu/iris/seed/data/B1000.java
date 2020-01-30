@@ -62,7 +62,7 @@ public class B1000 extends AbstractDataBlockette<B1000> {
 	}
 
 	@Override
-	public byte[] toSeedBytes()throws SeedException{
+	public byte[] toSeedBytes() throws SeedException {
 		SeedByteArrayBuilder builder = new SeedByteArrayBuilder(12).appendU16((short) 1000);
 		this.getNextBlocketteByteNumber();
 		builder.append((byte) this.encodingFormat.getValue());
@@ -79,11 +79,43 @@ public class B1000 extends AbstractDataBlockette<B1000> {
 
 	public static class Builder extends BlocketteBuilder<B1000> {
 
+		private EncodingFormat encodingFormat;
+		private int recordLengthExponent;
+		private ByteOrder byteOrder;
+		private byte reserved;
+
 		public Builder() {
 			super(1000);
 		}
 
-		public B1000 build() throws SeedException { 
+		public static Builder newInstance() {
+			return new Builder();
+		}
+
+		private B1000 buildFromValues() {
+			B1000 b = new B1000();
+
+			if (encodingFormat == null) {
+
+			}
+			b.encodingFormat = encodingFormat;
+
+			if (recordLengthExponent >= 8 && recordLengthExponent <= 256) {
+				b.recordLengthExponent = recordLengthExponent;
+			} else {
+				b.recordLengthExponent = 8;
+			}
+
+			if (byteOrder == null) {
+				b.byteOrder = ByteOrder.BIG_ENDIAN;
+			} else {
+				b.byteOrder = byteOrder;
+			}
+			return b;
+		}
+
+		private B1000 buildFromBytes() throws SeedException {
+			B1000 b = new B1000();
 			if (bytes == null || bytes.length == 0) {
 				throw new IllegalArgumentException("object null|empty");
 			}
@@ -92,7 +124,6 @@ public class B1000 extends AbstractDataBlockette<B1000> {
 				throw new SeedException("Invalid blockette type {}", type);
 			}
 			ByteUtil.readUnsignedShort(bytes, 2, 2);
-			B1000 b = new B1000();
 			b.setNextBlocketteByteNumber(ByteUtil.readUnsignedShort(bytes, 2, 2));
 
 			b.setEncodingFormat(EncodingFormat.valueOf(bytes[4]));
@@ -105,6 +136,30 @@ public class B1000 extends AbstractDataBlockette<B1000> {
 			b.setRecordLengthExponent(bytes[6]);
 			// b.setReserved(bytes[7]);
 			return b;
+		}
+
+		public Builder encodingFormat(EncodingFormat encodingFormat) {
+			this.encodingFormat = encodingFormat;
+			return this;
+		}
+
+		public Builder recordLengthExponent(int recordLengthExponent) {
+			this.recordLengthExponent = recordLengthExponent;
+			return this;
+		}
+
+		public Builder encodingFormat(ByteOrder byteOrder) {
+			this.byteOrder = byteOrder;
+			return this;
+		}
+
+		public B1000 build() throws SeedException {
+			if (bytes != null) {
+				return buildFromBytes();
+			} else {
+				return buildFromValues();
+			}
+
 		}
 	}
 }

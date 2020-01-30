@@ -167,7 +167,6 @@ public abstract class SeedBlockette<T extends Blockette> {
 
 			return b;//method.invoke(clazz.newInstance());
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new SeedException(e);
 		}
 	}
