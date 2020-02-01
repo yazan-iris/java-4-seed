@@ -104,7 +104,7 @@ public class SeedInputStream implements AutoCloseable {
 				bufferedInputStream.reset();
 			}
 		} else {
-			throw new IOException("Error calculation record length!");
+			throw new IOException("Invalid input file \n Error calculation record length!");
 		}
 	}
 
