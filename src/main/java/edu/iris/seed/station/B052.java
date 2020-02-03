@@ -278,25 +278,35 @@ public class B052 extends SeedBlockette<B052>
 
 	@Override
 	public List<StationBlockette> blockettes() {
-		// TODO Auto-generated method stub
-		return null;
+		List<StationBlockette> list = new ArrayList<>();
+		list.addAll(this.b059s);
+		for (Stage s : this.stages.values()) {
+			list.addAll(s.blockettes());
+		}
+		return list;
 	}
 
 	@Override
 	public boolean addAll(Collection<StationBlockette> c) throws SeedException {
-		// TODO Auto-generated method stub
-		return false;
+		int size = size();
+		for (StationBlockette s : c) {
+			add(s);
+		}
+		return size != size();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
+		if (this.b059s.isEmpty()) {
+			return this.stages.isEmpty();
+		}
 		return false;
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
+		this.b059s.clear();
+		this.stages.clear();
 
 	}
 
@@ -321,14 +331,12 @@ public class B052 extends SeedBlockette<B052>
 
 	@Override
 	public ListIterator<StationBlockette> listIterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return blockettes().listIterator();
 	}
 
 	@Override
 	public ListIterator<StationBlockette> listIterator(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return blockettes().listIterator(index);
 	}
 
 	@Override
@@ -576,7 +584,8 @@ public class B052 extends SeedBlockette<B052>
 			}
 		}
 
-		public List<ResponseBlockette> getAll() {
+		@Override
+		public List<ResponseBlockette> blockettes() {
 			List<ResponseBlockette> list = new ArrayList<>();
 			if (b053 != null) {
 				list.add(b053);
@@ -647,46 +656,109 @@ public class B052 extends SeedBlockette<B052>
 			return size;
 		}
 
-		@Override
-		public List<ResponseBlockette> blockettes() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
+		//TODO:check when appending.
 		@Override
 		public boolean addAll(Collection<ResponseBlockette> c) throws SeedException {
-			// TODO Auto-generated method stub
-			return false;
+			int size = size();
+			for (ResponseBlockette r : c) {
+				add(r);
+			}
+			return size != size();
 		}
 
 		@Override
 		public boolean isEmpty() {
-			// TODO Auto-generated method stub
-			return false;
+			if (this.b053 != null) {
+				return false;
+			}
+			if (this.b055 != null) {
+				return false;
+			}
+			if (this.b055 != null) {
+				return false;
+			}
+			if (this.b056 != null) {
+				return false;
+			}
+			if (this.b057 != null) {
+				return false;
+			}
+			if (this.b058 != null) {
+				return false;
+			}
+			if (this.b060 != null) {
+				return false;
+			}
+			if (this.b062 != null) {
+				return false;
+			}
+			return true;
 		}
 
 		@Override
 		public void clear() {
-			// TODO Auto-generated method stub
-
+			this.b053 = null;
+			this.b055 = null;
+			this.b055 = null;
+			this.b056 = null;
+			this.b057 = null;
+			this.b058 = null;
+			this.b060 = null;
+			this.b062 = null;
 		}
 
 		@Override
 		public ResponseBlockette remove(ResponseBlockette responseBlockette) {
-			// TODO Auto-generated method stub
-			return null;
+			if (responseBlockette == null) {
+
+			}
+			int type = responseBlockette.getType();
+			ResponseBlockette r = null;
+			switch (type) {
+			case 53:
+				r = this.b053;
+				this.b053 = null;
+				break;
+			case 54:
+				r = this.b054;
+				this.b054 = null;
+				break;
+			case 55:
+				r = this.b055;
+				this.b055 = null;
+				break;
+			case 56:
+				r = this.b056;
+				this.b056 = null;
+				break;
+			case 57:
+				r = this.b057;
+				this.b057 = null;
+				break;
+			case 58:
+				r = this.b058;
+				this.b058 = null;
+				break;
+			case 61:
+				r = this.b061;
+				this.b061 = null;
+				break;
+			case 62:
+				r = this.b062;
+				this.b062 = null;
+				break;
+			}
+			return r;
 		}
 
 		@Override
 		public ListIterator<ResponseBlockette> listIterator() {
-			// TODO Auto-generated method stub
-			return null;
+			return blockettes().listIterator();
 		}
 
 		@Override
 		public ListIterator<ResponseBlockette> listIterator(int index) {
-			// TODO Auto-generated method stub
-			return null;
+			return blockettes().listIterator(index);
 		}
 	}
 

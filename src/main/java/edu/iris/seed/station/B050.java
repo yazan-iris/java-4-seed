@@ -171,7 +171,7 @@ public class B050 extends SeedBlockette<B050>
 			l.add(b052);
 			l.addAll(b052.getB059s());
 			for (Stage stage : b052.getStages()) {
-				l.addAll(stage.getAll());
+				l.addAll(stage.blockettes());
 			}
 		}
 		return l;
@@ -179,8 +179,11 @@ public class B050 extends SeedBlockette<B050>
 
 	@Override
 	public boolean addAll(Collection<StationBlockette> c) throws SeedException {
-		// TODO Auto-generated method stub
-		return false;
+		int size = size();
+		for (StationBlockette b : c) {
+			add(b);
+		}
+		return size != size();
 	}
 
 	@Override
@@ -195,13 +198,17 @@ public class B050 extends SeedBlockette<B050>
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
+		if (this.b051s.isEmpty()) {
+			return this.b052s.isEmpty();
+		}
 		return false;
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
+		this.b051s.clear();
+		this.b052s.clear();
+		this.b052 = null;
 
 	}
 
@@ -235,14 +242,12 @@ public class B050 extends SeedBlockette<B050>
 
 	@Override
 	public ListIterator<StationBlockette> listIterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.blockettes().listIterator();
 	}
 
 	@Override
 	public ListIterator<StationBlockette> listIterator(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.blockettes().listIterator(index);
 	}
 
 	public String toSeedString() throws SeedException {
@@ -268,7 +273,6 @@ public class B050 extends SeedBlockette<B050>
 		builder.replace(3, 7, builder.length(), "####");
 		return builder.toString();
 	}
-
 
 	public BlocketteBuilder<B050> builder() {
 		return new Builder();
@@ -381,9 +385,8 @@ public class B050 extends SeedBlockette<B050>
 		}
 	}
 
-
 	public StationBlockette add(StationBlockette blockette) throws SeedException {
-		
+
 		if (blockette instanceof B051) {
 			if (log.isDebugEnabled()) {
 				log.debug("Adding {} to B050", blockette.getType());
@@ -420,22 +423,6 @@ public class B050 extends SeedBlockette<B050>
 	public List<B052> getB052s() {
 		return b052s;
 	}
-
-
-	/*
-	 * @Override public TypeIdentifier getTypeIdentifier() { return
-	 * TypeIdentifier.S; }
-	 * 
-	 * @Override public int writeTo(OutputStream outputStream, int recordLength, int
-	 * sequence) throws SeedException, IOException { SeedOutputStream stream = new
-	 * SeedOutputStream(outputStream, recordLength, sequence, getTypeIdentifier());
-	 * stream.write(this); stream.write(this.b051s);
-	 * 
-	 * for (B052 b : this.b052s) { stream.write(b); stream.write(b.getB059s()); for
-	 * (Stage s : b.getStages()) { for (Response r : s.getAll()) { if (r instanceof
-	 * Splittable) { stream.write(((Splittable) r).split()); } else {
-	 * stream.write(r); } } } } return stream.flush(); }
-	 */
 
 	@Override
 	public int compareTo(B050 o) {

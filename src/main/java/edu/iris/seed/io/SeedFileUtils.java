@@ -32,6 +32,7 @@ public class SeedFileUtils {
 	public static String abbreviationRecordToString(final File file, int recordLength)
 			throws SeedException, IOException {
 		checkFile(file);
+		
 		try (InputStream inputStream = new FileInputStream(file);) {
 			AbbreviationRecord v = SeedIOUtils.toAbbreviationRecord(inputStream);
 			StringBuilderOutputStream outputStream = new StringBuilderOutputStream();
