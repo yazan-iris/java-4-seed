@@ -18,7 +18,7 @@ public interface SeedContainer<E extends SeedObject> {
 
 	void clear();
 
-	public E remove(int index);
+	public E remove(E e);
 
 	public ListIterator<E> listIterator();
 

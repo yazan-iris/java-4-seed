@@ -12,7 +12,7 @@ import edu.iris.seed.data.EncodingFormat;
  * @version 1.0.5
  */
 
-public class DecompressedData {
+public class DecompressedSeries {
 
 	private EncodingFormat encodingFormat;
 	private int size;
@@ -23,7 +23,7 @@ public class DecompressedData {
 	private float min;
 	private float max;
 
-	private DecompressedData(EncodingFormat encodingFormat, float[] floats) {
+	private DecompressedSeries(EncodingFormat encodingFormat, float[] floats) {
 		this.encodingFormat = encodingFormat;
 		this.floats = floats;
 
@@ -52,7 +52,7 @@ public class DecompressedData {
 	}
 
 
-	public static DecompressedData of(EncodingFormat encodingFormat, byte[] b, int numSamples, boolean reduce,
+	public static DecompressedSeries of(EncodingFormat encodingFormat, byte[] b, int numSamples, boolean reduce,
 			boolean swapBytes) throws CodecException {
 		int offset = 0;
 		float min = Integer.MAX_VALUE;
@@ -189,10 +189,10 @@ public class DecompressedData {
 			throw new UnsupportedCompressionType(
 					"EncodingFormat " + encodingFormat + " is not supported at this time.");
 		} // end of switch ()
-		DecompressedData dData = null;
+		DecompressedSeries dData = null;
 		if (reduce) {
 			float[] reducedArray = ramerDouglasPeuckerFunction(array, 0, array.length - 1, 1);
-			dData = new DecompressedData(encodingFormat, reducedArray);
+			dData = new DecompressedSeries(encodingFormat, reducedArray);
 			for (float num : array) {
 				if (num < min) {
 					min = num;
@@ -202,7 +202,7 @@ public class DecompressedData {
 				}
 			}
 		} else {
-			dData = new DecompressedData(encodingFormat, array);
+			dData = new DecompressedSeries(encodingFormat, array);
 		}
 		dData.min = min;
 		dData.max = max;

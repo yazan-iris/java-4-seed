@@ -10,7 +10,7 @@ public abstract class AbstractDataBlockette<T extends DataBlockette> extends See
 	 * the beginning of the logical record — including the fixed section of the data
 	 * header; use 0 if no more blockettes will follow.)
 	 */
-	private int nextBlocketteByteNumber;
+	protected int nextBlocketteByteNumber;
 
 	private DataBlockette nextBlockette;
 

@@ -71,6 +71,61 @@ public abstract class SeedBlockette<T extends Blockette> {
 		return title;
 	}
 
+	public static final Map<Integer, Class<? extends BlocketteBuilder<? extends ControlBlockette>>> controlBlocketteBuilders = new HashMap<Integer, Class<? extends BlocketteBuilder<? extends ControlBlockette>>>();
+	static {
+		controlBlocketteBuilders.put(new Integer(5), B005.Builder.class);
+		controlBlocketteBuilders.put(new Integer(8), B008.Builder.class);
+		controlBlocketteBuilders.put(new Integer(10), B010.Builder.class);
+		controlBlocketteBuilders.put(new Integer(11), B011.Builder.class);
+		controlBlocketteBuilders.put(new Integer(12), B012.Builder.class);
+		controlBlocketteBuilders.put(new Integer(30), B030.Builder.class);
+		controlBlocketteBuilders.put(new Integer(31), B031.Builder.class);
+		controlBlocketteBuilders.put(new Integer(32), B032.Builder.class);
+		controlBlocketteBuilders.put(new Integer(33), B033.Builder.class);
+		controlBlocketteBuilders.put(new Integer(34), B034.Builder.class);
+		controlBlocketteBuilders.put(new Integer(35), B035.Builder.class);
+		controlBlocketteBuilders.put(new Integer(41), B041.Builder.class);
+		controlBlocketteBuilders.put(new Integer(42), B042.Builder.class);
+		controlBlocketteBuilders.put(new Integer(43), B043.Builder.class);
+		controlBlocketteBuilders.put(new Integer(44), B044.Builder.class);
+		controlBlocketteBuilders.put(new Integer(45), B045.Builder.class);
+		controlBlocketteBuilders.put(new Integer(46), B046.Builder.class);
+		controlBlocketteBuilders.put(new Integer(47), B047.Builder.class);
+		controlBlocketteBuilders.put(new Integer(48), B048.Builder.class);
+		controlBlocketteBuilders.put(new Integer(49), B049.Builder.class);
+		controlBlocketteBuilders.put(new Integer(50), B050.Builder.class);
+		controlBlocketteBuilders.put(new Integer(51), B051.Builder.class);
+		controlBlocketteBuilders.put(new Integer(52), B052.Builder.class);
+		controlBlocketteBuilders.put(new Integer(53), B053.Builder.class);
+		controlBlocketteBuilders.put(new Integer(54), B054.Builder.class);
+		controlBlocketteBuilders.put(new Integer(55), B055.Builder.class);
+		controlBlocketteBuilders.put(new Integer(57), B057.Builder.class);
+		controlBlocketteBuilders.put(new Integer(58), B058.Builder.class);
+		controlBlocketteBuilders.put(new Integer(59), B059.Builder.class);
+		controlBlocketteBuilders.put(new Integer(60), B060.Builder.class);
+		controlBlocketteBuilders.put(new Integer(61), B061.Builder.class);
+		controlBlocketteBuilders.put(new Integer(62), B062.Builder.class);
+	}
+
+	public static final Map<Integer, Class<? extends BlocketteBuilder<? extends DataBlockette>>> dataBlocketteBuilders = new HashMap<Integer, Class<? extends BlocketteBuilder<? extends DataBlockette>>>();
+	static {
+		dataBlocketteBuilders.put(new Integer(100), B100.Builder.class);
+		dataBlocketteBuilders.put(new Integer(200), B200.Builder.class);
+		dataBlocketteBuilders.put(new Integer(201), B201.Builder.class);
+		dataBlocketteBuilders.put(new Integer(202), B202.Builder.class);
+		dataBlocketteBuilders.put(new Integer(300), B300.Builder.class);
+		dataBlocketteBuilders.put(new Integer(310), B310.Builder.class);
+		dataBlocketteBuilders.put(new Integer(320), B320.Builder.class);
+		dataBlocketteBuilders.put(new Integer(390), B390.Builder.class);
+		dataBlocketteBuilders.put(new Integer(395), B395.Builder.class);
+		dataBlocketteBuilders.put(new Integer(400), B400.Builder.class);
+		dataBlocketteBuilders.put(new Integer(405), B405.Builder.class);
+		dataBlocketteBuilders.put(new Integer(500), B500.Builder.class);
+
+		dataBlocketteBuilders.put(new Integer(1000), B1000.Builder.class);
+		dataBlocketteBuilders.put(new Integer(1001), B1001.Builder.class);
+		dataBlocketteBuilders.put(new Integer(2000), B2000.Builder.class);
+	}
 	public static final Map<Integer, Class<? extends Blockette>> controlMap = new HashMap<Integer, Class<? extends Blockette>>();
 	static {
 		controlMap.put(new Integer(5), B005.class);
@@ -155,19 +210,35 @@ public abstract class SeedBlockette<T extends Blockette> {
 
 	public abstract BlocketteBuilder<T> builder();
 
-	public static <T extends Blockette> BlocketteBuilder<T> builder(int type) throws SeedException {
-		Class<? extends Blockette> clazz = controlMap.get(type);
-
-		if (clazz == null) {
-			throw new SeedException("Invalid blockette type [{}] ", type);
+	public static <T> BlocketteBuilder<? extends Blockette> builder(int type) throws SeedException {
+		if(type<100) {
+			return controlBlocketteBuilder(type);
+		}else {
+			return datBlocketteBuilder(type);
 		}
+	}
+	public static <T> BlocketteBuilder<? extends ControlBlockette> controlBlocketteBuilder(int type) throws SeedException {
 		try {
-			Method method = clazz.getMethod("builder");
-			BlocketteBuilder<T> b = (BlocketteBuilder<T>) method.invoke(clazz.newInstance());
-
-			return b;//method.invoke(clazz.newInstance());
-		} catch (Exception e) {
+			return controlBlocketteBuilders.get(type).newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
 			throw new SeedException(e);
 		}
 	}
+
+	public static BlocketteBuilder<? extends DataBlockette> datBlocketteBuilder(int type) throws SeedException {
+		try {
+			return dataBlocketteBuilders.get(type).newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			throw new SeedException(e);
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "SeedBlockette [type=" + type + ", title=" + title + ", getType()=" + getType() + ", getTitle()="
+				+ getTitle()
+				+ "]";
+	}
+	
+	
 }

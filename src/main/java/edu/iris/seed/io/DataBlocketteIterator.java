@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.iris.seed.Blockette;
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.BlocketteDefinition;
 import edu.iris.seed.DataBlockette;
@@ -23,7 +24,6 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 
 	private int index;
 	private int beginingOfData;
-	private int numberOfSamples;
 	private byte[] bytes;
 
 	public DataBlocketteIterator(byte[] bytes) throws SeedException {
@@ -39,7 +39,6 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 
 		SeedDataHeader header = SeedDataHeader.Builder.newInstance().bytes(bytes).build();
 		beginingOfData = header.getBeginingOfData();
-		numberOfSamples = header.getNumberOfSamples();
 		cachedBlockette = header;
 		index = cachedBlockette.getNextBlocketteByteNumber();
 	}
@@ -130,7 +129,11 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 		if (length + index <= bytes.length) {
 			byte[] b = new byte[length];
 			System.arraycopy(bytes, index, b, 0, length);
-			BlocketteBuilder<DataBlockette> builder = SeedBlockette.builder(type);
+			
+
+			BlocketteBuilder<? extends DataBlockette> builder = SeedBlockette.datBlocketteBuilder(type);
+			Blockette blockette = builder.fromBytes(b).build();
+			//BlocketteBuilder<DataBlockette> builder = SeedBlockette.builder(type);
 			DataBlockette db = builder.fromBytes(b).build();
 			index = db.getNextBlocketteByteNumber();
 			return db;

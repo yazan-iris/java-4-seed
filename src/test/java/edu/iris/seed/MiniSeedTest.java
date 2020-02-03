@@ -17,7 +17,7 @@ public class MiniSeedTest {
 				.toSeedVolume(new File(getClass().getClassLoader().getResource("mseed/ADK.IU.2020.001").getFile()));
 
 		for (Record<? extends Blockette> r : v.records()) {
-			System.out.println(r.getHeader().toString());
+			//System.out.println(r.getHeader().toString());
 		}
 	}
 }

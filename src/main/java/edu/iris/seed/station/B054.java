@@ -7,8 +7,10 @@ import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
+import lombok.extern.slf4j.Slf4j;
 
-public class B054 extends AbstractResponseBlockette<B054> implements Splittable {
+@Slf4j
+public class B054 extends AbstractResponseBlockette<B054> implements Splittable, Appendable<B054> {
 
 	private char responseType;
 	private List<Number> numerators = new ArrayList<Number>();
@@ -60,7 +62,17 @@ public class B054 extends AbstractResponseBlockette<B054> implements Splittable 
 	}
 
 	@Override
-	public List<B054> split() throws SeedException {
+	public B054 append(B054 b054) {
+		if (log.isDebugEnabled()) {
+			log.debug("Appending {}", b054.getType());
+		}
+		this.denominators.addAll(b054.getDenominators());
+		this.numerators.addAll(b054.getNumerators());
+		return this;
+	}
+
+	@Override
+	public List<B054> split() {
 		List<B054> list = new ArrayList<>();
 		if (shouldSplit(this)) {
 			B054 b = null;
@@ -135,7 +147,7 @@ public class B054 extends AbstractResponseBlockette<B054> implements Splittable 
 			return new Builder();
 		}
 
-		public B054 build() throws SeedException { 
+		public B054 build() throws SeedException {
 			int offset = 7;
 			B054 b = new B054();
 

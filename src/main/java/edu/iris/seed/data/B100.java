@@ -3,6 +3,7 @@ package edu.iris.seed.data;
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedByteArrayBuilder;
 import edu.iris.seed.SeedException;
+import lombok.Setter;
 
 public class B100 extends AbstractDataBlockette<B100> {
 

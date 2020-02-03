@@ -14,8 +14,10 @@ import edu.iris.seed.SeedHeader.Type;
 import edu.iris.seed.SeedOutputStream;
 import edu.iris.seed.SeedRecord;
 import edu.iris.seed.abbreviation.AbbreviationBlockette;
-import edu.iris.seed.io.BlocketteIterator;
+import edu.iris.seed.io.ControlBlocketteIterator;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 
 	private Map<Integer, Dictionary> dictionaries = new HashMap<>();
@@ -50,21 +52,18 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 		}
 		return null;
 	}
-/*
-	public AbbreviationBlockette get(int type, int lookup) {
-		int bType = type;
-		if (bType > 40 && bType < 50) {
-			bType = 60;
-		}
-
-		Dictionary d = dictionaries.get(bType);
-		if (d == null || d.isEmpty()) {
-			return null;
-		}
-		return d.get(lookup);
-	}*/
+	/*
+	 * public AbbreviationBlockette get(int type, int lookup) { int bType = type; if
+	 * (bType > 40 && bType < 50) { bType = 60; }
+	 * 
+	 * Dictionary d = dictionaries.get(bType); if (d == null || d.isEmpty()) {
+	 * return null; } return d.get(lookup); }
+	 */
 
 	public AbbreviationBlockette add(AbbreviationBlockette a) throws SeedException {
+		if (log.isDebugEnabled()) {
+			log.debug("Adding {} to abbreviation record.", a.getType());
+		}
 		int type = a.getType();
 		Dictionary d = null;
 		if (type > 40 && type < 50) {
@@ -182,7 +181,7 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 
 		public AbbreviationRecord build() throws SeedException {
 			AbbreviationRecord record = new AbbreviationRecord(SeedControlHeader.Builder.newInstance(bytes).build());
-			BlocketteIterator<AbbreviationBlockette> it = new BlocketteIterator<AbbreviationBlockette>(8, bytes);
+			ControlBlocketteIterator<AbbreviationBlockette> it = new ControlBlocketteIterator<AbbreviationBlockette>(8, bytes);
 			while (it.hasNext()) {
 				AbbreviationBlockette b = it.next();
 				record.add(b);
@@ -202,19 +201,34 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 		}
 
 		AbbreviationBlockette add(AbbreviationBlockette b) throws SeedException {
-			if (map.containsValue(b)) {
-				for (AbbreviationBlockette ab : map.values()) {
-					if (ab.equals(b)) {
-						return ab;
-					}
+			if (b == null) {
+				return null;
+			}
+			int lookup = b.getLookupKey();
+			if (lookup > 0) {
+				if (lookup > counter.max) {
+					throw new SeedException("Assigned lookup {} is larger than the maximum [{}] allowed by Seed, ",
+							lookup, counter.max);
 				}
-			} else {
-				if (b.getLookupKey() == 0) {
-					int lookup = counter.increment();
+				if (map.get(lookup) != null) {
+					throw new SeedException("Cannot add dictionary blockette with lookup {}, it already exist.",
+							lookup);
+				}
+			}
+			if (map.containsValue(b)) {
+				if(lookup==0) {
+					lookup = counter.increment();
+					b.setLookupKey(lookup);
+					return b;
+				}else {
+					//not sure what to do here
+					map.put(b.getLookupKey(), b);
+				}
+			}else {
+				if(lookup==0) {
+					lookup = counter.increment();
 					b.setLookupKey(lookup);
 				}
-				// int lookup = counter.increment();
-				// b.setLookupKey(lookup);
 				map.put(b.getLookupKey(), b);
 			}
 			return b;

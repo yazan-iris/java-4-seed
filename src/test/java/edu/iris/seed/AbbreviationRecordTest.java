@@ -28,9 +28,35 @@ public class AbbreviationRecordTest {
 				.fromString("03100860183SEdit configuration (channel epoch) VS 30 changed. Old value: , new val~000")
 				.build());
 		r.add((AbbreviationBlockette) SeedBlockette.builder(31)
+				.fromString("03100860184SEdit configuration (channel epoch) VS 30 changed. Old value: , new val~000")
+				.build());
+		r.add((AbbreviationBlockette) SeedBlockette.builder(31).fromString("03100390185SINSTALL NEW INSTRUMENTS~000")
+				.build());
+
+		assertEquals(6, r.blockettes().size());
+
+	}
+	@Test
+	public void lookup0() throws Exception {
+		AbbreviationRecord r = new AbbreviationRecord();
+		assertEquals(Type.A, r.getType());
+
+		r.add((AbbreviationBlockette) SeedBlockette.builder(31)
+				.fromString("03100860180SEdit configuration (channel epoch) Geologic site class code changed. O~000")
+				.build());
+		r.add((AbbreviationBlockette) SeedBlockette.builder(31)
+				.fromString("03100860181SEdit configuration (channel epoch) Physical condition code changed. Ol~000")
+				.build());
+		r.add((AbbreviationBlockette) SeedBlockette.builder(31)
+				.fromString("03100860182SEdit configuration (channel epoch) Station housing code changed. Old v~000")
+				.build());
+		r.add((AbbreviationBlockette) SeedBlockette.builder(31)
 				.fromString("03100860183SEdit configuration (channel epoch) VS 30 changed. Old value: , new val~000")
 				.build());
-		r.add((AbbreviationBlockette) SeedBlockette.builder(31).fromString("03100390184SINSTALL NEW INSTRUMENTS~000")
+		r.add((AbbreviationBlockette) SeedBlockette.builder(31)
+				.fromString("03100860000SEdit configuration (channel epoch) VS 30 changed. Old value: , new val~000")
+				.build());
+		r.add((AbbreviationBlockette) SeedBlockette.builder(31).fromString("03100390185SINSTALL NEW INSTRUMENTS~000")
 				.build());
 
 		assertEquals(5, r.blockettes().size());

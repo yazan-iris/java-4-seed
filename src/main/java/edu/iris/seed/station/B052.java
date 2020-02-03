@@ -2,19 +2,25 @@ package edu.iris.seed.station;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.TreeMap;
 
 import edu.iris.seed.BTime;
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedBlockette;
+import edu.iris.seed.SeedContainer;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
+import lombok.extern.slf4j.Slf4j;
 
-public class B052 extends SeedBlockette<B052> implements StationBlockette, Comparable<B052> {
+@Slf4j
+public class B052 extends SeedBlockette<B052>
+		implements StationBlockette, SeedContainer<StationBlockette>, Comparable<B052> {
 
 	private String locationCode;
 
@@ -237,23 +243,29 @@ public class B052 extends SeedBlockette<B052> implements StationBlockette, Compa
 		return b059s;
 	}
 
-	public void add(B059 b059) {
-		this.b059s.add(b059);
+	@Override
+	public StationBlockette add(StationBlockette b) throws SeedException {
+		if (log.isDebugEnabled()) {
+			log.debug("Adding {} to B052", b.getType());
+		}
+		if (b instanceof B059) {
+			this.b059s.add((B059) b);
+			return b;
+		} else {
+			ResponseBlockette blockette = (ResponseBlockette) b;
+			int sequence = blockette.getStageNumber();
+			Stage stage = this.stages.get(sequence);
+
+			if (stage == null) {
+				stage = new Stage(sequence);
+				this.stages.put(sequence, stage);
+			}
+			return stage.add(blockette);
+		}
 	}
 
 	public void addAll(List<B059> b059s) {
 		this.b059s.addAll(b059s);
-	}
-
-	public void add(ResponseBlockette blockette) throws SeedException {
-		int sequence = blockette.getStageNumber();
-		Stage stage = this.stages.get(sequence);
-
-		if (stage == null) {
-			stage = new Stage(sequence);
-			this.stages.put(sequence, stage);
-		}
-		stage.add(blockette);
 	}
 
 	public Stage getStage(int sequence) {
@@ -262,6 +274,70 @@ public class B052 extends SeedBlockette<B052> implements StationBlockette, Compa
 
 	public List<Stage> getStages() {
 		return new ArrayList<>(this.stages.values());
+	}
+
+	@Override
+	public List<StationBlockette> blockettes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean addAll(Collection<StationBlockette> c) throws SeedException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public StationBlockette remove(StationBlockette e) {
+		if (e instanceof B059) {
+			if (this.b059s.remove(e)) {
+				return e;
+			} else {
+				return null;
+			}
+		}
+		ResponseBlockette b = (ResponseBlockette) e;
+
+		Stage stage = this.stages.get(b.getStageNumber());
+		if (stage == null) {
+			return null;
+		}
+
+		return stage.remove(b);
+	}
+
+	@Override
+	public ListIterator<StationBlockette> listIterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ListIterator<StationBlockette> listIterator(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int size() {
+		int size = this.b059s.size();
+		for (Stage s : this.stages.values()) {
+			size += s.size();
+		}
+		return size;
 	}
 
 	@Override
@@ -308,19 +384,6 @@ public class B052 extends SeedBlockette<B052> implements StationBlockette, Compa
 		return builder.toString();
 	}
 
-	@Override
-	public String toString() {
-		return "B052 [locationCode=" + locationCode + ", channelCode=" + channelCode + ", subChannelCode="
-				+ subChannelCode + ", instrumentIdentifier=" + instrumentIdentifier + ", optionalComment="
-				+ optionalComment + ", unitsOfSignalResponse=" + unitsOfSignalResponse + ", unitsOfCalibrationInput="
-				+ unitsOfCalibrationInput + ", latitude=" + latitude + ", longitude=" + longitude + ", elevation="
-				+ elevation + ", localDepth=" + localDepth + ", azimuth=" + azimuth + ", dip=" + dip
-				+ ", dataFormatIdentifier=" + dataFormatIdentifier + ", dataRecordLength=" + dataRecordLength
-				+ ", sampleRate=" + sampleRate + ", maxClockDrift=" + maxClockDrift + ", numberOfComments="
-				+ numberOfComments + ", channelFlags=" + channelFlags + ", startTime=" + startTime + ", endTime="
-				+ endTime + ", updateFlag=" + updateFlag + "]";
-	}
-
 	public BlocketteBuilder<B052> builder() {
 		return new Builder();
 	}
@@ -336,7 +399,7 @@ public class B052 extends SeedBlockette<B052> implements StationBlockette, Compa
 			return new Builder();
 		}
 
-		public B052 build() throws SeedException { 
+		public B052 build() throws SeedException {
 			String dataToParse = new String(bytes);
 			int offset = 7;
 			B052 b = new B052(dataToParse);
@@ -453,7 +516,7 @@ public class B052 extends SeedBlockette<B052> implements StationBlockette, Compa
 				.thenComparing(B052::getStartTime).thenComparing(B052::getEndTime).compare(this, o);
 	}
 
-	public class Stage {
+	public class Stage implements SeedContainer<ResponseBlockette> {
 		int number;
 		B053 b053;
 		B054 b054;
@@ -469,41 +532,45 @@ public class B052 extends SeedBlockette<B052> implements StationBlockette, Compa
 			this.number = number;
 		}
 
-		void add(ResponseBlockette blockette) throws SeedException {
+		@Override
+		public ResponseBlockette add(ResponseBlockette blockette) throws SeedException {
 			int sequence = ((ResponseBlockette) blockette).getStageNumber();
 			if (sequence != this.number) {
 				throw new SeedException("Blockette stage number[{}] does not match this stage sequence number [{}]",
 						sequence, number);
 			}
 			int type = blockette.getType();
+			if (sequence == 0 && (type != 58 && type != 62 && type != 60)) {
+				throw new SeedException("Blockette {} is not allowed in stage 0", type);
+			}
 			switch (type) {
 			case 53:
-				this.b053 = (B053) blockette;
-				break;
+				this.b053 = this.b053 == null ? (B053) blockette : this.b053.append((B053) blockette);
+				return this.b053;
 			case 54:
-				this.b054 = (B054) blockette;
-				break;
+				this.b054 = this.b054 == null ? (B054) blockette : this.b054.append((B054) blockette);
+				return this.b054;
 			case 55:
 				this.b055 = (B055) blockette;
-				break;
+				return this.b055;
 			case 56:
 				this.b056 = (B056) blockette;
-				break;
+				return this.b055;
 			case 57:
 				this.b057 = (B057) blockette;
-				break;
+				return this.b057;
 			case 58:
 				this.b058 = (B058) blockette;
-				break;
+				return this.b058;
 			case 60:
 				this.b060 = (B060) blockette;
-				break;
+				return this.b060;
 			case 61:
-				this.b061 = (B061) blockette;
-				break;
+				this.b061 = this.b061 == null ? (B061) blockette : this.b061.append((B061) blockette);
+				return this.b061;
 			case 62:
-				this.b062 = (B062) blockette;
-				break;
+				this.b062 = this.b062 == null ? (B062) blockette : this.b062.append((B062) blockette);
+				return this.b062;
 			default:
 				throw new SeedException("Unkown reponse type {}, stage[{}]", type, number);
 			}
@@ -544,6 +611,82 @@ public class B052 extends SeedBlockette<B052> implements StationBlockette, Compa
 
 		public int getNumber() {
 			return this.number;
+		}
+
+		@Override
+		public int size() {
+			int size = 0;
+			if (this.b053 != null) {
+				size++;
+			}
+			if (this.b054 != null) {
+				size++;
+			}
+			if (this.b055 != null) {
+				size++;
+			}
+			if (this.b056 != null) {
+				size++;
+			}
+			if (this.b057 != null) {
+				size++;
+			}
+			if (this.b058 != null) {
+				size++;
+			}
+			if (this.b060 != null) {
+				size++;
+			}
+			if (this.b061 != null) {
+				size++;
+			}
+			if (this.b062 != null) {
+				size++;
+			}
+
+			return size;
+		}
+
+		@Override
+		public List<ResponseBlockette> blockettes() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean addAll(Collection<ResponseBlockette> c) throws SeedException {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean isEmpty() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public void clear() {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public ResponseBlockette remove(ResponseBlockette responseBlockette) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public ListIterator<ResponseBlockette> listIterator() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public ListIterator<ResponseBlockette> listIterator(int index) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 

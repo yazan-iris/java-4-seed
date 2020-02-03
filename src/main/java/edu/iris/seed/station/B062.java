@@ -7,8 +7,9 @@ import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
-
-public class B062 extends AbstractResponseBlockette<B062> {
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
+public class B062 extends AbstractResponseBlockette<B062> implements Splittable, Appendable<B062> {
 
 	private char transferFunctionType;
 	private char approximationType;
@@ -108,6 +109,50 @@ public class B062 extends AbstractResponseBlockette<B062> {
 	}
 
 	@Override
+	public B062 append(B062 b062) {
+		if (log.isDebugEnabled()) {
+			log.debug("Appending {}", b062.getType());
+		}
+		this.getCoefficients().addAll(b062.getCoefficients());
+		return this;
+	}
+
+	@Override
+	public List<B062> split() {
+		List<B062> list = new ArrayList<>();
+		if (shouldSplit()) {
+
+			B062 b062 = null;
+			int i = 0;
+			for (; i < this.coefficients.size(); i++) {
+				if (i % 207 == 0) {
+					b062 = new B062();
+					b062.approximationType = this.approximationType;
+					b062.frequencyUnit = this.frequencyUnit;
+					b062.lowerBoundOfApproximation = this.lowerBoundOfApproximation;
+					b062.lowerValidFrequencyBound = this.lowerValidFrequencyBound;
+					b062.transferFunctionType = this.transferFunctionType;
+					b062.upperBoundOfApproximation = this.upperBoundOfApproximation;
+					b062.upperValidFrequencyBound = this.upperValidFrequencyBound;
+					list.add(b062);
+				}
+				b062.add(this.coefficients.get(i));
+			}
+		} else {
+			list.add(this);
+		}
+		return list;
+	}
+
+	private boolean shouldSplit() {
+
+		if (this.getCoefficients().size() > 999 || (81 + (24 * (this.getCoefficients().size())) > 9999)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public String toSeedString() {
 
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
@@ -155,7 +200,7 @@ public class B062 extends AbstractResponseBlockette<B062> {
 			return new Builder();
 		}
 
-		public B062 build() throws SeedException { 
+		public B062 build() throws SeedException {
 			if (bytes == null || bytes.length == 0) {
 				throw new IllegalArgumentException("object null|empty");
 			}

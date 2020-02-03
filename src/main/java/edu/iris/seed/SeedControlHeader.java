@@ -25,6 +25,11 @@ public class SeedControlHeader implements SeedHeader {
 		return continuation;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("%06d%c%c", sequence++, type.valueAsChar(), continuation ? '*' : ' ');
+	}
+
 	public static class Builder {
 
 		private int sequence;

@@ -15,13 +15,18 @@ public class SeedVolumeWithBlockette60Test {
 	@Test
 	void writeItemsToFile(@TempDir Path tempDir) throws Exception {
 
-		int numberOfBlockettes = 30;
+		int numberOfBlockettes = 32;
 		int numberOfRecords = 3;
 
 		SeedVolume v = SeedFileUtils.toSeedVolume(
 				new File(getClass().getClassLoader().getResource("AI.dataless_arc.BELA.fromORFEUS").getFile()));
 
 		int size = 0;
+		for(Blockette b:v.blockettes()) {
+			System.out.println("+++"+b.toString());
+		}
+		assertEquals(2,v.getIdentifierRecord().size());
+		assertEquals(20,v.getAbbreviationRecord().size());
 		assertEquals(numberOfBlockettes, v.size());
 		Path path = tempDir.resolve("test1.seed");
 		SeedFileUtils.writeSeed(path.toFile(), v, 256);

@@ -8,8 +8,9 @@ import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
-
-public class B061 extends AbstractResponseBlockette<B061> implements Splittable {
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
+public class B061 extends AbstractResponseBlockette<B061> implements Splittable,Appendable<B061> {
 
 	private String name;
 	private char symetryCode;
@@ -62,7 +63,16 @@ public class B061 extends AbstractResponseBlockette<B061> implements Splittable 
 	}
 
 	@Override
-	public List<B061> split() throws SeedException {
+	public B061 append(B061 b061) {
+		if (log.isDebugEnabled()) {
+			log.debug("Appending {}", b061.getType());
+		}
+		this.getCoefficients().addAll(b061.getCoefficients());
+		return this;
+	}
+	
+	@Override
+	public List<B061> split() {
 
 		List<B061> list = new ArrayList<>();
 		if (shouldSplit(this)) {
@@ -132,7 +142,7 @@ public class B061 extends AbstractResponseBlockette<B061> implements Splittable 
 			return new Builder();
 		}
 
-		public B061 build() throws SeedException { 
+		public B061 build() throws SeedException {
 			int offset = 7;
 			B061 b = new B061();
 
@@ -159,7 +169,13 @@ public class B061 extends AbstractResponseBlockette<B061> implements Splittable 
 			offset = offset + 4;
 
 			for (i = 0; i < numberOfCoefficients; i++) {
-				b.addCoefficient(SeedStrings.parseDouble(bytes, offset, 14));
+				if (offset + 14 > bytes.length) {
+					throw new SeedException(
+							"Unexpected end of array, array seems to be short.  Reading coefficients {} out of {}", i,
+							numberOfCoefficients);
+				}
+				double coef = SeedStrings.parseDouble(bytes, offset, 14);
+				b.addCoefficient(coef);
 				offset = offset + 14;
 			}
 			return b;

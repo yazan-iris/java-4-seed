@@ -17,7 +17,7 @@ public interface Record<T extends Blockette> extends SeedObject {
 
 	public SeedHeader getHeader();
 
-	public byte[] getBytes();
+	//public byte[] getBytes();
 	
 	public List<T> blockettes();
 	

@@ -17,7 +17,9 @@ import edu.iris.seed.abbreviation.AbbreviationBlockette;
 import edu.iris.seed.record.AbbreviationRecord;
 import edu.iris.seed.record.DataRecord;
 import edu.iris.seedcodec.CodecException;
+import edu.iris.seedcodec.UnsupportedCompressionType;
 import edu.iris.timeseries.Timeseries;
+import edu.iris.timeseries.TimeseriesBufferedImage;
 
 public class SeedIOUtils {
 
@@ -31,7 +33,8 @@ public class SeedIOUtils {
 
 		try (SeedBlocketteIterator it = toBlocketteIterator(inputStream);) {
 			while (it.hasNext()) {
-				volume.add(it.next());
+				Blockette b = it.next();
+				volume.add(b);
 			}
 		}
 		return volume;
@@ -48,31 +51,71 @@ public class SeedIOUtils {
 				Blockette b = it.next();
 				if (b instanceof SeedDataHeader) {
 					SeedDataHeader header = (SeedDataHeader) b;
-					String key = header.getNetwork() + header.getStation() + header.getLocation() + header.getChannel();
-					Timeseries ts = map.get(key);
-					
-					if (ts == null) {
-						ts = Timeseries.from(header.getNetwork(), header.getStation(), header.getLocation(),
-								header.getChannel());
-						map.put(key, ts);
-					}else {
-						if(dataRecord!=null) {
-							ts.add(dataRecord, reduce);
+					if (dataRecord != null) {
+						String key = header.getNetwork() + header.getStation() + header.getLocation()
+								+ header.getChannel();
+						Timeseries ts = map.get(key);
+						if (ts == null) {
+							ts = Timeseries.from(header.getNetwork(), header.getStation(), header.getLocation(),
+									header.getChannel());
+							map.put(key, ts);
 						}
+						ts.add(dataRecord, reduce);
 					}
 					dataRecord = DataRecord.Builder.newInstance().header(header).build();
 				} else if (b instanceof DataBlockette) {
 					dataRecord.add((DataBlockette) b);
 				}
 			}
-			if(dataRecord!=null) {
+			if (dataRecord != null) {
 				SeedDataHeader header = (SeedDataHeader) dataRecord.getHeader();
 				String key = header.getNetwork() + header.getStation() + header.getLocation() + header.getChannel();
 				Timeseries ts = map.get(key);
-				
 				if (ts == null) {
 					ts = Timeseries.from(header.getNetwork(), header.getStation(), header.getLocation(),
 							header.getChannel());
+				}
+				ts.add(dataRecord, reduce);
+			}
+			return new ArrayList<>(map.values());
+		} catch (CodecException e) {
+			throw new SeedException(e);
+		}
+	}
+
+	public static List<TimeseriesBufferedImage> toTimeseriesBufferedImage(final InputStream inputStream, boolean reduce,
+			int width, int height) throws SeedException, IOException {
+		Map<String, TimeseriesBufferedImage> map = new HashMap<>();
+
+		try (SeedBlocketteIterator it = toBlocketteIterator(inputStream);) {
+			DataRecord dataRecord = null;
+			while (it.hasNext()) {
+				Blockette b = it.next();
+				if (b instanceof SeedDataHeader) {
+					SeedDataHeader header = (SeedDataHeader) b;
+					if (dataRecord != null) {
+						String key = header.getNetwork() + header.getStation() + header.getLocation()
+								+ header.getChannel();
+						TimeseriesBufferedImage ts = map.get(key);
+						if (ts == null) {
+							ts = TimeseriesBufferedImage.Builder.newInstance(header.getNetwork(), header.getStation(),
+									header.getLocation(), header.getChannel()).width(width).height(height).build();
+							map.put(key, ts);
+						}
+						ts.add(dataRecord, reduce);
+					}
+					dataRecord = DataRecord.Builder.newInstance().header(header).build();
+				} else if (b instanceof DataBlockette) {
+					dataRecord.add((DataBlockette) b);
+				}
+			}
+			if (dataRecord != null) {
+				SeedDataHeader header = (SeedDataHeader) dataRecord.getHeader();
+				String key = header.getNetwork() + header.getStation() + header.getLocation() + header.getChannel();
+				TimeseriesBufferedImage ts = map.get(key);
+				if (ts == null) {
+					ts = TimeseriesBufferedImage.Builder.newInstance(header.getNetwork(), header.getStation(),
+							header.getLocation(), header.getChannel()).width(width).height(height).build();
 					map.put(key, ts);
 				}
 				ts.add(dataRecord, reduce);
@@ -87,16 +130,13 @@ public class SeedIOUtils {
 		return new SeedBlocketteIterator(new SeedInputStream(inputStream));
 	}
 
-	public static AbbreviationRecord toAbbreviationRecord(final InputStream inputStream)
+	public static DataRecordIterator toDataRecordIterator(final InputStream inputStream)
 			throws SeedException, IOException {
-		return toAbbreviationRecord(inputStream, false);
+		return new DataRecordIterator(inputStream);
 	}
 
-	public static AbbreviationRecord toAbbreviationRecord(final InputStream inputStream, boolean relax)
-			throws SeedException, IOException
-
-	{
-
+	public static AbbreviationRecord toAbbreviationRecord(final InputStream inputStream)
+			throws SeedException, IOException {
 		AbbreviationRecord r = new AbbreviationRecord();
 
 		try (SeedBlocketteIterator it = new SeedBlocketteIterator(new SeedInputStream(inputStream));) {

@@ -16,16 +16,17 @@ import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedHeader.Type;
 import edu.iris.seed.SeedOutputStream;
 import edu.iris.seed.SeedRecord;
-import edu.iris.seed.io.BlocketteIterator;
+import edu.iris.seed.io.ControlBlocketteIterator;
 import edu.iris.seed.station.B050;
+import edu.iris.seed.station.B052;
 import edu.iris.seed.station.StationBlockette;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class StationRecord extends SeedRecord<StationBlockette> {
 
 	private static final Logger logger = LoggerFactory.getLogger(StationRecord.class);
 	private B050 b050;
-
-	private int size;
 
 	public StationRecord() {
 		this(1, false);
@@ -42,15 +43,16 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 	public StationBlockette add(StationBlockette t) throws SeedException {
 		if (t instanceof B050) {
 			if (this.b050 == null) {
+				if (log.isDebugEnabled()) {
+					log.debug("Setting b050 {}", t.toSeedString());
+				}
 				this.b050 = (B050) t;
-				size++;
 			}
 		} else {
 			if (this.b050 == null) {
 
 			} else {
 				this.b050.add(t);
-				size++;
 			}
 		}
 		return t;
@@ -67,13 +69,12 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 			return Collections.emptyList();
 		}
 		blockettes.add(this.b050);
-		blockettes.addAll(this.b050.getAll());
+		blockettes.addAll(this.b050.blockettes());
 		return blockettes;
 	}
 
 	public void clear() {
 		this.b050 = null;
-		this.size = 0;
 	}
 
 	public List<StationBlockette> get(int type) {
@@ -105,6 +106,15 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 
 	@Override
 	public int size() {
+		if (this.b050 == null) {
+			return 0;
+		}
+		int size = 1;
+		size += this.b050.getB051s().size();
+		size += this.b050.getB052s().size();
+		for (B052 b052 : this.b050.getB052s()) {
+			size += b052.size();
+		}
 		return size;
 	}
 
@@ -142,7 +152,7 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 			if (header.isContinuation()) {
 
 			}
-			BlocketteIterator<StationBlockette> it = new BlocketteIterator<StationBlockette>(8, bytes);
+			ControlBlocketteIterator<StationBlockette> it = new ControlBlocketteIterator<StationBlockette>(8, bytes);
 			while (it.hasNext()) {
 				StationBlockette b = it.next();
 				record.add(b);

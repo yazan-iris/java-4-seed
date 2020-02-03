@@ -161,13 +161,13 @@ public class SeedBlocketteIterator implements Iterator<Blockette>, AutoCloseable
 
 		switch (type) {
 		case 'V':
-			return new BlocketteIterator<IdentifierBlockette>(index, bytes);
+			return new ControlBlocketteIterator<IdentifierBlockette>(index, bytes);
 		case 'A':
-			return new BlocketteIterator<AbbreviationBlockette>(index, bytes);
+			return new ControlBlocketteIterator<AbbreviationBlockette>(index, bytes);
 		case 'S':
-			return new BlocketteIterator<StationBlockette>(index, bytes);
+			return new ControlBlocketteIterator<StationBlockette>(index, bytes);
 		case 'T':
-			return new BlocketteIterator<TimeSpanBlockette>(index, bytes);
+			return new ControlBlocketteIterator<TimeSpanBlockette>(index, bytes);
 		case 'D':
 		case 'R':
 		case 'M':

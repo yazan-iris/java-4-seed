@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import edu.iris.seed.data.EncodingFormat;
+import edu.iris.seed.record.DecompressedDataRecord;
 
 public class Segment implements Serializable, Comparable<Segment> {
 

@@ -22,37 +22,20 @@ public class B1001 extends AbstractDataBlockette<B1001> {
 		return positionOfNextBlockette;
 	}
 
-	public void setPositionOfNextBlockette(long positionOfNextBlockette) {
-		this.positionOfNextBlockette = positionOfNextBlockette;
-	}
-
 	public int getTimingQuality() {
 		return timingQuality;
-	}
-
-	public void setTimingQuality(int timingQuality) {
-		this.timingQuality = timingQuality;
 	}
 
 	public int getMicroSeconds() {
 		return microSeconds;
 	}
 
-	public void setMicroSeconds(int microSeconds) {
-		this.microSeconds = microSeconds;
-	}
-
 	public int getFrameCount() {
 		return frameCount;
 	}
 
-	public void setFrameCount(int frameCount) {
-		this.frameCount = frameCount;
-	}
-
-
 	@Override
-	public byte[] toSeedBytes()throws SeedException{
+	public byte[] toSeedBytes() throws SeedException {
 		SeedByteArrayBuilder builder = new SeedByteArrayBuilder(12).appendU16((short) 1001);
 		builder.appendU16((this.getNextBlocketteByteNumber()));
 		builder.append((byte) this.timingQuality);
@@ -63,30 +46,57 @@ public class B1001 extends AbstractDataBlockette<B1001> {
 		return builder.toBytes();
 	}
 
-	public static B1001 build(byte[] bytes, boolean swap) throws IOException {
-
-		// validate(bytes, 1001, 8);
-		B1001 b = new B1001();
-		b.setTimingQuality(bytes[4]);
-		b.setMicroSeconds(bytes[5]);
-		b.setFrameCount(bytes[7]);
-		return b;
-	}
-
 	public BlocketteBuilder<B1001> builder() {
 		return new Builder();
 	}
 
 	public static class Builder extends BlocketteBuilder<B1001> {
+		private int timingQuality;
+		private int microSeconds;
+		private byte reserved;
+		private int frameCount;
+
 		public Builder() {
 			super(1001);
+		}
+
+		public Builder timingQuality(int timingQuality) {
+			this.timingQuality = timingQuality;
+			return this;
+		}
+
+		public Builder microSeconds(int microSeconds) {
+			this.microSeconds = microSeconds;
+			return this;
+		}
+
+		public Builder frameCount(int frameCount) {
+			this.frameCount = frameCount;
+			return this;
 		}
 
 		public static Builder newInstance() {
 			return new Builder();
 		}
 
-		public B1001 build() throws SeedException { 
+		public B1001 build() throws SeedException {
+			if (bytes != null) {
+				return buildFromBytes();
+			} else {
+				return buildFromValues();
+			}
+
+		}
+
+		private B1001 buildFromValues() throws SeedException {
+			B1001 b = new B1001();
+			b.frameCount = frameCount;
+			b.microSeconds = microSeconds;
+			b.timingQuality = timingQuality;
+			return b;
+		}
+
+		private B1001 buildFromBytes() throws SeedException {
 			if (bytes == null || bytes.length == 0) {
 				throw new IllegalArgumentException("object null|empty");
 			}
@@ -95,10 +105,10 @@ public class B1001 extends AbstractDataBlockette<B1001> {
 				throw new SeedException("Invalid blockette type {}", type);
 			}
 			B1001 b = new B1001();
-			b.setTimingQuality(bytes[4]);
-			b.setMicroSeconds(bytes[5]);
-			b.setFrameCount(bytes[7]);
-			b.setNextBlocketteByteNumber(ByteUtil.readUnsignedShort(bytes, 2, 2));
+			b.timingQuality = bytes[4];
+			b.microSeconds = bytes[5];
+			b.frameCount = bytes[7];
+			b.nextBlocketteByteNumber = ByteUtil.readUnsignedShort(bytes, 2, 2);
 			return b;
 		}
 	}

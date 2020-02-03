@@ -14,7 +14,11 @@ import edu.iris.seed.SeedDataOutputStream;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedRecord;
 import edu.iris.seed.data.DataSection;
+import edu.iris.seed.io.DataBlocketteIterator;
+import edu.iris.seedcodec.CodecException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class DataRecord extends SeedRecord<DataBlockette> {
 
 	private Map<Integer, DataBlockette> map = new TreeMap<>();
@@ -30,6 +34,9 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 	public DataBlockette add(DataBlockette t) throws SeedException {
 		if (t == null) {
 
+		}
+		if(log.isDebugEnabled()) {
+			log.debug("Adding {} to data record.",t.getType());
 		}
 		if (t instanceof DataSection) {
 			DataSection ds = (DataSection) t;
@@ -62,6 +69,13 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 
 	public void setData(byte[] data) {
 		this.data = data;
+	}
+
+	public DecompressedDataRecord decompress(boolean reduce) throws CodecException {
+		return DecompressedDataRecord.decompress(this, reduce);
+
+		// return DecompressedData.of(b1000.getEncodingFormat(), getData(),
+		// numberOfSamples, reduce, false);
 	}
 
 	@Override
@@ -115,15 +129,23 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 			return this;
 		}
 
-		public Builder header(SeedDataHeader header) throws SeedException {
-			this.header = header;
+		public Builder header(SeedDataHeader db) throws SeedException {
+			this.header = db;
 			return this;
 		}
 
 		public DataRecord build() throws SeedException {
 			DataRecord record = null;
 			if (bytes != null) {
-				record = new DataRecord(SeedDataHeader.Builder.newInstance().bytes(bytes).build());
+				DataBlocketteIterator it = new DataBlocketteIterator(48, bytes);
+				while (it.hasNext()) {
+					DataBlockette db = it.next();
+					if (db instanceof SeedDataHeader) {
+						record = DataRecord.Builder.newInstance().header((SeedDataHeader) db).build();
+					} else {
+						record.add(db);
+					}
+				}
 			} else if (header != null) {
 				record = new DataRecord(header);
 			} else {

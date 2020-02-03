@@ -18,7 +18,7 @@ public class B100Test {
 		float f = 33.333f;
 
 		B100 b = B100.Builder.newInstance(33.333f).build();
-
+	
 		b = B100.Builder.newInstance().fromBytes(b.toSeedBytes()).build();
 
 		bb = ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN);

@@ -6,23 +6,22 @@ import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.iris.seed.Blockette;
 import edu.iris.seed.BlocketteBuilder;
-import edu.iris.seed.DataBlockette;
+import edu.iris.seed.ControlBlockette;
 import edu.iris.seed.IncompleteBlockette;
 import edu.iris.seed.SeedBlockette;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.lang.SeedStrings;
 
-public class BlocketteIterator<T extends Blockette> implements Iterator<T> {
-	private static final Logger logger = LoggerFactory.getLogger(BlocketteIterator.class);
+public class ControlBlocketteIterator<T extends ControlBlockette> implements Iterator<T> {
+	private static final Logger logger = LoggerFactory.getLogger(ControlBlocketteIterator.class);
 	private T cachedBlockette;
 	private boolean finished;
 
 	private int index;
 	private byte[] bytes;
 
-	public BlocketteIterator(int index, byte[] bytes) throws SeedException {
+	public ControlBlocketteIterator(int index, byte[] bytes) throws SeedException {
 		if (bytes.length < 7) {
 			throw new SeedException("byte array is too short, expected at least 7 but received {}", bytes.length);
 		}
@@ -94,16 +93,15 @@ public class BlocketteIterator<T extends Blockette> implements Iterator<T> {
 			byte[] b = new byte[length];
 			System.arraycopy(bytes, index, b, 0, length);
 			index += length;
-			BlocketteBuilder<T> builder = SeedBlockette.builder(type);
-			T blockette = builder.fromBytes(b).build();
-			if (blockette instanceof DataBlockette) {
-
-			}
+			BlocketteBuilder<? extends ControlBlockette> builder = SeedBlockette.controlBlocketteBuilder(type);
+			@SuppressWarnings("unchecked")
+			T blockette = (T) builder.fromBytes(b).build();
 			return blockette;
 		} else {
 			// create incomplete blockette
 			byte[] bb = new byte[bytes.length - index];
 			System.arraycopy(bytes, index, bb, 0, bb.length);
+			@SuppressWarnings("unchecked")
 			T b = (T) new IncompleteBlockette(type, bb, length);
 			index += bb.length;
 			return b;

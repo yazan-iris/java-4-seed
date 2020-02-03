@@ -37,7 +37,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
@@ -56,7 +56,12 @@
 	<dependencies>
 
 
-
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.10</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -81,7 +86,7 @@
 			<version>5.4.2</version>
 			<scope>test</scope>
 		</dependency>
-	<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
+		<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
 		<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-runner</artifactId>

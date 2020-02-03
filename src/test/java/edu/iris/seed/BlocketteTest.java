@@ -43,7 +43,6 @@ public class BlocketteTest {
 
 	@Test
 	public void run() throws Exception {
-
 		for (Entry<Integer, List<String>> e : examplesMap.entrySet()) {
 			List<String> list = e.getValue();
 

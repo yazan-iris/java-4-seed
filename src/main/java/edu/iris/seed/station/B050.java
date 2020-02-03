@@ -2,18 +2,24 @@ package edu.iris.seed.station;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ListIterator;
 
 import edu.iris.seed.BTime;
 import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedBlockette;
+import edu.iris.seed.SeedContainer;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 import edu.iris.seed.station.B052.Stage;
+import lombok.extern.slf4j.Slf4j;
 
-public class B050 extends SeedBlockette<B050> implements StationBlockette, Comparable<B050> {
+@Slf4j
+public class B050 extends SeedBlockette<B050>
+		implements StationBlockette, SeedContainer<StationBlockette>, Comparable<B050> {
 
 	private String stationCode;
 	private double latitude;
@@ -157,6 +163,88 @@ public class B050 extends SeedBlockette<B050> implements StationBlockette, Compa
 		this.networkCode = networkCode;
 	}
 
+	@Override
+	public List<StationBlockette> blockettes() {
+		List<StationBlockette> l = new ArrayList<>();
+		l.addAll(this.b051s);
+		for (B052 b052 : this.b052s) {
+			l.add(b052);
+			l.addAll(b052.getB059s());
+			for (Stage stage : b052.getStages()) {
+				l.addAll(stage.getAll());
+			}
+		}
+		return l;
+	}
+
+	@Override
+	public boolean addAll(Collection<StationBlockette> c) throws SeedException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int size() {
+		int size = this.b051s.size() + this.b052s.size();
+
+		for (B052 b : this.b052s) {
+			size += b.size();
+		}
+		return size;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public StationBlockette remove(StationBlockette e) {
+		if (e == null) {
+			return null;
+		}
+		if (e instanceof B051) {
+			if (this.b051s.remove(e)) {
+				return e;
+			} else {
+				return null;
+			}
+		}
+		if (e instanceof B052) {
+			if (this.b052s.remove(e)) {
+				return e;
+			} else {
+				return null;
+			}
+		}
+
+		for (B052 b052 : this.b052s) {
+			if (b052.remove(e) != null) {
+				return e;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public ListIterator<StationBlockette> listIterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ListIterator<StationBlockette> listIterator(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public String toSeedString() throws SeedException {
 		SeedStringBuilder builder = new SeedStringBuilder("0" + this.getType() + "####");
 
@@ -181,14 +269,6 @@ public class B050 extends SeedBlockette<B050> implements StationBlockette, Compa
 		return builder.toString();
 	}
 
-	@Override
-	public String toString() {
-		return "B050 [stationCode=" + stationCode + ", latitude=" + latitude + ", longitude=" + longitude
-				+ ", elevation=" + elevation + ", numberOfChannels=" + numberOfChannels + ", numberOfComments="
-				+ numberOfComments + ", siteName=" + siteName + ", networkIdentifierCode=" + networkIdentifierCode
-				+ ", bit32BitOrder=" + bit32BitOrder + ", bit16BitOrder=" + bit16BitOrder + ", startTime=" + startTime
-				+ ", endTime=" + endTime + ", updateFlag=" + updateFlag + ", networkCode=" + networkCode + "]";
-	}
 
 	public BlocketteBuilder<B050> builder() {
 		return new Builder();
@@ -204,7 +284,7 @@ public class B050 extends SeedBlockette<B050> implements StationBlockette, Compa
 			return new Builder();
 		}
 
-		public B050 build() throws SeedException { 
+		public B050 build() throws SeedException {
 
 			int offset = 7;
 			B050 b = new B050();
@@ -301,31 +381,34 @@ public class B050 extends SeedBlockette<B050> implements StationBlockette, Compa
 		}
 	}
 
-	/*
-	 * public void add(B051 blockette) {
-	 * 
-	 * }
-	 * 
-	 * public void add(B052 blockette) {
-	 * 
-	 * }
-	 */
 
-	public void add(StationBlockette blockette) throws SeedException {
+	public StationBlockette add(StationBlockette blockette) throws SeedException {
+		
 		if (blockette instanceof B051) {
-			this.b051s.add((B051) blockette);
+			if (log.isDebugEnabled()) {
+				log.debug("Adding {} to B050", blockette.getType());
+			}
+			if (this.b051s.add((B051) blockette)) {
+				return blockette;
+			} else {
+				return null;
+			}
 		} else if (blockette instanceof B052) {
-			this.b052s.add((B052) blockette);
-			b052 = (B052) blockette;
+			if (log.isDebugEnabled()) {
+				log.debug("Adding {} to B050", blockette.getType());
+			}
+			B052 b052 = (B052) blockette;
+			if (this.b052s.add(b052)) {
+				this.b052 = b052;
+				return blockette;
+			} else {
+				return null;
+			}
 		} else {
 			if (b052 == null) {
 				throw new SeedException("No blockette of type 52 exist, cannot add {}", blockette.toSeedString());
 			} else {
-				if (blockette instanceof B059) {
-					b052.add((B059) blockette);
-				} else {
-					b052.add((ResponseBlockette) blockette);
-				}
+				return b052.add(blockette);
 			}
 		}
 	}
@@ -338,18 +421,7 @@ public class B050 extends SeedBlockette<B050> implements StationBlockette, Compa
 		return b052s;
 	}
 
-	public List<StationBlockette> getAll() {
-		List<StationBlockette> l = new ArrayList<>();
-		l.addAll(this.b051s);
-		for (B052 b052 : this.b052s) {
-			l.add(b052);
-			l.addAll(b052.getB059s());
-			for (Stage stage : b052.getStages()) {
-				l.addAll(stage.getAll());
-			}
-		}
-		return l;
-	}
+
 	/*
 	 * @Override public TypeIdentifier getTypeIdentifier() { return
 	 * TypeIdentifier.S; }
@@ -371,4 +443,5 @@ public class B050 extends SeedBlockette<B050> implements StationBlockette, Compa
 				.thenComparing(B050::getStartTime)
 				.thenComparing(B050::getEndTime, Comparator.nullsFirst(Comparator.naturalOrder())).compare(this, o);
 	}
+
 }

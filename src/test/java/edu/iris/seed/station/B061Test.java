@@ -2,9 +2,16 @@ package edu.iris.seed.station;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import edu.iris.seed.BlocketteTest;
+import edu.iris.seed.SeedException;
 
 public class B061Test {
 
@@ -46,5 +53,21 @@ public class B061Test {
 		l = b.split();
 		assertEquals(3, l.size());
 	}
+	@Test
+	public void ff() throws Exception {
 
+		try (InputStream stream = BlocketteTest.class.getClassLoader().getResourceAsStream("b061.blockette");
+
+				BufferedReader br = new BufferedReader(new InputStreamReader(stream));) {
+
+			// read until end of file
+			String line;
+			while ((line = br.readLine()) != null) {
+				final byte[] bytes=line.getBytes();
+				Assertions.assertThrows(SeedException.class, () -> {
+					B061.Builder.newInstance().fromBytes(bytes).build();
+				  });
+			}
+		}
+	}
 }

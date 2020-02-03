@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import edu.iris.seed.SeedHeader.Type;
 import edu.iris.seed.SeedDataHeader;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.data.B1000;
 import edu.iris.seed.data.EncodingFormat;
 import edu.iris.seed.record.DataRecord;
+import edu.iris.seed.record.DecompressedDataRecord;
 import edu.iris.seedcodec.CodecException;
+import edu.iris.seedcodec.DecompressedData;
 import edu.iris.seedcodec.UnsupportedCompressionType;
 
 public class Timeseries implements Serializable {
@@ -31,6 +34,7 @@ public class Timeseries implements Serializable {
 
 	private String channel;
 
+	private Type type;
 	private char quality;/* Data quality indicator */
 
 	private EncodingFormat encodingFormat;
@@ -52,7 +56,7 @@ public class Timeseries implements Serializable {
 	public void add(DataRecord dataRecord, boolean reduce)
 			throws UnsupportedCompressionType, CodecException, SeedException {
 		SeedDataHeader dataHeader = (SeedDataHeader) dataRecord.getHeader();
-		char quality = (char)dataHeader.getDataQualityFlag();
+		char quality = (char) dataHeader.getDataQualityFlag();
 		if (this.quality == '\u0000') {
 			this.quality = quality;
 		} else {
@@ -67,13 +71,13 @@ public class Timeseries implements Serializable {
 			this.encodingFormat = type;
 		} else {
 			if (!this.encodingFormat.equals(type)) {
-				throw new UnsupportedCompressionType("Expected " + this.encodingFormat.name() + " but found " + type.name());
+				throw new UnsupportedCompressionType(
+						"Expected " + this.encodingFormat.name() + " but found " + type.name());
 			}
 		}
+		DecompressedDataRecord decompressedDataRecord = dataRecord.decompress(reduce);
 
-		DecompressedDataRecord decompressedDataRecord = DecompressedDataRecord.from(dataRecord, reduce);
-
-		//logger.info("Adding data record: " + reduce);
+		// logger.info("Adding data record: " + reduce);
 		this.totalNumberOfSamples += decompressedDataRecord.getNumberOfSamples();
 		this.actualNumberOfSamples += decompressedDataRecord.getRecord().getData().length;
 		if (min > decompressedDataRecord.getMinumumValue()) {
@@ -88,7 +92,59 @@ public class Timeseries implements Serializable {
 		} else {
 			for (Segment segment : this.segments) {
 				if (!Util.isSampleRateTolerable(segment.getSamplerate(), decompressedDataRecord.getSampleRate())) {
-					//this.createAndAdd(decompressedDataRecord);
+					// this.createAndAdd(decompressedDataRecord);
+					break;
+				} else {
+					int index = segment.add(decompressedDataRecord);
+					if (index > 0) {
+						return;
+					}
+				}
+			}
+			this.createAndAdd(decompressedDataRecord);
+		}
+	}
+	
+	public void add1(DataRecord dataRecord, boolean reduce)
+			throws UnsupportedCompressionType, CodecException, SeedException {
+		SeedDataHeader dataHeader = (SeedDataHeader) dataRecord.getHeader();
+		char quality = (char) dataHeader.getDataQualityFlag();
+		if (this.quality == '\u0000') {
+			this.quality = quality;
+		} else {
+			if (this.quality != quality) {
+				this.quality = 'M';
+			}
+		}
+		B1000 b1000 = (B1000) dataRecord.get(1000);
+		EncodingFormat type = b1000.getEncodingFormat();
+
+		if (this.encodingFormat == null) {
+			this.encodingFormat = type;
+		} else {
+			if (!this.encodingFormat.equals(type)) {
+				throw new UnsupportedCompressionType(
+						"Expected " + this.encodingFormat.name() + " but found " + type.name());
+			}
+		}
+		DecompressedDataRecord decompressedDataRecord = dataRecord.decompress(reduce);
+
+		// logger.info("Adding data record: " + reduce);
+		this.totalNumberOfSamples += decompressedDataRecord.getNumberOfSamples();
+		this.actualNumberOfSamples += decompressedDataRecord.getRecord().getData().length;
+		if (min > decompressedDataRecord.getMinumumValue()) {
+			min = decompressedDataRecord.getMinumumValue();
+		}
+		if (max < decompressedDataRecord.getMaximumValue()) {
+			max = decompressedDataRecord.getMaximumValue();
+		}
+
+		if (this.segments.isEmpty()) {
+			createAndAdd(decompressedDataRecord);
+		} else {
+			for (Segment segment : this.segments) {
+				if (!Util.isSampleRateTolerable(segment.getSamplerate(), decompressedDataRecord.getSampleRate())) {
+					// this.createAndAdd(decompressedDataRecord);
 					break;
 				} else {
 					int index = segment.add(decompressedDataRecord);
@@ -108,6 +164,9 @@ public class Timeseries implements Serializable {
 		this.segments.add(segment);
 	}
 
+	public Type getType() {
+		return this.type;
+	}
 	public long getStartTime() {
 		Segment s = this.segments.get(0);
 		return s.getStartTimeAsLong();

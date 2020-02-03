@@ -1,53 +1,90 @@
 package edu.iris.seed.record;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
 import java.util.TimeZone;
-import java.util.TreeMap;
 
 import edu.iris.seed.BTime;
-import edu.iris.seed.DataBlockette;
 import edu.iris.seed.SeedDataHeader;
-import edu.iris.seed.SeedException;
-import edu.iris.seed.SeedRecord;
 import edu.iris.seed.data.B100;
 import edu.iris.seed.data.B1000;
 import edu.iris.seed.data.B1001;
-import edu.iris.seed.data.DataSection;
 import edu.iris.seed.data.EncodingFormat;
 import edu.iris.seedcodec.CodecException;
 import edu.iris.seedcodec.DecompressedData;
 import edu.iris.timeseries.Util;
 
-public class DecompressedDataRecord extends SeedRecord<DataBlockette> {
+public class DecompressedDataRecord {
 
-	private Map<Integer, DataBlockette> map = new TreeMap<>();
+	// private Map<Integer, DataBlockette> map = new TreeMap<>();
 
-	private DataSection dataSection;
+	private final int numberOfSamples;
+	private final float sampleRate;
+	private final long startTime;
+	private final long endTime;
+	private final long expectedNextSampleTime;
+	private EncodingFormat encodingFormat;
+	private DecompressedData record;
 
-	public DecompressedDataRecord(SeedDataHeader header) {
-		super(header);
+	private DecompressedDataRecord(DecompressedData record, EncodingFormat encodingFormat, int numberOfSamples,
+			float sampleRate, long startTime, long endTime, long expectedNextSampleTime) {
+		this.numberOfSamples = numberOfSamples;
+		this.sampleRate = sampleRate;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.expectedNextSampleTime = expectedNextSampleTime;
+		this.encodingFormat = encodingFormat;
+		this.record = record;
 	}
 
-	public DecompressedData decompress(boolean reduce) throws CodecException {
-		return DecompressedData.of(getEncodingFormat(), dataSection.getData(), getNumberOfSamples(), reduce, false);
+	public static DecompressedDataRecord decompress(DataRecord dataRecord, boolean reduce) throws CodecException {
+
+		SeedDataHeader dataHeader = (SeedDataHeader) dataRecord.getHeader();
+		B100 b100 = (B100) dataRecord.get(100);
+
+		float sampleRate = dataHeader.getSampleRateFactor();
+		if (b100 != null) {
+			sampleRate = b100.getActualSampleRate();
+		}
+
+		int microseconds = 0;
+		B1001 b1001 = (B1001) dataRecord.get(1001);
+		if (b1001 != null) {
+			microseconds = b1001.getMicroSeconds();
+		}
+		long startTime = Util.toLongTime(dataHeader.getStart(), dataHeader.getActivityFlag(),
+				dataHeader.getTimeCorrection(), microseconds);
+
+		double durationinInSeconds = ((dataHeader.getNumberOfSamples() - 1) / (double) sampleRate);
+
+		long endTime = Util.addSecondsToLong(startTime, durationinInSeconds);
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeZone(TimeZone.getTimeZone("UTC"));
+		long durationInMiliSecond = (long) ((dataHeader.getNumberOfSamples() - 1) / sampleRate) * 1000;
+		cal.setTimeInMillis(startTime + durationInMiliSecond);
+
+		double d = (dataHeader.getNumberOfSamples() / sampleRate) * 1000;
+		cal.setTimeInMillis(startTime + (long) d);
+		Timestamp ts = new Timestamp(cal.getTimeInMillis());
+		long expectedNextSampleTime = ts.getTime();
+
+		B1000 b1000 = (B1000) dataRecord.get(1000);
+		if(b1000==null) {
+			System.out.println("::::::::::");
+		}
+		DecompressedData decompressedData = DecompressedData.of(b1000.getEncodingFormat(), dataRecord.getData(),
+				dataHeader.getNumberOfSamples(), reduce, false);
+		return new DecompressedDataRecord(decompressedData, b1000.getEncodingFormat(), dataHeader.getNumberOfSamples(),
+				sampleRate, startTime, endTime, expectedNextSampleTime);
 	}
 
 	public EncodingFormat getEncodingFormat() {
-		B1000 b1000 = (B1000) map.get(1000);
-		if (b1000 == null) {
-
-		}
-		return b1000.getEncodingFormat();
+		return encodingFormat;
 	}
 
 	public int getNumberOfSamples() {
-		SeedDataHeader header = (SeedDataHeader) this.getHeader();
-		return header.getNumberOfSamples();
+		return this.numberOfSamples;
 	}
 
 	public long expectedNextSampleTime() {
@@ -63,13 +100,7 @@ public class DecompressedDataRecord extends SeedRecord<DataBlockette> {
 	}
 
 	public long getStartTime() {
-		int microseconds = 0;
-		B1001 b1001 = (B1001) map.get(1001);
-		if (b1001 != null) {
-			microseconds = b1001.getMicroSeconds();
-		}
-		SeedDataHeader header = (SeedDataHeader) this.getHeader();
-		return computeStartTime(header.getStart(), header.getActivityFlag(), header.getTimeCorrection(), microseconds);
+		return this.startTime;
 	}
 
 	private long computeStartTime(BTime bTime, int activityFlags, int timeCorrection, int microseconds) {
@@ -123,6 +154,10 @@ public class DecompressedDataRecord extends SeedRecord<DataBlockette> {
 		return Util.addSecondsToLong(this.getStartTime(), durationinInSeconds);
 	}
 
+	public long getExpectedNextSampleTime() {
+		return expectedNextSampleTime;
+	}
+
 	private Timestamp roundTime(Timestamp timestamp) {
 
 		int nanos = timestamp.getNanos();
@@ -140,64 +175,19 @@ public class DecompressedDataRecord extends SeedRecord<DataBlockette> {
 		return timestamp;
 	}
 
+	public DecompressedData getRecord() {
+		return record;
+	}
+
 	public float getSampleRate() {
-		B100 b100 = (B100) map.get(100);
-		if (b100 != null) {
-			return b100.getActualSampleRate();
-		}
-		SeedDataHeader header = (SeedDataHeader) this.getHeader();
-		if (header != null) {
-			return header.getSampleRateFactor();
-		}
-		return 0;
+		return this.sampleRate;
 	}
 
-	@Override
-	public List<DataBlockette> blockettes() {
-		// TODO Auto-generated method stub
-		return null;
+	public float getMinumumValue() {
+		return this.record.getMin();
 	}
 
-	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
-
+	public float getMaximumValue() {
+		return this.record.getMax();
 	}
-
-	@Override
-	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public DataBlockette add(DataBlockette t) throws SeedException {
-		if (t == null) {
-
-		}
-		if (t instanceof DataSection) {
-			this.dataSection = (DataSection) t;
-		}
-		int type = t.getType();
-		DataBlockette db = map.get(type);
-		if (db == null) {
-			map.put(type, t);
-		} else {
-
-		}
-		return t;
-	}
-
-	@Override
-	public DataBlockette get(int... type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

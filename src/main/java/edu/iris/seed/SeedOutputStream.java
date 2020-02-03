@@ -7,6 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import edu.iris.seed.SeedHeader.Type;
+import edu.iris.seed.station.ResponseBlockette;
+import edu.iris.seed.station.Splittable;
 
 public class SeedOutputStream {
 	// OutputStream o;
@@ -48,6 +50,15 @@ public class SeedOutputStream {
 			return this;
 		}
 		for (ControlBlockette b : list) {
+			if (b instanceof Splittable) {
+				Splittable splittable = (Splittable) b;
+				List<? extends ResponseBlockette> l = splittable.split();
+				for (ControlBlockette rb : l) {
+					write(rb);
+				}
+			} else {
+
+			}
 			write(b);
 		}
 		return this;

@@ -3,6 +3,8 @@ package edu.iris.timeseries;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.iris.seed.record.DecompressedDataRecord;
+
 public class DataList {
 
 	private long startTime;

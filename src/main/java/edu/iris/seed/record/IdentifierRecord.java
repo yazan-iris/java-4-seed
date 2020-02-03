@@ -17,7 +17,7 @@ import edu.iris.seed.Identifier.B010;
 import edu.iris.seed.Identifier.B011;
 import edu.iris.seed.Identifier.B012;
 import edu.iris.seed.Identifier.IdentifierBlockette;
-import edu.iris.seed.io.BlocketteIterator;
+import edu.iris.seed.io.ControlBlocketteIterator;
 
 public class IdentifierRecord extends SeedRecord<IdentifierBlockette> {
 
@@ -182,7 +182,7 @@ public class IdentifierRecord extends SeedRecord<IdentifierBlockette> {
 		public IdentifierRecord build() throws SeedException { 
 			IdentifierRecord record = new IdentifierRecord(SeedControlHeader.Builder.newInstance(bytes).build());
 
-			BlocketteIterator<IdentifierBlockette> it = new BlocketteIterator<IdentifierBlockette>(8, bytes);
+			ControlBlocketteIterator<IdentifierBlockette> it = new ControlBlocketteIterator<IdentifierBlockette>(8, bytes);
 			while (it.hasNext()) {
 				IdentifierBlockette b = it.next();
 				record.add(b);
