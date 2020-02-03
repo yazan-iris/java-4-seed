@@ -1,5 +1,7 @@
 package edu.iris.seed.record;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -181,7 +183,8 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 
 		public AbbreviationRecord build() throws SeedException {
 			AbbreviationRecord record = new AbbreviationRecord(SeedControlHeader.Builder.newInstance(bytes).build());
-			ControlBlocketteIterator<AbbreviationBlockette> it = new ControlBlocketteIterator<AbbreviationBlockette>(8, bytes);
+			ControlBlocketteIterator<AbbreviationBlockette> it = new ControlBlocketteIterator<AbbreviationBlockette>(8,
+					bytes);
 			while (it.hasNext()) {
 				AbbreviationBlockette b = it.next();
 				record.add(b);
@@ -200,6 +203,15 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 			counter = new Counter(capacity);
 		}
 
+		AbbreviationBlockette findByValue(AbbreviationBlockette b) {
+			for (AbbreviationBlockette a : map.values()) {
+				if (a.equals(b)) {
+					return a;
+				}
+			}
+			return null;
+		}
+
 		AbbreviationBlockette add(AbbreviationBlockette b) throws SeedException {
 			if (b == null) {
 				return null;
@@ -215,21 +227,27 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 							lookup);
 				}
 			}
-			if (map.containsValue(b)) {
-				if(lookup==0) {
-					lookup = counter.increment();
-					b.setLookupKey(lookup);
-					return b;
+
+			if (lookup > 0) {
+				AbbreviationBlockette old=map.get(lookup);
+				if (old != null) {
+					b=old;
 				}else {
-					//not sure what to do here
 					map.put(b.getLookupKey(), b);
 				}
-			}else {
-				if(lookup==0) {
+			} else {
+				AbbreviationBlockette a = findByValue(b);
+				if (a == null) {
 					lookup = counter.increment();
 					b.setLookupKey(lookup);
+					map.put(b.getLookupKey(), b);
+				} else {
+					b=a;
 				}
-				map.put(b.getLookupKey(), b);
+			}
+
+			if (log.isDebugEnabled()) {
+				log.debug("B0{} has been added with lookupKey={}", b.getType(), b.getLookupKey());
 			}
 			return b;
 		}

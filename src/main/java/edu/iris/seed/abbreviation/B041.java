@@ -74,8 +74,6 @@ public class B041 extends AbstractAbbreviationBlockette<B041>
 		builder.append(this.getLookupKey(), 4);
 		builder.append(this.name.substring(0, Math.min(this.name.length(), 25))).append("~");
 
-		System.out.println(this.name);
-		System.out.println(this.symetryCode);
 		builder.append(this.symetryCode);
 		builder.append(this.getSignalInputUnit(), 3);
 		builder.append(this.getSignalOutputUnit(), 3);

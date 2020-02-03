@@ -70,9 +70,6 @@ public class DecompressedDataRecord {
 		long expectedNextSampleTime = ts.getTime();
 
 		B1000 b1000 = (B1000) dataRecord.get(1000);
-		if(b1000==null) {
-			System.out.println("::::::::::");
-		}
 		DecompressedData decompressedData = DecompressedData.of(b1000.getEncodingFormat(), dataRecord.getData(),
 				dataHeader.getNumberOfSamples(), reduce, false);
 		return new DecompressedDataRecord(decompressedData, b1000.getEncodingFormat(), dataHeader.getNumberOfSamples(),

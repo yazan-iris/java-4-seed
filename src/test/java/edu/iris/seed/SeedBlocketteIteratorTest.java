@@ -13,7 +13,6 @@ public class SeedBlocketteIteratorTest {
 		try (InputStream stream = SeedBlocketteIteratorTest.class.getClassLoader()
 				.getResourceAsStream("AU.MILA.dataless.fromHughGlanville.20181018");
 				SeedBlocketteIterator it = new SeedBlocketteIterator(new SeedInputStream(stream));) {
-			System.out.println("//////");
 			while (it.hasNext()) {
 				Blockette b = it.next();
 				if (b instanceof ControlBlockette) {

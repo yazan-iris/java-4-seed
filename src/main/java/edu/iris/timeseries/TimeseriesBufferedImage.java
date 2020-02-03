@@ -76,7 +76,6 @@ public class TimeseriesBufferedImage extends BufferedImage {
 	}
 
 	public Graphics2D paintComponent(int width, int height) {
-		System.out.println("painting1");
 		this.currentTimeAxis = 0;
 
 		Graphics2D g2 = this.createGraphics();
@@ -94,12 +93,10 @@ public class TimeseriesBufferedImage extends BufferedImage {
 	}
 
 	private void paintScale(Graphics2D g2, double scale) {
-		System.out.println("painting2");
 		// g2.drawLine(x1, y1, x2, y2);
 	}
 
 	private void paintYAxis(Graphics2D g2) {
-		System.out.println("painting3");
 		g2.setColor(Color.BLACK);
 		// create hatch marks and grid lines for y axis.
 		for (int i = 0; i < numberYDivisions + 1; i++) {
@@ -132,7 +129,7 @@ public class TimeseriesBufferedImage extends BufferedImage {
 	}
 
 	private void paintData(Graphics2D g2) {
-		System.out.println("painting4");
+
 		Stroke oldStroke = g2.getStroke();
 		g2.setColor(lineColor);
 		// g2.setStroke(GRAPH_STROKE);

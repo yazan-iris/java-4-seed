@@ -22,9 +22,6 @@ public class SeedVolumeWithBlockette60Test {
 				new File(getClass().getClassLoader().getResource("AI.dataless_arc.BELA.fromORFEUS").getFile()));
 
 		int size = 0;
-		for(Blockette b:v.blockettes()) {
-			System.out.println("+++"+b.toString());
-		}
 		assertEquals(2,v.getIdentifierRecord().size());
 		assertEquals(20,v.getAbbreviationRecord().size());
 		assertEquals(numberOfBlockettes, v.size());

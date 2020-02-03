@@ -88,7 +88,7 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 	}
 
 	public int size() {
-		return this.blockettes().size();
+		return this.map.size();
 	}
 
 	@Override

@@ -23,7 +23,6 @@ public class B100Test {
 
 		bb = ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN);
 		byte[] array=bb.putFloat(f).array();
-		System.out.println("//////"+ByteUtil.fourBytesToFloat(array, 0, 4));
 	
 
 	}

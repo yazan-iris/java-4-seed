@@ -42,7 +42,6 @@ public class TimeseriesPlotPanel extends JPanel {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		System.out.println("????????????????????");
 		super.paintComponent(g); 
 		
 		Graphics2D imageG=image.paintComponent(this.getWidth(),this.getHeight());
