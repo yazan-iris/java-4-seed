@@ -4,12 +4,10 @@ import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.DataBufferInt;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferInt;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -18,16 +16,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.junit.jupiter.api.Test;
-
-import edu.iris.seed.io.DataRecordIterator;
 import edu.iris.seed.io.SeedIOUtils;
-import edu.iris.seed.record.DataRecord;
 import edu.iris.seed.record.DecompressedDataRecord;
-import edu.iris.seed.timeseries.TBufferedImage;
-
-import edu.iris.seedcodec.CodecException;
-import edu.iris.seedcodec.DecompressedData;
 import edu.iris.timeseries.Segment;
 import edu.iris.timeseries.Timeseries;
 

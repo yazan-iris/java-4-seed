@@ -1,22 +1,12 @@
 package edu.iris.seed.timeseries;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import edu.iris.seed.io.SeedIOUtils;
 import edu.iris.timeseries.TimeseriesBufferedImage;
