@@ -14,7 +14,6 @@ import edu.iris.seed.station.B050;
 
 public class B011 extends SeedBlockette<B011> implements IdentifierBlockette {
 
-	// private int numberOfStations;
 	private Map<String, Row> rows = new LinkedHashMap<>();
 
 	public B011() {

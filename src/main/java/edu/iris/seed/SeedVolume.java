@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import edu.iris.seed.Identifier.B010;
 import edu.iris.seed.Identifier.B011;
 import edu.iris.seed.Identifier.IdentifierBlockette;
@@ -23,10 +20,10 @@ import edu.iris.seed.record.IdentifierRecord;
 import edu.iris.seed.record.StationRecord;
 import edu.iris.seed.station.B050;
 import edu.iris.seed.station.StationBlockette;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SeedVolume {
-
-	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private IdentifierRecord identifierRecord = new IdentifierRecord();
 	private AbbreviationRecord abbreviationRecord = new AbbreviationRecord();
@@ -49,7 +46,7 @@ public class SeedVolume {
 	public List<StationRecord> getStationRecords() {
 		return this.stationRecords;
 	}
-	
+
 	public List<DataRecord> getDataRecords() {
 		return this.dataRecords;
 	}
@@ -97,7 +94,7 @@ public class SeedVolume {
 			dataRecord = DataRecord.Builder.newInstance().header(header).build();
 			dataRecords.add(dataRecord);
 		} else if (b instanceof DataSection) {
-			((DataRecord) dataRecord).setData(((DataSection) b).getData());
+			dataRecord.setData(((DataSection) b).getData());
 		} else {
 			if (type < 30) {
 				b = identifierRecord.add((IdentifierBlockette) b);
@@ -107,10 +104,10 @@ public class SeedVolume {
 				if (type == 50) {
 					stationRecord = new StationRecord();
 					stationRecords.add(stationRecord);
+					
 				}
 				b = stationRecord.add((StationBlockette) b);
 			} else {
-
 				dataRecord.add((DataBlockette) b);
 			}
 		}
@@ -168,12 +165,11 @@ public class SeedVolume {
 			ByteOrder byteOrder = header.getByteOrder();
 
 			B1000 b1000 = (B1000) r.get(1000);
-			
+
 			b1000.getByteOrder();
-			
-			
+
 			b1000.getEncodingFormat();
-			
+
 		}
 		/*
 		 * if (this.indexRecord != null) { sequence =
