@@ -10,7 +10,6 @@ import edu.iris.seed.SeedStringBuilder;
 
 public class B005 extends SeedBlockette<B005> implements IdentifierBlockette {
 
-	public static final int TYPE = 5;
 	private String version;
 	private int logicalRecordLength;
 	private BTime startTime;
@@ -59,9 +58,6 @@ public class B005 extends SeedBlockette<B005> implements IdentifierBlockette {
 		return builder.toString();
 	}
 
-	public BlocketteBuilder<B005> builder() {
-		return new Builder();
-	}
 
 	public static class Builder extends BlocketteBuilder<B005> {
 
@@ -73,13 +69,13 @@ public class B005 extends SeedBlockette<B005> implements IdentifierBlockette {
 			return new Builder();
 		}
 
-		public B005 build() throws SeedException { 
+		public B005 build() throws SeedException {
 			if (bytes.length < 7) {
 				throw new SeedException("Expected at least 7 bytes but was {}", bytes.length);
 			}
 			int type = Integer.parseInt(new String(bytes, 0, 3));
-			if (type != TYPE) {
-				throw new SeedException("Expected type {} but was {}", TYPE, type);
+			if (type != 5) {
+				throw new SeedException("Expected type {} but was {}", 5, type);
 			}
 			int length = Integer.parseInt(new String(bytes, 3, 4));
 			if (bytes.length < length) {

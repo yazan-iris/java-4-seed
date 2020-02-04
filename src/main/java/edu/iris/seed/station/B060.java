@@ -8,9 +8,9 @@ import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
 
-public class B060 extends AbstractResponseBlockette<B060> {
+public class B060 extends AbstractResponseBlockette<B060> implements Appendable<B060> {
 
-	private List<Stage> stages = new ArrayList<Stage>();
+	private List<Stage> stages = new ArrayList<>();
 
 	public B060() {
 		super(60, "Response Reference Blockette");
@@ -47,22 +47,26 @@ public class B060 extends AbstractResponseBlockette<B060> {
 		return builder.toString();
 	}
 
-	public BlocketteBuilder<B060> builder() {
-		return new Builder();
+	@Override
+	public B060 append(B060 t) {
+		if(t==null) {
+			return null;
+		}
+		this.stages.addAll(t.getStages());
+		return this;
 	}
 
 	public static class Builder extends BlocketteBuilder<B060> {
 
 		public Builder() {
 			super(60);
-			// TODO Auto-generated constructor stub
 		}
 
 		public static Builder newInstance() {
 			return new Builder();
 		}
 
-		public B060 build() throws SeedException { 
+		public B060 build() throws SeedException {
 
 			int offset = 7;
 			B060 b = new B060();
@@ -142,4 +146,5 @@ public class B060 extends AbstractResponseBlockette<B060> {
 		}
 
 	}
+
 }

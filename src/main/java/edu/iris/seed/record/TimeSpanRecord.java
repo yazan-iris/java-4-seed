@@ -3,6 +3,7 @@ package edu.iris.seed.record;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import edu.iris.seed.SeedControlHeader;
@@ -33,8 +34,46 @@ public class TimeSpanRecord extends SeedRecord<TimeSpanBlockette> {
 	}
 
 	@Override
-	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException {
+	public TimeSpanBlockette get(int... type) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TimeSpanBlockette> blockettes() {
+		return blockettes;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return this.blockettes().isEmpty();
+	}
+
+	@Override
+	public int size() {
+		return this.blockettes().size();
+	}
+
+	@Override
+	public void clear() {
+		blockettes.clear();
+
+	}
+
+	@Override
+	public boolean addAll(Collection<TimeSpanBlockette> c) throws SeedException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean remove(TimeSpanBlockette e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException {
 		return 0;
 	}
 
@@ -59,28 +98,4 @@ public class TimeSpanRecord extends SeedRecord<TimeSpanBlockette> {
 		}
 	}
 
-	@Override
-	public TimeSpanBlockette get(int... type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<TimeSpanBlockette> blockettes() {
-		return blockettes;
-	}
-
-	public boolean isEmpty() {
-		return this.blockettes().isEmpty();
-	}
-
-	public int size() {
-		return this.blockettes().size();
-	}
-
-	@Override
-	public void clear() {
-		blockettes.clear();
-
-	}
 }

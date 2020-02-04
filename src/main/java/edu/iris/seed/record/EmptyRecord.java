@@ -2,6 +2,7 @@ package edu.iris.seed.record;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,13 +34,11 @@ public class EmptyRecord extends SeedRecord<Blockette> {
 
 	@Override
 	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public Blockette get(int... type) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -58,7 +57,16 @@ public class EmptyRecord extends SeedRecord<Blockette> {
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean addAll(Collection<Blockette> c) throws SeedException {
+		return false;
+	}
+
+	@Override
+	public boolean remove(Blockette e) {
+		return false;
 	}
 }

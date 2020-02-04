@@ -6,17 +6,15 @@ import edu.iris.seed.BlocketteBuilder;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedStringBuilder;
 import edu.iris.seed.lang.SeedStrings;
+import lombok.Getter;
 
+@Getter
 public class B034 extends AbstractAbbreviationBlockette<B034> implements AbbreviationBlockette {
 
 	private String name;
 	private String description;
 
 	public B034() {
-		this(null);
-	}
-
-	public B034(String text) {
 		super(34, "Units Abbreviations Blockette");
 	}
 
@@ -60,40 +58,64 @@ public class B034 extends AbstractAbbreviationBlockette<B034> implements Abbrevi
 
 	public static class Builder extends BlocketteBuilder<B034> {
 
+		private String name;
+		private String description;
+		private int lookupKey;
+
 		public Builder() {
 			super(34);
-			// TODO Auto-generated constructor stub
 		}
 
 		public static Builder newInstance() {
 			return new Builder();
 		}
 
-		public B034 build() throws SeedException { 
+		public Builder name(String name) {
+			this.name = name;
+			return this;
+		}
 
-			int offset = 7;
-			B034 b = new B034(new String(bytes));
+		public Builder description(String description) {
+			this.description = description;
+			return this;
+		}
 
-			b.setLookupKey(SeedStrings.parseInt(bytes, offset, 3));
-			offset += 3;
-			int i = offset;
-			for (; offset < bytes.length; offset++) {
-				if (bytes[offset] == (byte) '~') {
-					break;
+		public Builder lookupKey(int lookupKey) {
+			this.lookupKey=lookupKey;
+			return this;
+		}
+
+		public B034 build() throws SeedException {
+			B034 b = new B034();
+			if (bytes == null) {
+				b.description = description;
+				b.name = name;
+				b.setLookupKey(lookupKey);
+			} else {
+				int offset = 7;
+
+				b.setLookupKey(SeedStrings.parseInt(bytes, offset, 3));
+				offset += 3;
+				int i = offset;
+				for (; offset < bytes.length; offset++) {
+					if (bytes[offset] == (byte) '~') {
+						break;
+					}
 				}
+
+				b.setName(new String(bytes, i, offset - i));
+				offset++;
+
+				i = offset;
+				for (; offset < bytes.length; offset++) {
+					if (bytes[offset] == (byte) '~') {
+						break;
+					}
+				}
+
+				b.setDescription(new String(bytes, i, offset - i));
 			}
 
-			b.setName(new String(bytes, i, offset - i));
-			offset++;
-
-			i = offset;
-			for (; offset < bytes.length; offset++) {
-				if (bytes[offset] == (byte) '~') {
-					break;
-				}
-			}
-
-			b.setDescription(new String(bytes, i, offset - i));
 			return b;
 		}
 	}

@@ -16,9 +16,12 @@ import edu.iris.seed.SeedDataHeader;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.data.ByteUtil;
 import edu.iris.seed.data.DataSection;
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 public class DataBlocketteIterator implements Iterator<DataBlockette> {
-	private static final Logger logger = LoggerFactory.getLogger(DataBlocketteIterator.class);
+
 	private DataBlockette cachedBlockette;
 	private boolean finished;
 
@@ -89,7 +92,7 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 					"Byte array is too short, expected begining of dat at {} but byte array length is {}",
 					this.beginingOfData, bytes.length);
 		}
-		
+
 		byte[] data = new byte[this.bytes.length - this.beginingOfData];
 		System.arraycopy(this.bytes, this.beginingOfData, data, 0, data.length);
 		DataSection dataSection = new DataSection();
@@ -108,7 +111,7 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 		}
 
 		int recordSize = bytes.length;
-		if (bytes == null || index >= recordSize - 1) {
+		if (index >= recordSize - 1) {
 			return null;
 		}
 		int type = -1;
@@ -118,22 +121,15 @@ public class DataBlocketteIterator implements Iterator<DataBlockette> {
 			return null;
 		}
 		type = ByteUtil.readUnsignedShort(bytes, index, 2);
-		if (!SeedBlockette.controlMap.containsKey(type)) {
-			throw new SeedException("Error looking up blockette of type {} at index {}, invalid blockette type.", type,
-					index);
-		}
-		//logger.info("processing {} {}", type, index);
+
 		BlocketteDefinition def = SeedContext.get().get(type);
 
 		length = def.getMinumumLength();
 		if (length + index <= bytes.length) {
 			byte[] b = new byte[length];
 			System.arraycopy(bytes, index, b, 0, length);
-			
 
 			BlocketteBuilder<? extends DataBlockette> builder = SeedBlockette.datBlocketteBuilder(type);
-			Blockette blockette = builder.fromBytes(b).build();
-			//BlocketteBuilder<DataBlockette> builder = SeedBlockette.builder(type);
 			DataBlockette db = builder.fromBytes(b).build();
 			index = db.getNextBlocketteByteNumber();
 			return db;

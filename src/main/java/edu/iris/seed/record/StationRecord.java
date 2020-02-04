@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -71,6 +72,28 @@ public class StationRecord extends SeedRecord<StationBlockette> {
 		blockettes.add(this.b050);
 		blockettes.addAll(this.b050.blockettes());
 		return blockettes;
+	}
+
+	@Override
+	public boolean addAll(Collection<StationBlockette> c) throws SeedException {
+		int size = size();
+		for (StationBlockette s : c) {
+			add(s);
+		}
+		return size != size();
+	}
+
+	@Override
+	public boolean remove(StationBlockette e) {
+		if (e == null || this.b050 == null) {
+			return false;
+		}
+		int type = e.getType();
+		if (type == 50 && e.equals(this.b050)) {
+			this.b050 = null;
+			return false;
+		}
+		return this.b050.remove(e);
 	}
 
 	public void clear() {

@@ -245,17 +245,17 @@ public class B052 extends SeedBlockette<B052>
 
 	@Override
 	public StationBlockette add(StationBlockette b) throws SeedException {
-		if (log.isDebugEnabled()) {
-			log.debug("Adding {} to B052", b.getType());
-		}
+		
 		if (b instanceof B059) {
+			if (log.isDebugEnabled()) {
+				log.debug("Adding {} to B052", b.getType());
+			}
 			this.b059s.add((B059) b);
 			return b;
 		} else {
 			ResponseBlockette blockette = (ResponseBlockette) b;
 			int sequence = blockette.getStageNumber();
 			Stage stage = this.stages.get(sequence);
-
 			if (stage == null) {
 				stage = new Stage(sequence);
 				this.stages.put(sequence, stage);
@@ -311,32 +311,18 @@ public class B052 extends SeedBlockette<B052>
 	}
 
 	@Override
-	public StationBlockette remove(StationBlockette e) {
+	public boolean remove(StationBlockette e) {
 		if (e instanceof B059) {
-			if (this.b059s.remove(e)) {
-				return e;
-			} else {
-				return null;
-			}
+			return this.b059s.remove(e);
 		}
 		ResponseBlockette b = (ResponseBlockette) e;
 
 		Stage stage = this.stages.get(b.getStageNumber());
 		if (stage == null) {
-			return null;
+			return false;
 		}
 
 		return stage.remove(b);
-	}
-
-	@Override
-	public ListIterator<StationBlockette> listIterator() {
-		return blockettes().listIterator();
-	}
-
-	@Override
-	public ListIterator<StationBlockette> listIterator(int index) {
-		return blockettes().listIterator(index);
 	}
 
 	@Override
@@ -525,16 +511,8 @@ public class B052 extends SeedBlockette<B052>
 	}
 
 	public class Stage implements SeedContainer<ResponseBlockette> {
+		private Map<Integer, ResponseBlockette> map = new TreeMap<>();
 		int number;
-		B053 b053;
-		B054 b054;
-		B055 b055;
-		B056 b056;
-		B057 b057;
-		B058 b058;
-		B060 b060;
-		B061 b061;
-		B062 b062;
 
 		Stage(int number) {
 			this.number = number;
@@ -542,7 +520,10 @@ public class B052 extends SeedBlockette<B052>
 
 		@Override
 		public ResponseBlockette add(ResponseBlockette blockette) throws SeedException {
-			int sequence = ((ResponseBlockette) blockette).getStageNumber();
+			if (log.isDebugEnabled()) {
+				log.debug("Adding {} to stage {}", blockette.getType(), this.number);
+			}
+			int sequence = (blockette).getStageNumber();
 			if (sequence != this.number) {
 				throw new SeedException("Blockette stage number[{}] does not match this stage sequence number [{}]",
 						sequence, number);
@@ -551,71 +532,23 @@ public class B052 extends SeedBlockette<B052>
 			if (sequence == 0 && (type != 58 && type != 62 && type != 60)) {
 				throw new SeedException("Blockette {} is not allowed in stage 0", type);
 			}
-			switch (type) {
-			case 53:
-				this.b053 = this.b053 == null ? (B053) blockette : this.b053.append((B053) blockette);
-				return this.b053;
-			case 54:
-				this.b054 = this.b054 == null ? (B054) blockette : this.b054.append((B054) blockette);
-				return this.b054;
-			case 55:
-				this.b055 = (B055) blockette;
-				return this.b055;
-			case 56:
-				this.b056 = (B056) blockette;
-				return this.b055;
-			case 57:
-				this.b057 = (B057) blockette;
-				return this.b057;
-			case 58:
-				this.b058 = (B058) blockette;
-				return this.b058;
-			case 60:
-				this.b060 = (B060) blockette;
-				return this.b060;
-			case 61:
-				this.b061 = this.b061 == null ? (B061) blockette : this.b061.append((B061) blockette);
-				return this.b061;
-			case 62:
-				this.b062 = this.b062 == null ? (B062) blockette : this.b062.append((B062) blockette);
-				return this.b062;
-			default:
-				throw new SeedException("Unkown reponse type {}, stage[{}]", type, number);
+
+			ResponseBlockette b = this.map.get(type);
+			if (b == null) {
+				map.put(type, blockette);
+				return blockette;
+			} else {
+				if (b instanceof Appendable) {
+					((Appendable) b).append(blockette);
+					return b;
+				}
+				throw new SeedException("Blockette of type {} already exist.", b.getType());
 			}
 		}
 
 		@Override
 		public List<ResponseBlockette> blockettes() {
-			List<ResponseBlockette> list = new ArrayList<>();
-			if (b053 != null) {
-				list.add(b053);
-			}
-
-			if (b054 != null) {
-				list.add(b054);
-			}
-			if (b055 != null) {
-				list.add(b055);
-			}
-			if (b056 != null) {
-				list.add(b056);
-			}
-			if (b057 != null) {
-				list.add(b057);
-			}
-			if (b058 != null) {
-				list.add(b058);
-			}
-			if (b060 != null) {
-				list.add(b060);
-			}
-			if (b061 != null) {
-				list.add(b061);
-			}
-			if (b062 != null) {
-				list.add(b062);
-			}
-			return list;
+			return new ArrayList<>(this.map.values());
 		}
 
 		public int getNumber() {
@@ -624,39 +557,10 @@ public class B052 extends SeedBlockette<B052>
 
 		@Override
 		public int size() {
-			int size = 0;
-			if (this.b053 != null) {
-				size++;
-			}
-			if (this.b054 != null) {
-				size++;
-			}
-			if (this.b055 != null) {
-				size++;
-			}
-			if (this.b056 != null) {
-				size++;
-			}
-			if (this.b057 != null) {
-				size++;
-			}
-			if (this.b058 != null) {
-				size++;
-			}
-			if (this.b060 != null) {
-				size++;
-			}
-			if (this.b061 != null) {
-				size++;
-			}
-			if (this.b062 != null) {
-				size++;
-			}
-
-			return size;
+			return this.map.size();
 		}
 
-		//TODO:check when appending.
+		// TODO:check when appending.
 		@Override
 		public boolean addAll(Collection<ResponseBlockette> c) throws SeedException {
 			int size = size();
@@ -668,98 +572,20 @@ public class B052 extends SeedBlockette<B052>
 
 		@Override
 		public boolean isEmpty() {
-			if (this.b053 != null) {
-				return false;
-			}
-			if (this.b055 != null) {
-				return false;
-			}
-			if (this.b055 != null) {
-				return false;
-			}
-			if (this.b056 != null) {
-				return false;
-			}
-			if (this.b057 != null) {
-				return false;
-			}
-			if (this.b058 != null) {
-				return false;
-			}
-			if (this.b060 != null) {
-				return false;
-			}
-			if (this.b062 != null) {
-				return false;
-			}
-			return true;
+			return this.map.isEmpty();
 		}
 
 		@Override
 		public void clear() {
-			this.b053 = null;
-			this.b055 = null;
-			this.b055 = null;
-			this.b056 = null;
-			this.b057 = null;
-			this.b058 = null;
-			this.b060 = null;
-			this.b062 = null;
+			this.map.clear();
 		}
 
 		@Override
-		public ResponseBlockette remove(ResponseBlockette responseBlockette) {
-			if (responseBlockette == null) {
-
+		public boolean remove(ResponseBlockette r) {
+			if (r == null) {
+				return false;
 			}
-			int type = responseBlockette.getType();
-			ResponseBlockette r = null;
-			switch (type) {
-			case 53:
-				r = this.b053;
-				this.b053 = null;
-				break;
-			case 54:
-				r = this.b054;
-				this.b054 = null;
-				break;
-			case 55:
-				r = this.b055;
-				this.b055 = null;
-				break;
-			case 56:
-				r = this.b056;
-				this.b056 = null;
-				break;
-			case 57:
-				r = this.b057;
-				this.b057 = null;
-				break;
-			case 58:
-				r = this.b058;
-				this.b058 = null;
-				break;
-			case 61:
-				r = this.b061;
-				this.b061 = null;
-				break;
-			case 62:
-				r = this.b062;
-				this.b062 = null;
-				break;
-			}
-			return r;
-		}
-
-		@Override
-		public ListIterator<ResponseBlockette> listIterator() {
-			return blockettes().listIterator();
-		}
-
-		@Override
-		public ListIterator<ResponseBlockette> listIterator(int index) {
-			return blockettes().listIterator(index);
+			return this.map.remove(r.getType(), r);
 		}
 	}
-
 }

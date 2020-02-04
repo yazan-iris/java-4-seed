@@ -3,6 +3,7 @@ package edu.iris.seed.record;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,8 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 public class DataRecord extends SeedRecord<DataBlockette> {
 
 	private Map<Integer, DataBlockette> map = new TreeMap<>();
-	// private List<DataBlockette> blockettes = new ArrayList<>();
-
 	private byte[] data;
 
 	public DataRecord(SeedDataHeader header) {
@@ -33,10 +32,10 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 	@Override
 	public DataBlockette add(DataBlockette t) throws SeedException {
 		if (t == null) {
-
+			return null;
 		}
-		if(log.isDebugEnabled()) {
-			log.debug("Adding {} to data record.",t.getType());
+		if (log.isDebugEnabled()) {
+			log.debug("Adding {} to data record.", t.getType());
 		}
 		if (t instanceof DataSection) {
 			DataSection ds = (DataSection) t;
@@ -73,9 +72,6 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 
 	public DecompressedDataRecord decompress(boolean reduce) throws CodecException {
 		return DecompressedDataRecord.decompress(this, reduce);
-
-		// return DecompressedData.of(b1000.getEncodingFormat(), getData(),
-		// numberOfSamples, reduce, false);
 	}
 
 	@Override
@@ -97,11 +93,22 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 	}
 
 	@Override
-	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException {
+	public boolean addAll(Collection<DataBlockette> c) throws SeedException {
+		int size = map.size();
+		for (DataBlockette d : c) {
+			add(d);
+		}
+		return size != map.size();
+	}
 
-		// SeedContext.get().get(blocketteNumber)
-		// this.
-		// this.getData();
+	@Override
+	public boolean remove(DataBlockette e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException {
 
 		SeedDataOutputStream stream = new SeedDataOutputStream(outputStream, recordLength, sequence, this);
 
@@ -155,5 +162,4 @@ public class DataRecord extends SeedRecord<DataBlockette> {
 		}
 
 	}
-
 }

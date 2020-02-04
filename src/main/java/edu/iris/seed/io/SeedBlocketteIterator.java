@@ -85,8 +85,14 @@ public class SeedBlocketteIterator implements Iterator<Blockette>, AutoCloseable
 								}
 							}
 							try {
-								blockette = SeedBlockette.builder(incompleteBlockette.getType())
-										.fromBytes(incompleteBlockette.getBytes()).build();
+								int type = incompleteBlockette.getType();
+								if (type < 100) {
+									blockette = SeedBlockette.controlBlocketteBuilder(incompleteBlockette.getType())
+											.fromBytes(incompleteBlockette.getBytes()).build();
+								} else {
+									throw new SeedException("Incomplete data blockette {} are not supported.", type);
+								}
+
 							} catch (SeedException e) {
 								throw new RuntimeException(e);
 							}
@@ -119,13 +125,12 @@ public class SeedBlocketteIterator implements Iterator<Blockette>, AutoCloseable
 		cachedBlockette = null;
 		return currentBlockette;
 	}
-	
+
 	public Blockette peek() {
 		if (!hasNext()) {
 			throw new NoSuchElementException("No more records");
 		}
-		final Blockette currentBlockette = cachedBlockette;
-		return currentBlockette;
+		return cachedBlockette;
 	}
 
 	private Iterator<? extends Blockette> nextBlocketteIterator() throws SeedException, IOException {
@@ -161,13 +166,13 @@ public class SeedBlocketteIterator implements Iterator<Blockette>, AutoCloseable
 
 		switch (type) {
 		case 'V':
-			return new ControlBlocketteIterator<IdentifierBlockette>(index, bytes);
+			return new ControlBlocketteIterator<>(index, bytes);
 		case 'A':
-			return new ControlBlocketteIterator<AbbreviationBlockette>(index, bytes);
+			return new ControlBlocketteIterator<>(index, bytes);
 		case 'S':
-			return new ControlBlocketteIterator<StationBlockette>(index, bytes);
+			return new ControlBlocketteIterator<>(index, bytes);
 		case 'T':
-			return new ControlBlocketteIterator<TimeSpanBlockette>(index, bytes);
+			return new ControlBlocketteIterator<>(index, bytes);
 		case 'D':
 		case 'R':
 		case 'M':

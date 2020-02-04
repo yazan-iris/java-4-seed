@@ -47,7 +47,7 @@ public class BlocketteTest {
 			List<String> list = e.getValue();
 
 			for (String expected : list) {
-				Blockette blockette = SeedBlockette.builder(e.getKey()).fromBytes(expected.getBytes()).build();
+				Blockette blockette = SeedBlockette.controlBlocketteBuilder(e.getKey()).fromBytes(expected.getBytes()).build();
 				if (blockette instanceof ControlBlockette) {
 					assertEquals(expected, ((ControlBlockette) blockette).toSeedString());
 				}

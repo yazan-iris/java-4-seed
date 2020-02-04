@@ -1,15 +1,11 @@
 package edu.iris.seed;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import edu.iris.seed.SeedHeader.Type;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public abstract class SeedRecord<T extends Blockette> implements Record<T> {
-	private static final Logger logger = LoggerFactory.getLogger(SeedRecord.class.getName());
-
 	private SeedHeader header;
-	//protected byte[] bytes;
 
 	public SeedRecord(SeedHeader header) {
 		this.header = header;
@@ -27,17 +23,8 @@ public abstract class SeedRecord<T extends Blockette> implements Record<T> {
 		return header.isContinuation();
 	}
 
-	/*void setBytes(byte[] bytes) {
-		this.bytes = bytes;
-	}*/
-
 	@Override
 	public SeedHeader getHeader() {
 		return header;
 	}
-
-	/*public byte[] getBytes() {
-		return bytes;
-	}*/
-
 }

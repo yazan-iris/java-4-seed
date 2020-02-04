@@ -5,27 +5,21 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.TreeMap;
 
 import edu.iris.seed.SeedControlHeader;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.SeedHeader.Type;
 import edu.iris.seed.SeedOutputStream;
 import edu.iris.seed.SeedRecord;
-import edu.iris.seed.Identifier.B005;
-import edu.iris.seed.Identifier.B008;
-import edu.iris.seed.Identifier.B010;
-import edu.iris.seed.Identifier.B011;
-import edu.iris.seed.Identifier.B012;
 import edu.iris.seed.Identifier.IdentifierBlockette;
 import edu.iris.seed.io.ControlBlocketteIterator;
 
 public class IdentifierRecord extends SeedRecord<IdentifierBlockette> {
 
-	private B005 b005;
-	private B008 b008;
-	private B010 b010;
-	private B011 b011 = new B011();
-	private B012 b012;
+	private Map<Integer, IdentifierBlockette> map = new TreeMap<>();
 
 	public IdentifierRecord() {
 		this(1, false);
@@ -39,43 +33,14 @@ public class IdentifierRecord extends SeedRecord<IdentifierBlockette> {
 		super(header);
 	}
 
-	public void setB005(B005 b005) throws SeedException {
-		this.b005 = b005;
-	}
-
-	public void setB008(B008 b008) {
-		this.b008 = b008;
-	}
-
-	public void setB010(B010 b010) {
-		this.b010 = b010;
-	}
-
-	public void setB012(B012 b012) {
-		this.b012 = b012;
-	}
-
-	public B011 getB011() {
-		return this.b011;
-	}
-
+	@Override
 	public IdentifierBlockette add(IdentifierBlockette t) throws SeedException {
-		switch (t.getType()) {
-		case 5:
-			this.b005 = (B005) t;
-			break;
-		case 8:
-			this.b008 = (B008) t;
-			break;
-		case 10:
-			this.b010 = (B010) t;
-			break;
-		case 11:
-			this.b011 = (B011) t;
-			break;
-		case 12:
-			this.b012 = (B012) t;
-			break;
+		int type = t.getType();
+		IdentifierBlockette current = map.get(type);
+		if (current == null) {
+			map.put(type, t);
+		} else {
+			// check if we can append
 		}
 		return t;
 	}
@@ -88,70 +53,34 @@ public class IdentifierRecord extends SeedRecord<IdentifierBlockette> {
 		return size != this.size();
 	}
 
+	@Override
 	public int size() {
-		int size = 0;
-		if (this.b005 != null) {
-			size++;
-		}
-		if (this.b008 != null) {
-			size++;
-		}
-		if (this.b010 != null) {
-			size++;
-		}
-		if (this.b011 != null) {
-			size++;
-		}
-		if (this.b012 != null) {
-			size++;
-		}
-		return size;
+		return map.size();
 	}
 
+	@Override
 	public void clear() {
-		this.b005 = null;
-		this.b008 = null;
-		this.b010 = null;
-		this.b011 = null;
-		this.b012 = null;
+		map.clear();
 
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return map.isEmpty();
+	}
+
+	@Override
+	public boolean remove(IdentifierBlockette i) {
+		return map.remove(i.getType(), i);
 	}
 
 	public List<IdentifierBlockette> blockettes() {
-		List<IdentifierBlockette> list = new ArrayList<>();
-		if (this.b005 != null) {
-			list.add(b005);
-		}
-		if (this.b008 != null) {
-			list.add(b008);
-		}
-		if (this.b010 != null) {
-			list.add(b010);
-		}
-		if (this.b011 != null) {
-			list.add(b011);
-		}
-		if (this.b012 != null) {
-			list.add(b012);
-		}
-		return list;
+		return new ArrayList<>(map.values());
 	}
 
 	public IdentifierBlockette get(int... number) {
-
-		for (int n : number) {
-			switch (n) {
-			case 5:
-				return b005;
-			case 8:
-				return b008;
-			case 10:
-				return b010;
-			case 11:
-				return b011;
-			case 12:
-				return b012;
-			}
+		if (number != null && number.length > 0) {
+			return map.get(number[0]);
 		}
 		return null;
 	}
@@ -179,10 +108,11 @@ public class IdentifierRecord extends SeedRecord<IdentifierBlockette> {
 			return this;
 		}
 
-		public IdentifierRecord build() throws SeedException { 
+		public IdentifierRecord build() throws SeedException {
 			IdentifierRecord record = new IdentifierRecord(SeedControlHeader.Builder.newInstance(bytes).build());
 
-			ControlBlocketteIterator<IdentifierBlockette> it = new ControlBlocketteIterator<IdentifierBlockette>(8, bytes);
+			ControlBlocketteIterator<IdentifierBlockette> it = new ControlBlocketteIterator<>(8,
+					bytes);
 			while (it.hasNext()) {
 				IdentifierBlockette b = it.next();
 				record.add(b);
@@ -190,4 +120,5 @@ public class IdentifierRecord extends SeedRecord<IdentifierBlockette> {
 			return record;
 		}
 	}
+
 }

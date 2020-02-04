@@ -38,37 +38,6 @@ public class SeedVolume {
 	private StationRecord stationRecord;
 	private DataRecord dataRecord;
 
-	// private List<? extends Blockette> blockettes = new ArrayList<>();
-
-	/*
-	 * public SeedVolume() { this("IRIC DMC", "Converted from XML", null, null); }
-	 */
-
-	/*
-	 * public Blockette add(IndexBlockette blockette) throws SeedException { return
-	 * this.indexRecord.add(blockette); }
-	 * 
-	 * public Blockette add(AbbreviationBlockette blockette) throws SeedException {
-	 * return this.abbreviationRecord.add(blockette); }
-	 * 
-	 * public Blockette add(Blockette blockette) throws SeedException { if
-	 * (blockette == null) { throw new NullPointerException(); } int type =
-	 * blockette.getType(); if (blockette instanceof IndexBlockette) { blockette =
-	 * add((IndexBlockette) blockette); } else if (blockette instanceof
-	 * AbbreviationBlockette) { blockette = add((AbbreviationBlockette) blockette);
-	 * } else if (blockette instanceof StationBlockette) { if (type == 50) {
-	 * currentWorkingStationRecord = new StationRecord((B050) blockette);
-	 * stationRecords.add(currentWorkingStationRecord); } else { if
-	 * (currentWorkingStationRecord == null) { throw new SeedException(
-	 * "B050 is required to be present when adding blockette of type {}, but none found!"
-	 * , blockette.getType()); } blockette =
-	 * currentWorkingStationRecord.add((StationBlockette) blockette); } } else if
-	 * (blockette instanceof DataBlockette) {
-	 * 
-	 * } else { throw new SeedException("Unsupported blockette type {}",
-	 * blockette.toSeedString()); } // return blockette; }
-	 */
-
 	public AbbreviationRecord getAbbreviationRecord() {
 		return this.abbreviationRecord;
 	}
@@ -230,7 +199,7 @@ public class SeedVolume {
 			identifierRecord.add(b010);
 		}
 		int recordLength = (int) Math.pow(2, b010.getNthPower());
-		B011 b011 = (B011) identifierRecord.getB011();
+		B011 b011 = (B011) identifierRecord.get(11);
 
 		int sequence = 1;
 

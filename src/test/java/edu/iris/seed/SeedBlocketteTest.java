@@ -31,7 +31,7 @@ public class SeedBlocketteTest {
 		String seedString = new String(
 				"0500142ESCA +43.831000+007.374000+0550.00000000Chapelle Saint Pancrace à l'Escarène~0013210102003,302,12:30:00.0000~2500,365,12:00:00.0000~N");
 		Assertions.assertThrows(SeedException.class, () -> {
-			Blockette b = SeedBlockette.builder(50).fromString(seedString).build();
+			Blockette b = SeedBlockette.controlBlocketteBuilder(50).fromString(seedString).build();
 		});
 
 	}
@@ -42,7 +42,7 @@ public class SeedBlocketteTest {
 				"0500144ESCA +43.831000+007.374000+0550.00000000Chapelle Saint Pancrace à l'Escarène~0013210102003,302,12:30:00.0000~2500,365,12:00:00.0");
 
 		Assertions.assertThrows(SeedException.class, () -> {
-			Blockette b = SeedBlockette.builder(50).fromString(seedString).build();
+			Blockette b = SeedBlockette.controlBlocketteBuilder(50).fromString(seedString).build();
 		});
 	}
 }

@@ -213,41 +213,25 @@ public class B050 extends SeedBlockette<B050>
 	}
 
 	@Override
-	public StationBlockette remove(StationBlockette e) {
+	public boolean remove(StationBlockette e) {
 		if (e == null) {
-			return null;
+			return false;
 		}
 		if (e instanceof B051) {
-			if (this.b051s.remove(e)) {
-				return e;
-			} else {
-				return null;
+			return this.b051s.remove(e);
+		} else if (e instanceof B052) {
+			if (this.b052 != null && this.b052.equals(e)) {
+				this.b052 = null;
 			}
-		}
-		if (e instanceof B052) {
-			if (this.b052s.remove(e)) {
-				return e;
-			} else {
-				return null;
+			return this.b052s.remove(e);
+		} else {
+			for (B052 b : this.b052s) {
+				if (b.remove(e)) {
+					return true;
+				}
 			}
+			return false;
 		}
-
-		for (B052 b052 : this.b052s) {
-			if (b052.remove(e) != null) {
-				return e;
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public ListIterator<StationBlockette> listIterator() {
-		return this.blockettes().listIterator();
-	}
-
-	@Override
-	public ListIterator<StationBlockette> listIterator(int index) {
-		return this.blockettes().listIterator(index);
 	}
 
 	public String toSeedString() throws SeedException {

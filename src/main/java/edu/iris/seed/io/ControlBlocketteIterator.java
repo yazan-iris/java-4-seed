@@ -12,9 +12,10 @@ import edu.iris.seed.IncompleteBlockette;
 import edu.iris.seed.SeedBlockette;
 import edu.iris.seed.SeedException;
 import edu.iris.seed.lang.SeedStrings;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ControlBlocketteIterator<T extends ControlBlockette> implements Iterator<T> {
-	private static final Logger logger = LoggerFactory.getLogger(ControlBlocketteIterator.class);
 	private T cachedBlockette;
 	private boolean finished;
 
@@ -73,7 +74,7 @@ public class ControlBlocketteIterator<T extends ControlBlockette> implements Ite
 		}
 
 		int recordSize = bytes.length;
-		if (bytes == null || index >= recordSize - 1) {
+		if (index >= recordSize - 1) {
 			return null;
 		}
 		int type = -1;
@@ -84,10 +85,6 @@ public class ControlBlocketteIterator<T extends ControlBlockette> implements Ite
 		}
 		type = SeedStrings.parseInt(bytes, index, 3);
 		length = Integer.parseInt(new String(bytes, index + 3, 4).trim());
-
-		if (!SeedBlockette.controlMap.containsKey(type)) {
-			throw new SeedException("Error looking up blockette of type {}, invalid blockette type.", type);
-		}
 
 		if (length + index <= bytes.length) {
 			byte[] b = new byte[length];

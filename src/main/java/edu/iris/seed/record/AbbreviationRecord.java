@@ -1,10 +1,9 @@
 package edu.iris.seed.record;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,13 +53,6 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 		}
 		return null;
 	}
-	/*
-	 * public AbbreviationBlockette get(int type, int lookup) { int bType = type; if
-	 * (bType > 40 && bType < 50) { bType = 60; }
-	 * 
-	 * Dictionary d = dictionaries.get(bType); if (d == null || d.isEmpty()) {
-	 * return null; } return d.get(lookup); }
-	 */
 
 	public AbbreviationBlockette add(AbbreviationBlockette a) throws SeedException {
 		if (log.isDebugEnabled()) {
@@ -85,12 +77,6 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 		return d.add(a);
 	}
 
-	/*
-	 * public boolean addAll(Collection<AbbreviationBlockette> c) throws
-	 * SeedException { int size = size(); for (AbbreviationBlockette a : c) {
-	 * add(a); } return size != size(); }
-	 */
-
 	public AbbreviationBlockette get(int type, int lookup) {
 		int bType = type;
 		if (bType > 40 && bType < 50) {
@@ -112,6 +98,7 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 		return size;
 	}
 
+	@Override
 	public List<AbbreviationBlockette> blockettes() {
 		List<AbbreviationBlockette> list = new ArrayList<>();
 		for (Entry<Integer, Dictionary> e : this.dictionaries.entrySet()) {
@@ -120,44 +107,43 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 		return list;
 	}
 
+	@Override
 	public void clear() {
 		for (Dictionary d : this.dictionaries.values()) {
 			d.clear();
 		}
 	}
 
-	/*
-	 * 
-	 * 
-	 * @Override public AbbreviationBlockette add(AbbreviationBlockette a) throws
-	 * SeedException { int type = a.getType(); Dictionary d = null; if (type > 40 &&
-	 * type < 50) { d = dictionaries.get(60); if (d == null) { d = new
-	 * Dictionary(60, 9999); dictionaries.put(60, d); } } else { d =
-	 * dictionaries.get(a.getType()); if (d == null) { d = new
-	 * Dictionary(a.getType(), 9999); dictionaries.put(a.getType(), d); } }
-	 * 
-	 * return d.add(a); }
-	 * 
-	 * @Override public AbbreviationBlockette get(int... type) { if (type == null ||
-	 * type.length == 0) { return null; } int bType = type[0]; if (bType > 40 &&
-	 * bType < 50) { bType = 60; } Dictionary d = dictionaries.get(bType); if (d ==
-	 * null) { return null; } if (type.length > 1) { return d.get(type[1]); } return
-	 * null; }
-	 * 
-	 * public AbbreviationBlockette get(int type, int lookup) { int bType = type; if
-	 * (bType > 40 && bType < 50) { bType = 60; }
-	 * 
-	 * Dictionary d = dictionaries.get(bType); if (d == null || d.isEmpty()) {
-	 * return null; } return d.get(lookup); }
-	 * 
-	 * public List<AbbreviationBlockette> getAll() { return this.blockettes;
-	 * 
-	 * }
-	 * 
-	 * public boolean isEmpty() { return this.blockettes.isEmpty(); }
-	 * 
-	 * public int size() { return this.blockettes.size(); }
-	 */
+	@Override
+	public boolean addAll(Collection<AbbreviationBlockette> c) throws SeedException {
+		int size = this.dictionaries.size();
+		for (AbbreviationBlockette a : c) {
+			add(a);
+		}
+		return size != this.dictionaries.size();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return dictionaries.isEmpty();
+	}
+
+	@Override
+	public boolean remove(AbbreviationBlockette e) {
+		if (e == null) {
+			return false;
+		}
+		int type = e.getType();
+		if (type > 40 && type < 50) {
+			type = 60;
+		}
+		Dictionary dic = this.dictionaries.get(type);
+		if (dic == null) {
+			return false;
+		}
+		return dic.remove(e);
+	}
+
 	@Override
 	public int writeTo(OutputStream outputStream, int recordLength, int sequence) throws SeedException, IOException {
 		SeedOutputStream stream = new SeedOutputStream(outputStream, recordLength, sequence,
@@ -169,6 +155,9 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 	public static class Builder {
 		private byte[] bytes;
 
+		private int sequence;
+		private boolean continuation;
+
 		private Builder() {
 		}
 
@@ -176,20 +165,35 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 			return new Builder();
 		}
 
-		public Builder fromBytes(byte[] bytes) throws SeedException {
+		Builder sequence(int sequence) {
+			this.sequence = sequence;
+			return this;
+		}
+
+		Builder continuation(boolean continuation) {
+			this.continuation = continuation;
+			return this;
+		}
+
+		public Builder fromBytes(byte[] bytes) {
 			this.bytes = bytes;
 			return this;
 		}
 
 		public AbbreviationRecord build() throws SeedException {
-			AbbreviationRecord record = new AbbreviationRecord(SeedControlHeader.Builder.newInstance(bytes).build());
-			ControlBlocketteIterator<AbbreviationBlockette> it = new ControlBlocketteIterator<AbbreviationBlockette>(8,
-					bytes);
-			while (it.hasNext()) {
-				AbbreviationBlockette b = it.next();
-				record.add(b);
+			if (bytes == null) {
+				return new AbbreviationRecord(sequence, continuation);
+			} else {
+				AbbreviationRecord record = new AbbreviationRecord(
+						SeedControlHeader.Builder.newInstance(bytes).build());
+
+				ControlBlocketteIterator<AbbreviationBlockette> it = new ControlBlocketteIterator<>(8, bytes);
+				while (it.hasNext()) {
+					AbbreviationBlockette b = it.next();
+					record.add(b);
+				}
+				return record;
 			}
-			return record;
 		}
 	}
 
@@ -229,10 +233,10 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 			}
 
 			if (lookup > 0) {
-				AbbreviationBlockette old=map.get(lookup);
+				AbbreviationBlockette old = map.get(lookup);
 				if (old != null) {
-					b=old;
-				}else {
+					b = old;
+				} else {
 					map.put(b.getLookupKey(), b);
 				}
 			} else {
@@ -242,7 +246,7 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 					b.setLookupKey(lookup);
 					map.put(b.getLookupKey(), b);
 				} else {
-					b=a;
+					b = a;
 				}
 			}
 
@@ -272,6 +276,9 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 			return map.isEmpty();
 		}
 
+		boolean remove(AbbreviationBlockette a) {
+			return map.remove(a.getType(), a);
+		}
 		class Counter {
 			private int count = 0;
 			private int max;
@@ -288,5 +295,4 @@ public class AbbreviationRecord extends SeedRecord<AbbreviationBlockette> {
 			}
 		}
 	}
-
 }
