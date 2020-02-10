@@ -1,5 +1,6 @@
 package edu.iris.dmc.seed.control.station;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +12,7 @@ import edu.iris.dmc.seed.SeedException;
 public class B053 extends AbstractResponseBlockette implements OverFlowBlockette {
 
 	private char transferFunctionType;
-	private double normalizationFactor = 1;
+	private double normalizationFactor = 0.0;//new BigDecimal(1);;
 	private double normalizationFrequency;// Hz
 	private List<Zero> zeros = new ArrayList<>();
 	private List<Pole> poles = new ArrayList<>();
@@ -33,8 +34,11 @@ public class B053 extends AbstractResponseBlockette implements OverFlowBlockette
 		return normalizationFactor;
 	}
 
-	public void setNormalizationFactor(double normalizationFactor) {
-		this.normalizationFactor = normalizationFactor;
+	public void setNormalizationFactor(double d) {
+
+		this.normalizationFactor = d;
+				
+
 	}
 
 	public double getNormalizationFrequency() {
