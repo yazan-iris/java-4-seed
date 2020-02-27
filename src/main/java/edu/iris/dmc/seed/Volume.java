@@ -70,9 +70,12 @@ public class Volume {
 		this.volumeRecords.put(sequence, record);
 		record = addVolume(record, b010);
 		// If you choose to build we create b011
+		// This is actually where the b011 is created
 		B011 b011 = new B011();
 		// find the number of records this blockette requires and update the sequence
+
 		for (B050 b050 : this.control.getB050s()) {
+
 			// place as a holder for now
 			b011.add(b050, sequence);
 		}
@@ -84,10 +87,22 @@ public class Volume {
 		for (Blockette b : this.dictionary.getAll()) {
 			record = addDictionary(record, b);
 		}
-
+		
+		// Update the b011 for the sequence of the first station code epoch found in xml,  
+		// b011 ignores epochs so first epoch of unique station codes must be used in B011 to make it work with Rdseed
+        int ind = 1;
+        String  prevStaCode ="";
+        String prevStaConcat ="";
 		for (B050 b050 : this.control.getB050s()) {
 			record = addStation(record, b050);
-			b011.update(b050, record.getSequence());
+			if(b050.getStationCode().equals(prevStaCode) == false ) {
+				if(prevStaConcat.toLowerCase().contains(b050.getStationCode().toLowerCase()) == false) {
+			        b011.update(b050, record.getSequence()); 
+				}else {}
+			}
+		    prevStaCode = b050.getStationCode();
+		    prevStaConcat = prevStaConcat.concat(b050.getStationCode()); 
+		 
 			for (B051 b051 : b050.getB051s()) {
 				record = addStation(record, b051);
 			}
