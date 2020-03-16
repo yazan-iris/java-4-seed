@@ -397,7 +397,7 @@ public class BlocketteBuilder implements Builder<Blockette> {
 	}
 
 	public static B031 build031(byte[] bytes) throws SeedException {
-
+		//System.out.println(new String(bytes)+ "##########################");
 		B031 b = new B031(new String(bytes));
 
 		int offset = 7;

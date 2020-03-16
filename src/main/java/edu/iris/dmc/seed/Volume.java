@@ -63,6 +63,7 @@ public class Volume {
 		int recordSize = 0;
 		if (this.b010 == null) {
 			this.b010 = new B010();
+
 		}
 
 		recordSize = BigInteger.valueOf(2).pow(b010.getNthPower()).intValue();

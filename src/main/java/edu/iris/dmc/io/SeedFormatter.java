@@ -173,6 +173,7 @@ public class SeedFormatter implements Formatter {
 	}
 
 	private String format(B010 blockette) throws SeedException {
+		
 		SeedStringBuilder builder = new SeedStringBuilder(blockette.getType(), 3).append("####");
 		builder.append(blockette.getVersion());
 		builder.leftPad(blockette.getNthPower(), 2, '0');
