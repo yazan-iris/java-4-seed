@@ -46,16 +46,25 @@ public class B032 extends AbstractDictionaryBlockette {
 
 		builder.append(this.lookupKey, 2);
 		if (this.titleAuthor != null) {
+			if(this.titleAuthor.length()>70) {
+				this.titleAuthor = this.titleAuthor.substring(0, Math.min(this.titleAuthor.length(), 70));
+			}
 			builder.append(this.titleAuthor);
 		}
 		builder.append("~");
 
 		if (this.publishedCatalog != null) {
+			if(this.publishedCatalog.length()>70) {
+				this.publishedCatalog = this.publishedCatalog.substring(0, Math.min(this.publishedCatalog.length(), 70));
+			}
 			builder.append(this.publishedCatalog);
 		}
 		builder.append("~");
 
 		if (this.publisherName != null) {
+			if(this.publisherName.length()>50) {
+				this.publisherName = this.publisherName.substring(0, Math.min(this.publisherName.length(), 50));
+			}
 			builder.append(this.publisherName);
 		}
 		builder.append("~");

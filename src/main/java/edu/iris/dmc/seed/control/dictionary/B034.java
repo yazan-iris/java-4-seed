@@ -39,10 +39,16 @@ public class B034 extends AbstractDictionaryBlockette {
 
 		builder.append(this.lookupKey, 3);
 		if (this.name != null) {
+			if(this.name.length()>20) {
+				this.name = this.name.substring(0, Math.min(this.name.length(), 20));
+			}
 			builder.append(this.name);
 		}
 		builder.append("~");
 		if (this.description != null) {
+			if(this.description.length()>50) {
+				this.description = this.description.substring(0, Math.min(this.description.length(), 50));
+			}
 			builder.append(this.description);
 		}
 		builder.append("~");

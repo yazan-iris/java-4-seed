@@ -56,6 +56,9 @@ public class B030 extends AbstractDictionaryBlockette {
 		SeedStringBuilder builder = new SeedStringBuilder(this.getType(), 3).append("####");
 
 		if (this.name != null) {
+			if(this.name.length()>50) {
+				this.name = this.name.substring(0, Math.min(this.name.length(), 50));
+			}
 			builder.append(this.name);
 		}
 		builder.append("~");

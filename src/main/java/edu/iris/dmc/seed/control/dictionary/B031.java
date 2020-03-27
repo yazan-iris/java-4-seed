@@ -47,6 +47,9 @@ public class B031 extends AbstractDictionaryBlockette {
 
 		builder.append(this.lookupKey, 4).append(this.classCode);
 		if (this.description != null) {
+			if(this.description.length()>70) {
+				this.description = this.description.substring(0, Math.min(this.description.length(), 70));
+			}
 			builder.append(this.description);
 		}
 		builder.append("~");
