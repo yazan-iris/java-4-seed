@@ -14,6 +14,11 @@
 			<organization>IRIS</organization>
 			<organizationUrl>https://www.iris.edu</organizationUrl>
 		</developer>
+		<developer>
+			<name>Tim Ronan</name>
+			<organization>IRIS</organization>
+			<organizationUrl>https://www.iris.edu</organizationUrl>
+		</developer>
 	</developers>
     <scm>
         <developerConnection>scm:git:https://github.com/yazan-iris/java-4-seed.git</developerConnection>
