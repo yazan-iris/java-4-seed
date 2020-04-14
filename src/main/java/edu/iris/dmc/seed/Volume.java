@@ -109,9 +109,7 @@ public class Volume {
 			}
 			for (B052 b052 : b050.getB052s()) {
 				record = addStation(record, b052);
-				for (B059 b059 : b052.getB059s()) {
-					record = addStation(record, b059);
-				}
+
 
 				for (SeedResponseStage responseStage : b052.getResponseStages()) {
 					for (ResponseBlockette responseBlockette : responseStage.getBlockettes()) {
@@ -142,6 +140,11 @@ public class Volume {
 							record = addStation(record, responseBlockette);
 						}
 					}
+				}
+				// Blockette 59 has to be written after the response cascade to work with pdcc
+				// This follows pdcc's historical logic and allows consistency between programs TR 04/14/2020. 
+				for (B059 b059 : b052.getB059s()) {
+					record = addStation(record, b059);
 				}
 			}
 		}
@@ -215,6 +218,7 @@ public class Volume {
 		return record;
 	}
 
+	// This is where the blockettes are added 
 	public Blockette add(Blockette blockette) throws SeedException {
 
 		if (blockette == null) {
@@ -273,7 +277,7 @@ public class Volume {
 			this.b052.add((ResponseBlockette) blockette);
 			return blockette;
 		} else {
-			throw new SeedException("Could n't add blockette " + blockette.getType());
+			throw new SeedException("Couldn't add blockette " + blockette.getType());
 		}
 	}
 
