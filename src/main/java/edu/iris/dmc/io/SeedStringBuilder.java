@@ -233,7 +233,7 @@ public class SeedStringBuilder {
 	}
 
 	public SeedStringBuilder append(double value, String format, int width) {
-		String text = "";
+		String text = null;
 		String pattern = format;
 		boolean signed = false;
 		if (pattern.startsWith("-")) {
