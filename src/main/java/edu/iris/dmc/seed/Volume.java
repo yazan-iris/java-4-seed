@@ -109,14 +109,12 @@ public class Volume {
 			}
 			for (B052 b052 : b050.getB052s()) {
 				record = addStation(record, b052);
-
-
 				for (SeedResponseStage responseStage : b052.getResponseStages()) {
 					for (ResponseBlockette b61Swap : responseStage.getBlockettes()) {
 					// This loop must determines if a stage contains a b61. List of stage 
 					//	response types are numerically ordered so B61 has to be output 
 					//  before B57 and B58. 
-						if(b61Swap.getType()==61) {	
+						if(b61Swap.getType()==61 || b61Swap.getType()==62) {	
 							if (b61Swap instanceof OverFlowBlockette) {
 								OverFlowBlockette ob = (OverFlowBlockette) b61Swap;
 								if (ob.isOverFlown()) {
@@ -124,19 +122,21 @@ public class Volume {
 										record = addStation(record, b);
 									}
 								} else {
-									//Used for Blocketteorder test converter
-									//System.out.println(b61swap.getType() + responseStage.getSequence());
+									// Uncomment below for Blocketteorder test converter
+									//System.out.println(b61Swap.getType() + " "+ responseStage.getSequence());
 									record = addStation(record, b61Swap);
 								}
 							} else {
-								//Used for Blocketteorder test converter
-								//System.out.println(b61swap.getType() + responseStage.getSequence());
+								//Uncomment below for Blocketteorder test converter
+								//System.out.println(b61Swap.getType() + " "+ responseStage.getSequence());
 								record = addStation(record, b61Swap);
 							}
 					    }
 					}
 					for (ResponseBlockette responseBlockette : responseStage.getBlockettes()) {
-						if(responseBlockette.getType()!=61) {
+						if(responseBlockette.getType()==61 || responseBlockette.getType()==62){
+							continue;
+						}else {
 						if (responseBlockette instanceof OverFlowBlockette) {
 							/**
 							 * This blockette is the only blockette that might overflow the maximum allowed
@@ -158,17 +158,18 @@ public class Volume {
 									record = addStation(record, b);
 								}
 							} else {
-								//Used for Blocketteorder test converter
-								//System.out.println(responseBlockette.getType() + responseStage.getSequence());
-								record = addStation(record, responseBlockette);
+								//Uncomment below for Blocketteorder test converter
+								//System.out.println(responseBlockette.getType() + " "+ responseStage.getSequence());
+								record = addStation(record, responseBlockette);		
 							}
 						} else {
-							//Used for Blocketteorder test converter
-							//System.out.println(responseBlockette.getType() + responseStage.getSequence());
+							//Uncomment below for Blocketteorder test converter
+							//System.out.println(responseBlockette.getType() + " "+ responseStage.getSequence());
 							record = addStation(record, responseBlockette);
 						}
-					}
-					}
+				      }
+				    }
+			      }
 				}
 				// Blockette 59 has to be written after the response cascade to work with pdcc
 				// This follows pdcc's historical logic and allows consistency between programs TR 04/14/2020. 
@@ -176,7 +177,6 @@ public class Volume {
 					record = addStation(record, b059);
 				}
 			}
-		}
 		this.volumeRecords = new TreeMap<>();
 		record = RecordFactory.create(recordSize, 1, 'V', false);
 		this.volumeRecords.put(1, record);
