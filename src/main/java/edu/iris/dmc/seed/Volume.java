@@ -112,7 +112,31 @@ public class Volume {
 
 
 				for (SeedResponseStage responseStage : b052.getResponseStages()) {
+					for (ResponseBlockette b61Swap : responseStage.getBlockettes()) {
+					// This loop must determines if a stage contains a b61. List of stage 
+					//	response types are numerically ordered so B61 has to be output 
+					//  before B57 and B58. 
+						if(b61Swap.getType()==61) {	
+							if (b61Swap instanceof OverFlowBlockette) {
+								OverFlowBlockette ob = (OverFlowBlockette) b61Swap;
+								if (ob.isOverFlown()) {
+									for (Blockette b : ob.split()) {
+										record = addStation(record, b);
+									}
+								} else {
+									//Used for Blocketteorder test converter
+									//System.out.println(b61swap.getType() + responseStage.getSequence());
+									record = addStation(record, b61Swap);
+								}
+							} else {
+								//Used for Blocketteorder test converter
+								//System.out.println(b61swap.getType() + responseStage.getSequence());
+								record = addStation(record, b61Swap);
+							}
+					    }
+					}
 					for (ResponseBlockette responseBlockette : responseStage.getBlockettes()) {
+						if(responseBlockette.getType()!=61) {
 						if (responseBlockette instanceof OverFlowBlockette) {
 							/**
 							 * This blockette is the only blockette that might overflow the maximum allowed
@@ -134,11 +158,16 @@ public class Volume {
 									record = addStation(record, b);
 								}
 							} else {
+								//Used for Blocketteorder test converter
+								//System.out.println(responseBlockette.getType() + responseStage.getSequence());
 								record = addStation(record, responseBlockette);
 							}
 						} else {
+							//Used for Blocketteorder test converter
+							//System.out.println(responseBlockette.getType() + responseStage.getSequence());
 							record = addStation(record, responseBlockette);
 						}
+					}
 					}
 				}
 				// Blockette 59 has to be written after the response cascade to work with pdcc
