@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.iris.dmc</groupId>
 	<artifactId>java-4-seed</artifactId>
-	<version>1.1.0-RC-03-SNAPSHOT</version>
+	<version>1.1.0-RC-03</version>
 	<packaging>jar</packaging>
 
 	<name>java-4-seed</name>
@@ -24,7 +24,7 @@
         <developerConnection>scm:git:https://github.com/yazan-iris/java-4-seed.git</developerConnection>
         <connection>scm:git:https://github.com/yazan-iris/java-4-seed.git</connection>
 		<url>github.com/yazan-iris/java-4-seed.git</url>
-		<tag>java-4-seed-1.1.0-RC-1</tag>
+		<tag>java-4-seed-1.1.0-RC-03</tag>
 	</scm>
 	<licenses>
 		<license>
