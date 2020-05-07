@@ -29,7 +29,7 @@ import edu.iris.dmc.seed.headers.Control;
  * We need to examine this class and find some better representation.
  * 
  * @author Suleiman
- *
+ * @author Ronan
  */
 public class Volume {
 
@@ -173,8 +173,12 @@ public class Volume {
 				}
 				// Blockette 59 has to be written after the response cascade to work with pdcc
 				// This follows pdcc's historical logic and allows consistency between programs TR 04/14/2020. 
-				for (B059 b059 : b052.getB059s()) {
-					record = addStation(record, b059);
+				try {
+			        for (B059 b059 : b052.getB059s()) {
+					    record = addStation(record, b059);
+				    }
+				}catch(Exception e) {
+					continue;
 				}
 			}
 		this.volumeRecords = new TreeMap<>();
