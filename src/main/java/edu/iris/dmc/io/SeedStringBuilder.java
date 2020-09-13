@@ -194,14 +194,28 @@ public class SeedStringBuilder {
 	}
 
 	public SeedStringBuilder appendLocalDepth(double value) {
-		DecimalFormat df = new DecimalFormat("000.0");
-		if(value<0) {
-			df = new DecimalFormat("00.0");
+		if (value > 99999 || value < -9999) {
+			throw new NumberFormatException("Couldn't format number:" + value);
 		}
+		DecimalFormat df = null;
+		if (value % 1 != 0) {
+			if (value < 0) {
+				df = new DecimalFormat("00.0");
+			} else {
+				df = new DecimalFormat("000.0;");
+			}
+		} else {
+			if (value < 0) {
+				df = new DecimalFormat("0000;");
+			} else {
+				df = new DecimalFormat("00000;");
+			}
+		}
+
 		String text = df.format(value);
 		if (text.length() > 5) {
 			throw new NumberFormatException(
-					"Couldn't format number!" + value + "   " + text + " [" + 5 + "  " + text.length() + " ]");
+					"Couldn't format number:" + value + "   " + text + " [" + 5 + "  " + text.length() + " ]");
 		}
 		builder.append(text);
 		return this;
