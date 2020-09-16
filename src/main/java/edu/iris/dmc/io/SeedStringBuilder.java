@@ -200,7 +200,13 @@ public class SeedStringBuilder {
 		DecimalFormat df = null;
 		if (value % 1 != 0) {
 			if (value < 0) {
-				df = new DecimalFormat("00.0");
+				if (value <= -100) {
+					value = Math.round(value);
+					df = new DecimalFormat("0000;");
+				} else {
+					df = new DecimalFormat("00.0");
+				}
+
 			} else {
 				df = new DecimalFormat("000.0;");
 			}
@@ -267,18 +273,17 @@ public class SeedStringBuilder {
 				text = text.replaceAll("E", "E+");
 			}
 		}
-		if(signed) {
-			if(!text.startsWith("-")&&!text.startsWith("+")) {
+		if (signed) {
+			if (!text.startsWith("-") && !text.startsWith("+")) {
 				if (value >= 0 && signed) {
 					text = "+" + text;
 				}
 			}
 		}
-		
 
 		if (text.length() != width) {
-			throw new NumberFormatException(
-					"Couldn't format number, value: " + value + " format: "+format+" pattern: "+pattern + " actual: "+text + " [" + width + "  " + text.length() + " ]");
+			throw new NumberFormatException("Couldn't format number, value: " + value + " format: " + format
+					+ " pattern: " + pattern + " actual: " + text + " [" + width + "  " + text.length() + " ]");
 		}
 		builder.append(text);
 		return this;
