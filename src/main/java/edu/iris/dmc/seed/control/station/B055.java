@@ -161,9 +161,7 @@ public class B055 extends AbstractResponseBlockette implements OverFlowBlockette
          builder.append(response.getPhaaeAngle(), "-0.00000E-00", 12);
          builder.append(response.getPhaseError(), "-0.00000E-00", 12);
       }
-      System.out.println("##########");
       // The length of the blocks it off
-      System.out.println(builder.length());
       builder.replace(3, 7, builder.length(), "####");
       return builder.toString();
    }
