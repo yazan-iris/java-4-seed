@@ -195,10 +195,24 @@ public class SeedStringBuilder {
 
 	public SeedStringBuilder appendLocalDepth(double value) {
 		DecimalFormat df = new DecimalFormat("000.0");
+		// Start here to add the depth values to the project correctly. 
+		// Find me here
 		if(value<0) {
-			df = new DecimalFormat("00.0");
+			if (value >= -99) {
+				df = new DecimalFormat("00.0");
+			}
+		    else {
+		    	    df = new DecimalFormat("0000");
+			}
 		}
+		else {
+			if (value >= 1000) {
+				df = new DecimalFormat("00000");
+			}
+			
+		}		
 		String text = df.format(value);
+
 		if (text.length() > 5) {
 			throw new NumberFormatException(
 					"Couldn't format number!" + value + "   " + text + " [" + 5 + "  " + text.length() + " ]");
