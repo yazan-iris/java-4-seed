@@ -66,7 +66,7 @@ public class SeedStringBuilder {
 
 		append(":").leftPad(time.getSecond(), 2, '0');
 
-		append(".").leftPad(time.getTenthMilliSecond(), 4, '0');
+		append(".").rightPad(time.getTenthMilliSecond(), 4, '0');
 		return this;
 	}
 
@@ -209,7 +209,9 @@ public class SeedStringBuilder {
 			if (value >= 1000) {
 				df = new DecimalFormat("00000");
 			}
-			
+			else {
+				df = new DecimalFormat("000.0");
+			}
 		}		
 		String text = df.format(value);
 

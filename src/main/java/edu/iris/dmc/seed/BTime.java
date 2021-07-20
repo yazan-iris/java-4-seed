@@ -42,6 +42,7 @@ public class BTime {
 		b.setHour(now.getHour());
 		b.setMinute(now.getMinute());
 		b.setSecond(now.getSecond());
+		b.setTenthMilliSecond(now.getNano());
 		return b;
 	}
 
